@@ -91,8 +91,10 @@ def test_extract_offline_returns_result(ctx):
     status, payload = route(ctx, "POST", "/extract", {},
                             {"content_type": "text/plain", "document_base64": doc})
     assert status == 200
-    # offline fake -> extraction unavailable fallback, but a well-formed result.
-    assert "line_items" in payload and "warnings" in payload
+    # offline -> one clear "extraction unavailable" warning, well-formed empty result.
+    assert payload["line_items"] == []
+    assert len(payload["warnings"]) == 1
+    assert "unavailable" in payload["warnings"][0]
 
 
 def test_extract_bad_base64(ctx):

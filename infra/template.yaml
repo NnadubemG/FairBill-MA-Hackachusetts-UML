@@ -1,0 +1,152 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  FairBill MA - one Python 3.12 Lambda serves the web app and the JSON API
+  (GET /, /health, /procedures, /compare, /samples; POST /extract, /analyze, /letter)
+  behind a Lambda Function URL, fronted by CloudFront for HTTPS, caching of static
+  files, and a single public URL. Nothing is stored; no database.
+
+Parameters:
+  AnthropicSecretArn:
+    Type: String
+    Default: ""
+    Description: >
+      ARN of a Secrets Manager secret holding the Anthropic API key (plain string, or
+      JSON {"api_key": "..."}). Leave empty to run in offline/demo mode.
+  ExtractModelId:
+    Type: String
+    Default: ""
+    Description: Anthropic model name for bill extraction (EXTRACT_MODEL_ID). Empty = offline.
+  ExplainModelId:
+    Type: String
+    Default: ""
+    Description: Anthropic model name for plain-language explanations (EXPLAIN_MODEL_ID).
+  LetterModelId:
+    Type: String
+    Default: ""
+    Description: Anthropic model name for letter drafts (LETTER_MODEL_ID).
+  MaxConcurrency:
+    Type: Number
+    Default: 10
+    MinValue: 1
+    Description: >
+      Reserved concurrency cap. The endpoint is public and has no login, so this bounds
+      cost and abuse (each upload can trigger a paid model call).
+
+Conditions:
+  HasSecret: !Not [!Equals [!Ref AnthropicSecretArn, ""]]
+
+Globals:
+  Function:
+    Runtime: python3.12
+    Architectures: [x86_64]
+    MemorySize: 1024
+    Timeout: 90
+
+Resources:
+  AppFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub "${AWS::StackName}-app"
+      CodeUri: .build/
+      Handler: app_server.lambda_handler.handler
+      ReservedConcurrentExecutions: !Ref MaxConcurrency
+      Environment:
+        Variables:
+          ANTHROPIC_SECRET_ARN: !Ref AnthropicSecretArn
+          EXTRACT_MODEL_ID: !Ref ExtractModelId
+          EXPLAIN_MODEL_ID: !Ref ExplainModelId
+          LETTER_MODEL_ID: !Ref LetterModelId
+      Policies:
+        - !If
+          - HasSecret
+          - Statement:
+              - Effect: Allow
+                Action: secretsmanager:GetSecretValue
+                Resource: !Ref AnthropicSecretArn
+          - !Ref AWS::NoValue
+      FunctionUrlConfig:
+        AuthType: NONE
+        InvokeMode: BUFFERED
+
+  # Since Oct 2025, public Function URLs need lambda:InvokeFunction in addition to the
+  # lambda:InvokeFunctionUrl permission SAM adds; scoped to calls via the Function URL.
+  AppFunctionUrlInvokePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref AppFunction
+      Action: lambda:InvokeFunction
+      Principal: "*"
+      InvokedViaFunctionUrl: true
+
+  # Logs are kept briefly. The app never writes request bodies or bill content to them.
+  AppLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/${AWS::StackName}-app"
+      RetentionInDays: 7
+
+  StaticCachePolicy:
+    Type: AWS::CloudFront::CachePolicy
+    Properties:
+      CachePolicyConfig:
+        Name: !Sub "${AWS::StackName}-static"
+        DefaultTTL: 300
+        MinTTL: 0
+        MaxTTL: 3600
+        ParametersInCacheKeyAndForwardedToOrigin:
+          EnableAcceptEncodingGzip: true
+          EnableAcceptEncodingBrotli: true
+          CookiesConfig: { CookieBehavior: none }
+          HeadersConfig: { HeaderBehavior: none }
+          QueryStringsConfig: { QueryStringBehavior: none }
+
+  Distribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Enabled: true
+        Comment: FairBill MA
+        HttpVersion: http2and3
+        PriceClass: PriceClass_100
+        Origins:
+          - Id: app-lambda
+            # Function URL looks like https://<id>.lambda-url.<region>.on.aws/ -> take the host.
+            DomainName: !Select [2, !Split ["/", !GetAtt AppFunctionUrl.FunctionUrl]]
+            CustomOriginConfig:
+              OriginProtocolPolicy: https-only
+              OriginSSLProtocols: [TLSv1.2]
+              OriginReadTimeout: 60
+        DefaultCacheBehavior:
+          TargetOriginId: app-lambda
+          ViewerProtocolPolicy: redirect-to-https
+          AllowedMethods: [GET, HEAD, OPTIONS, PUT, PATCH, POST, DELETE]
+          CachedMethods: [GET, HEAD]
+          Compress: true
+          # Managed "CachingDisabled": API responses are never cached.
+          CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad
+          # Managed "AllViewerExceptHostHeader": required for Lambda Function URL origins.
+          OriginRequestPolicyId: b689b0a8-53d0-40ab-baf2-68738e2966ac
+        CacheBehaviors:
+          - PathPattern: /app/*
+            TargetOriginId: app-lambda
+            ViewerProtocolPolicy: redirect-to-https
+            AllowedMethods: [GET, HEAD]
+            CachedMethods: [GET, HEAD]
+            Compress: true
+            CachePolicyId: !Ref StaticCachePolicy
+          - PathPattern: /src/compare/*
+            TargetOriginId: app-lambda
+            ViewerProtocolPolicy: redirect-to-https
+            AllowedMethods: [GET, HEAD]
+            CachedMethods: [GET, HEAD]
+            Compress: true
+            CachePolicyId: !Ref StaticCachePolicy
+
+Outputs:
+  PublicUrl:
+    Description: The public FairBill MA URL (CloudFront).
+    Value: !Sub "https://${Distribution.DomainName}/"
+  FunctionUrl:
+    Description: Direct Lambda Function URL (for debugging; share the CloudFront URL instead).
+    Value: !GetAtt AppFunctionUrl.FunctionUrl
