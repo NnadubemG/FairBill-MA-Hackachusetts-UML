@@ -31,12 +31,12 @@ Requirements are in `requirements.md`. Test cases (TS-*) and properties (PS*) ar
   - Tests TS-R4 to TS-R7 and property PS5.
   - _Requirements: 4.1, 4.4_
 
-- [ ] 5. CLI and samples
+- [x] 5. CLI and samples
   - `synthetic/__main__.py`, committed `synthetic/samples/`, short `synthetic/README.md`.
   - Tests TS-C1 to TS-C3.
   - _Requirements: 5.2, 5.3, 5.4_
 
-- [ ] 6. Wrap-up
+- [x] 6. Wrap-up
   - Append a line to `docs/kiro-log.md`; confirm no new dependencies.
 
 ## Task Dependency Graph

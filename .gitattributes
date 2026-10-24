@@ -1,0 +1,3 @@
+# Committed synthetic samples must stay byte-for-byte identical on every OS
+# (a line-ending change would break the PDFs and the "samples are current" test).
+synthetic/samples/** -text
