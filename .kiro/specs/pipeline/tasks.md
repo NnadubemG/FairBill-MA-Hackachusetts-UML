@@ -56,12 +56,12 @@ committing processed outputs. Fixtures are tiny synthetic files only.
   - Fixtures + test U18.
   - _Requirements: R2.1, R2.2, R3.1, R3.3_
 
-- [ ] 10. Hospitals stage -> hospitals.json
+- [x] 10. Hospitals stage -> hospitals.json
   - `stages/hospitals.py`: id/name/city/type (+ retain format_id for prices lookup).
   - Fixture + test U29.
   - _Requirements: R7.1, R3.2_
 
-- [ ] 11. Prices stage -> prices.json (integration)
+- [x] 11. Prices stage -> prices.json (integration)
   - `stages/prices.py`: for each hospital, pick parser by format_id, stream rows, filter
     to curated, classify payer, parse rate (skip %/algo -> skiplog), aggregate per
     (hospital, code, payer_group), attach data_source/data_year, write PriceStat list.
