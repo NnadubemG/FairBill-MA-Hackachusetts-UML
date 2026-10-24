@@ -37,7 +37,7 @@ that prove it. Stay inside `/backend/letter`. Start only after open decision 1 i
     properties PL6, PL7.
   - _Requirements: R1.3, R1.4, R2.1, R2.3, R2.4, R2.5, R4.4, R6.3, R7.1, R7.3, R7.4_
 
-- [ ] 6. Prompt builder and response parser
+- [x] 6. Prompt builder and response parser
   - `prompts.py`: short system prompt, user content (letter type and per-flag facts only),
     `parse_response` (accepts a fenced reply, never raises).
   - Tests: request has no patient data or descriptions (L5 request part, L17); parser cases.
