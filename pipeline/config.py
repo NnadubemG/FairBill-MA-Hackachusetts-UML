@@ -23,6 +23,15 @@ CHIA_TIERS_JSON = PROCESSED_DIR / "chia_tiers.json"
 REFERENCE_JSON = PROCESSED_DIR / "reference.json"  # one PriceReference per code for /core
 SKIPPED_LOG = PROCESSED_DIR / "skipped.log"
 
+# Hospitals input (not raw; curated by us) and the internal bindings manifest.
+HOSPITALS_INPUT_CSV = DATA_DIR / "hospitals_input.csv"
+HOSPITAL_BINDINGS_JSON = PROCESSED_DIR / "hospital_bindings.json"
+
+# Conventional raw source filenames under /data/raw (gitignored). Override via CLI.
+PFS_RAW = RAW_DIR / "cms_pfs.csv"          # CMS Physician Fee Schedule
+NCCI_RAW = RAW_DIR / "ncci_ptp.csv"        # NCCI procedure-to-procedure edits
+CHIA_RAW = RAW_DIR / "chia_relative_price.csv"  # CHIA relative price
+
 # CMS Physician Fee Schedule: Massachusetts locality.
 # CMS MAC locality 10112 (Massachusetts, statewide) under the MAC 14 (NGS) jurisdiction.
 MA_PFS_LOCALITY = "10112"

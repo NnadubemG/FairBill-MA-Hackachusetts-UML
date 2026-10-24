@@ -103,13 +103,9 @@ def build_hospitals(
 
     Returns the number of hospitals written.
     """
-    source_csv = Path(source_csv) if source_csv else config.DATA_DIR / "hospitals_input.csv"
+    source_csv = Path(source_csv) if source_csv else config.HOSPITALS_INPUT_CSV
     out_path = Path(out_path) if out_path else config.HOSPITALS_JSON
-    manifest_path = (
-        Path(manifest_path)
-        if manifest_path
-        else config.PROCESSED_DIR / "hospital_bindings.json"
-    )
+    manifest_path = Path(manifest_path) if manifest_path else config.HOSPITAL_BINDINGS_JSON
 
     public, bindings = load_hospitals(source_csv)
     public = sorted(public, key=lambda r: r["id"])
