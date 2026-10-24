@@ -5,7 +5,7 @@ and it compares each line to real Massachusetts hospital prices. Lines that stan
 "may be worth asking about," each with its reason and data source. Then it drafts a polite letter.
 
 **In one line:** four people, four parallel Kiro sessions, 11 specs (85 tasks, all done), 5 steering
-files, 2 hooks, ~1,500 tests including Hypothesis property tests that caught 7 real bugs.
+files, 2 hooks, 900+ tests including Hypothesis property tests that caught 7 real bugs.
 
 ---
 
