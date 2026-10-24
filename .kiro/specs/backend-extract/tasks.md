@@ -5,13 +5,13 @@ requirements it covers and the tests that prove it.
 
 - [x] 1. Scaffold package + config + wrapper types
   - Create `/backend/extract/` package (`__init__.py`).
-  - `config.py`: read `EXTRACT_MODEL_ID`, `AWS_REGION`, outlier/confidence thresholds.
+  - `config.py`: read `EXTRACT_MODEL_ID`, `ANTHROPIC_API_KEY`, outlier/confidence thresholds.
   - `models.py`: `LineConfidence`, `BillMetadata`, `ExtractionResult` (compose the
     contract `LineItem`; do not redefine it).
   - _Requirements: R1.2, R1.3_
 
-- [x] 2. Fake + real Bedrock client behind a Protocol
-  - `bedrock_client.py`: `BedrockClient` Protocol, `FakeBedrockClient` (scripted,
+- [x] 2. Fake + real LLM client behind a Protocol (direct Anthropic API)
+  - `llm_client.py`: `LLMClient` Protocol, `FakeLLMClient` (scripted,
     offline, deterministic by input hash), `make_client()` reading `EXTRACT_MODEL_ID`.
   - Unit test T12 (env var required / clear error).
   - _Requirements: R1.1, R1.2, R1.4_

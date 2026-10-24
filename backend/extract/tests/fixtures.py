@@ -1,7 +1,7 @@
 """Scripted model-output fixtures for extraction tests.
 
 These are fake, synthetic model responses (JSON strings) — no real bill data. They
-feed FakeBedrockClient so the whole suite runs offline with no network and no real
+feed FakeLLMClient so the whole suite runs offline with no network and no real
 model id. Codes are drawn from the starter procedure list in the team build guide.
 """
 

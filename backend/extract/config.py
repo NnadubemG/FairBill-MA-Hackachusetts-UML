@@ -1,7 +1,8 @@
 """Configuration for bill extraction.
 
 All environment-dependent values are read here so the rest of the package stays
-pure and testable. Model ids are NEVER hardcoded; they come from the environment.
+pure and testable. The model name and the API key are NEVER hardcoded; they come from
+the environment.
 """
 
 from __future__ import annotations
@@ -9,13 +10,10 @@ from __future__ import annotations
 import os
 from dataclasses import dataclass
 
-# Environment variable names (values supplied by deployment, not by this repo).
-ENV_MODEL_ID = "EXTRACT_MODEL_ID"
-ENV_AWS_REGION = "AWS_REGION"
-
-# Default AWS region if the environment does not set one. The model id has no
-# default on purpose: an unset model id is an error, not a silent fallback.
-DEFAULT_AWS_REGION = "us-east-1"
+# Environment variable names (values are supplied by the environment, not this repo).
+# Neither value has a default on purpose: unset is an error, not a silent fallback.
+ENV_MODEL_ID = "EXTRACT_MODEL_ID"  # Anthropic model name used for extraction
+ENV_API_KEY = "ANTHROPIC_API_KEY"  # secret: never hardcode, commit, or log
 
 
 class ConfigError(RuntimeError):
@@ -34,23 +32,33 @@ class Thresholds:
     confirm_below: str = "high"  # one of "high" | "medium" | "low"
 
 
-def get_model_id() -> str:
-    """Return the Bedrock model id from the environment.
+def get_model_id(env_var: str = ENV_MODEL_ID) -> str:
+    """Return the Anthropic model name from the environment variable ``env_var``.
 
-    Raises ConfigError if unset. We never hardcode or guess a model id.
+    The default is ``EXTRACT_MODEL_ID``. Other features (for example explain) pass their
+    own variable name. Raises ConfigError if unset. We never hardcode or guess a name.
     """
-    model_id = os.environ.get(ENV_MODEL_ID, "").strip()
+    model_id = os.environ.get(env_var, "").strip()
     if not model_id:
         raise ConfigError(
-            f"{ENV_MODEL_ID} is not set. The real Bedrock client needs a model id "
+            f"{env_var} is not set. The real client needs a model name "
             "from the environment; use the fake client for offline dev/tests."
         )
     return model_id
 
 
-def get_region() -> str:
-    """Return the AWS region, defaulting to DEFAULT_AWS_REGION."""
-    return os.environ.get(ENV_AWS_REGION, "").strip() or DEFAULT_AWS_REGION
+def get_api_key() -> str:
+    """Return the Anthropic API key from the environment.
+
+    Raises ConfigError if unset. The error names the variable only, never a value.
+    """
+    api_key = os.environ.get(ENV_API_KEY, "").strip()
+    if not api_key:
+        raise ConfigError(
+            f"{ENV_API_KEY} is not set. The real client needs an API key from the "
+            "environment; use the fake client for offline dev/tests."
+        )
+    return api_key
 
 
 # Confidence ordering, low to high. Used to compare against Thresholds.confirm_below.

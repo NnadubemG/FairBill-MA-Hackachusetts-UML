@@ -2,7 +2,7 @@
 
 ## Goal
 Turn an uploaded bill into validated `LineItem[]` + bill metadata, using Claude on
-Bedrock for extraction only, with a fake client until real model ids arrive, and a
+the Anthropic API for extraction only, with a fake client for dev and tests, and a
 deterministic fallback for every failure path.
 
 ## Module layout (all under `/backend/extract`)
@@ -10,13 +10,13 @@ deterministic fallback for every failure path.
 /backend/extract/
   __init__.py
   handler.py        # orchestration: bytes in -> ExtractionResult out
-  bedrock_client.py # BedrockClient protocol + FakeBedrockClient + real client factory
+  llm_client.py # LLMClient protocol + FakeLLMClient + real client factory
   prompts.py        # system + user prompt builders (bill text framed as untrusted)
   schema.py         # load line-item.schema.json, build the model tool/JSON schema
   validate.py       # jsonschema validation of model output against the contract
   postprocess.py    # money/date normalization, line merge, code/confidence rules
   models.py         # ExtractionResult, LineConfidence (wrapper types, NOT contracts)
-  config.py         # env var reads (EXTRACT_MODEL_ID, AWS_REGION, thresholds)
+  config.py         # env var reads (EXTRACT_MODEL_ID, ANTHROPIC_API_KEY, thresholds)
 ```
 
 Nothing here redefines a `/contracts` type. `models.py` holds only the extraction
@@ -65,22 +65,24 @@ class ExtractionResult:
     warnings: list[str]
 ```
 
-## Bedrock client abstraction (`bedrock_client.py`)
+## LLM client abstraction (`llm_client.py`)
 ```python
-class BedrockClient(Protocol):
+class LLMClient(Protocol):
     def invoke(self, *, system: str, content: list[dict],
                repair_hint: str | None = None) -> str: ...
 
-class FakeBedrockClient:          # deterministic, offline, test + dev use
+class FakeLLMClient:          # deterministic, offline, test + dev use
     def __init__(self, scripted: dict[str, str]): ...
 
-def make_client() -> BedrockClient:  # real client; model id from EXTRACT_MODEL_ID
+def make_client() -> LLMClient:  # real Anthropic client; model name from EXTRACT_MODEL_ID
 ```
-- `FakeBedrockClient` returns canned JSON keyed by a hash of the input, so dev and
-  tests run with no network and no real model id. This is what we use until David
-  provides model ids.
-- `make_client()` reads `EXTRACT_MODEL_ID` (raises a clear error if unset) and builds
-  the real `boto3` Bedrock Runtime client. Not exercised until real ids exist.
+- `FakeLLMClient` returns canned JSON keyed by a hash of the input, so dev and
+  tests run with no network, no API key and no model name.
+- `make_client()` reads `ANTHROPIC_API_KEY` and `EXTRACT_MODEL_ID` (clear error if
+  either is unset) and builds the real client, which calls `messages.create` with the
+  system prompt and one user turn. The bill stays in its own base64 image/document
+  block, apart from our instruction text. `anthropic` is imported lazily. A failed
+  call raises `LLMError` with the exception type only (no bodies, no key).
 
 ## Prompt strategy (`prompts.py`)
 - System prompt: short. States the model extracts line items into the given schema;
@@ -104,7 +106,8 @@ def make_client() -> BedrockClient:  # real client; model id from EXTRACT_MODEL_
 ## Dependencies
 - `jsonschema` for validation (ask before adding if not already present — check
   first; stdlib fallback validator if we cannot add it).
-- `boto3` only in the real client factory path (already available in Lambda runtime).
+- `anthropic` only in the real client path (lazy import). Pinned in
+  `requirements-dev.txt`.
 
 ## Test cases (listed BEFORE tasks, per the team guide)
 
@@ -130,7 +133,8 @@ def make_client() -> BedrockClient:  # real client; model id from EXTRACT_MODEL_
   `"2026-03-04"`.
 - **T11 continuation merge:** two fragment rows -> one merged `LineItem`.
 - **T12 model id env var:** `make_client()` with `EXTRACT_MODEL_ID` unset raises a
-  clear error; set -> client built (mock boto3).
+  clear error; same for `ANTHROPIC_API_KEY`; both set -> client built (stand-in
+  `anthropic` module).
 
 ### Property-based tests (Hypothesis)
 - **P1 output always validates:** for any scripted model output, every returned
