@@ -73,7 +73,11 @@ def test_strip_fence_leaves_other_values_alone():
 
 @settings(max_examples=100)
 @given(
-    st.dictionaries(st.text(max_size=5), st.one_of(st.none(), st.integers(), st.text(max_size=8)), max_size=4)
+    st.dictionaries(
+        st.one_of(st.text(max_size=5), st.just(FENCE)),
+        st.one_of(st.none(), st.integers(), st.text(max_size=8), st.just(FENCE)),
+        max_size=4,
+    )
 )
 def test_property_fence_does_not_change_the_parsed_value(obj):
     text = json.dumps(obj)
@@ -105,3 +109,25 @@ def test_handler_uses_fenced_reply_without_a_retry(tmp_path):
     assert result.metadata.total == 150.0
     assert [c.confidence for c in result.line_confidence] == ["high"]
     assert result.warnings == []
+
+
+# --- JSON that itself contains backticks ----------------------------------
+
+def test_fenced_json_that_contains_three_backticks_inside_a_string():
+    # Found by a Hypothesis run: the first closing fence was inside the JSON string.
+    for obj in ({FENCE: None}, {"note": f"use {FENCE}code{FENCE} here"}, {"a": [FENCE, FENCE]}):
+        text = json.dumps(obj)
+        assert parse_model_json(fenced(text)) == obj
+        assert parse_model_json(f"Here you go:\n{fenced(text)}\nDone.") == obj
+
+
+def test_two_fenced_blocks_use_the_first_one_that_parses():
+    first = json.dumps({"a": 1})
+    second = json.dumps({"b": 2})
+    reply = f"{fenced(first)}\nand also\n{fenced(second)}"
+    assert parse_model_json(reply) == {"a": 1}
+
+
+def test_unparseable_fenced_reply_still_raises_json_error():
+    with pytest.raises(json.JSONDecodeError):
+        parse_model_json(f"{FENCE}json\n{{not json}}\n{FENCE}\n{FENCE}json\nalso not\n{FENCE}")

@@ -19,7 +19,10 @@ import re
 from typing import Any
 
 # A complete fenced block: ```lang\n ... ``` (the language tag is optional).
-_FENCED = re.compile(r"```[A-Za-z0-9_+-]*[ \t]*\r?\n?(.*?)\r?\n?```", re.DOTALL)
+# "Lazy" stops at the first closing fence; "greedy" stops at the last one. The greedy form
+# is needed when the JSON itself contains three backticks inside a string.
+_FENCED_LAZY = re.compile(r"```[A-Za-z0-9_+-]*[ \t]*\r?\n?(.*?)\r?\n?```", re.DOTALL)
+_FENCED_GREEDY = re.compile(r"```[A-Za-z0-9_+-]*[ \t]*\r?\n?(.*)\r?\n?```", re.DOTALL)
 # An opening fence with no closing one (for example a reply cut off at the token limit).
 _OPEN_FENCE = re.compile(r"^```[A-Za-z0-9_+-]*[ \t]*\r?\n?")
 
@@ -31,7 +34,7 @@ def strip_fence(raw: object) -> object:
     """
     if not isinstance(raw, str):
         return raw
-    match = _FENCED.search(raw)
+    match = _FENCED_LAZY.search(raw)
     if match:
         return match.group(1).strip()
     stripped = raw.strip()
@@ -40,15 +43,40 @@ def strip_fence(raw: object) -> object:
     return raw
 
 
+def _candidates(raw: str) -> list[str]:
+    """Texts to try parsing, in order: the reply as is, then fence contents."""
+    found: list[str] = [raw]
+    for pattern in (_FENCED_GREEDY, _FENCED_LAZY):
+        match = pattern.search(raw)
+        if match:
+            found.append(match.group(1).strip())
+    stripped = raw.strip()
+    if stripped.startswith("```"):
+        found.append(_OPEN_FENCE.sub("", stripped, count=1).strip())
+    unique: list[str] = []
+    for text in found:
+        if text not in unique:
+            unique.append(text)
+    return unique
+
+
 def parse_model_json(raw: object) -> Any:
-    """Parse the model's reply as JSON, accepting an optional code fence."""
-    try:
-        return json.loads(raw)  # type: ignore[arg-type]
-    except (json.JSONDecodeError, TypeError):
-        unfenced = strip_fence(raw)
-        if unfenced is raw:  # nothing to strip: report the original error
-            raise
-        return json.loads(unfenced)  # type: ignore[arg-type]
+    """Parse the model's reply as JSON, accepting an optional code fence.
+
+    Tries the reply as is, then the text inside a fence (widest block first, then the
+    first block), and returns the first one that parses. If none parse, raises the error
+    from the reply as is (``JSONDecodeError``; ``TypeError`` for a non-string).
+    """
+    if not isinstance(raw, str):
+        return json.loads(raw)  # type: ignore[arg-type]  # raises TypeError, as before
+    first_error: json.JSONDecodeError | None = None
+    for text in _candidates(raw):
+        try:
+            return json.loads(text)
+        except json.JSONDecodeError as exc:
+            first_error = first_error or exc
+    assert first_error is not None
+    raise first_error
 
 
 __all__ = ["strip_fence", "parse_model_json"]
