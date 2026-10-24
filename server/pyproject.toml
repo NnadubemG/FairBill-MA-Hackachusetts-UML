@@ -1,0 +1,26 @@
+[project]
+name = "medbill-helper-server"
+version = "0.1.0"
+description = "FastAPI service for the Massachusetts Medical-Bill Helper (serves frontend + API, holds the Anthropic key)."
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+    "pydantic>=2",
+    "pydantic-settings>=2",
+    # "anthropic>=0.39",   # added when extract/letter handlers are implemented
+    # "slowapi>=0.1.9",    # added when rate limiting is implemented
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "httpx>=0.27",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+# The shared contracts package lives at repo-root `/contracts`. For local dev it is
+# put on PYTHONPATH by the run script (see scripts/). It is intentionally NOT vendored
+# here so it stays the single source of truth.

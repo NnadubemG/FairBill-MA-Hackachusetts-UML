@@ -1,0 +1,101 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1. Scaffold the CDK TypeScript app in `/infra`": [
+      {
+        "executionId": "462bf8eb-0f09-4f49-a768-ecf0924046f8",
+        "chatSessionId": "sess_ce759c41-9048-41b8-b569-2664157dbf10",
+        "timestamp": 1792864346066
+      },
+      {
+        "executionId": "462bf8eb-0f09-4f49-a768-ecf0924046f8",
+        "chatSessionId": "sess_ce759c41-9048-41b8-b569-2664157dbf10",
+        "timestamp": 1792864354525
+      }
+    ],
+    "2. Create the stub static page": [
+      {
+        "executionId": "462bf8eb-0f09-4f49-a768-ecf0924046f8",
+        "chatSessionId": "sess_ce759c41-9048-41b8-b569-2664157dbf10",
+        "timestamp": 1792864347797
+      }
+    ],
+    "3. Implement the private S3 bucket + CloudFront (OAC) with SPA fallback": [
+      {
+        "executionId": "462bf8eb-0f09-4f49-a768-ecf0924046f8",
+        "chatSessionId": "sess_ce759c41-9048-41b8-b569-2664157dbf10",
+        "timestamp": 1792864348059
+      }
+    ],
+    "4. Implement the health-check Lambda + HTTP API with `GET /health`": [
+      {
+        "executionId": "462bf8eb-0f09-4f49-a768-ecf0924046f8",
+        "chatSessionId": "sess_ce759c41-9048-41b8-b569-2664157dbf10",
+        "timestamp": 1792864348277
+      }
+    ],
+    "5. Write deploy script + teardown and do the first stub deploy": [
+      {
+        "executionId": "462bf8eb-0f09-4f49-a768-ecf0924046f8",
+        "chatSessionId": "sess_ce759c41-9048-41b8-b569-2664157dbf10",
+        "timestamp": 1792864348482
+      }
+    ],
+    "6. Add Lambda bundling for `/core` and `/data/processed`": [
+      {
+        "executionId": "462bf8eb-0f09-4f49-a768-ecf0924046f8",
+        "chatSessionId": "sess_ce759c41-9048-41b8-b569-2664157dbf10",
+        "timestamp": 1792864348600
+      }
+    ],
+    "7. Implement the five app-route Lambdas and wire routes": [
+      {
+        "executionId": "462bf8eb-0f09-4f49-a768-ecf0924046f8",
+        "chatSessionId": "sess_ce759c41-9048-41b8-b569-2664157dbf10",
+        "timestamp": 1792864348732
+      }
+    ],
+    "8. Apply least-privilege IAM": [
+      {
+        "executionId": "462bf8eb-0f09-4f49-a768-ecf0924046f8",
+        "chatSessionId": "sess_ce759c41-9048-41b8-b569-2664157dbf10",
+        "timestamp": 1792864348857
+      }
+    ],
+    "9. Configure CORS for the CloudFront origin": [
+      {
+        "executionId": "462bf8eb-0f09-4f49-a768-ecf0924046f8",
+        "chatSessionId": "sess_ce759c41-9048-41b8-b569-2664157dbf10",
+        "timestamp": 1792864349062
+      }
+    ],
+    "10. Configure throttling (low burst)": [
+      {
+        "executionId": "462bf8eb-0f09-4f49-a768-ecf0924046f8",
+        "chatSessionId": "sess_ce759c41-9048-41b8-b569-2664157dbf10",
+        "timestamp": 1792864349199
+      }
+    ],
+    "11. Enforce privacy-preserving, error-only logging": [
+      {
+        "executionId": "462bf8eb-0f09-4f49-a768-ecf0924046f8",
+        "chatSessionId": "sess_ce759c41-9048-41b8-b569-2664157dbf10",
+        "timestamp": 1792864349335
+      }
+    ],
+    "12. Add the post-deploy test scripts (TC-1 … TC-8)": [
+      {
+        "executionId": "462bf8eb-0f09-4f49-a768-ecf0924046f8",
+        "chatSessionId": "sess_ce759c41-9048-41b8-b569-2664157dbf10",
+        "timestamp": 1792864349452
+      }
+    ],
+    "13. Full-stack deploy and verification": [
+      {
+        "executionId": "462bf8eb-0f09-4f49-a768-ecf0924046f8",
+        "chatSessionId": "sess_ce759c41-9048-41b8-b569-2664157dbf10",
+        "timestamp": 1792864349552
+      }
+    ]
+  }
+}

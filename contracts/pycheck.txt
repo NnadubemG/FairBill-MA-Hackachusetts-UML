@@ -1,0 +1,12 @@
+﻿python.exe : Traceback (most recent call last):
+At line:1 char:190
++ ... f8 } else { & $pyexe.FullName -c "import contracts; print('IMPORT_OK' ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last) 
+   ::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "<string>", line 1, in <module>
+AttributeError: module 'contracts' has no attribute '__all__'. Did you mean: 
+'__file__'?
+EXIT=1

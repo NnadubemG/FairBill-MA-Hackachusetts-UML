@@ -1,0 +1,5 @@
+﻿HEALTH=200 {"status":"ok"}
+ROOT=200 hasTitle=True
+SPA=200 hasTitle=True
+APINF=404
+DONE

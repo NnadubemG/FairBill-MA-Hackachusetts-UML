@@ -1,0 +1,13 @@
+{
+  "name": "@hackachusetts/contracts",
+  "version": "0.1.0",
+  "description": "Shared domain contracts (single source of truth) for the Massachusetts Medical-Bill Helper. Imported by both the frontend and the server.",
+  "type": "module",
+  "main": "index.ts",
+  "types": "index.ts",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "license": "SEE LICENSE IN ../LICENSE",
+  "private": true
+}

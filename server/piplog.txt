@@ -1,0 +1,133 @@
+﻿Collecting fastapi>=0.115
+  Downloading fastapi-0.162.0-py3-none-any.whl.metadata (26 kB)
+Collecting uvicorn>=0.30 (from uvicorn[standard]>=0.30)
+  Downloading uvicorn-0.54.0-py3-none-any.whl.metadata (6.6 kB)
+Collecting pydantic-settings>=2
+  Downloading pydantic_settings-2.16.1-py3-none-any.whl.metadata (4.0 kB)
+Collecting pytest>=8
+  Downloading pytest-9.1.1-py3-none-any.whl.metadata (7.6 kB)
+Collecting httpx>=0.27
+  Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+Collecting starlette>=0.46.0 (from fastapi>=0.115)
+  Downloading starlette-1.10.0-py3-none-any.whl.metadata (6.6 kB)
+Requirement already satisfied: pydantic>=2.9.0 in c:\users\dontm\appdata\local\programs\python\python312\lib\site-packages (from fastapi>=0.115) (2.14.1)
+Requirement already satisfied: typing-extensions>=4.8.0 in c:\users\dontm\appdata\local\programs\python\python312\lib\site-packages (from fastapi>=0.115) (4.16.0)
+Requirement already satisfied: typing-inspection>=0.4.2 in c:\users\dontm\appdata\local\programs\python\python312\lib\site-packages (from fastapi>=0.115) (0.4.4)
+Collecting annotated-doc>=0.0.2 (from fastapi>=0.115)
+  Downloading annotated_doc-0.0.5-py3-none-any.whl.metadata (6.5 kB)
+Collecting opentelemetry-api>=1.44.0 (from fastapi>=0.115)
+  Downloading opentelemetry_api-1.45.1-py3-none-any.whl.metadata (1.4 kB)
+Collecting click>=7.0 (from uvicorn>=0.30->uvicorn[standard]>=0.30)
+  Downloading click-8.5.0-py3-none-any.whl.metadata (2.6 kB)
+Collecting h11>=0.8 (from uvicorn>=0.30->uvicorn[standard]>=0.30)
+  Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+Collecting python-dotenv>=1.2.2 (from pydantic-settings>=2)
+  Downloading python_dotenv-1.2.4-py3-none-any.whl.metadata (29 kB)
+Collecting colorama>=0.4 (from pytest>=8)
+  Downloading colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+Collecting iniconfig>=1.0.1 (from pytest>=8)
+  Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+Collecting packaging>=22 (from pytest>=8)
+  Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+Collecting pluggy<2,>=1.5 (from pytest>=8)
+  Downloading pluggy-1.7.0-py3-none-any.whl.metadata (5.0 kB)
+Collecting pygments>=2.7.2 (from pytest>=8)
+  Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+Collecting anyio (from httpx>=0.27)
+  Downloading anyio-4.15.1-py3-none-any.whl.metadata (4.7 kB)
+Collecting certifi (from httpx>=0.27)
+  Downloading certifi-2026.10.23-py3-none-any.whl.metadata (2.5 kB)
+Collecting httpcore==1.* (from httpx>=0.27)
+  Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+Collecting idna (from httpx>=0.27)
+  Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+Collecting httptools>=0.8.0 (from uvicorn[standard]>=0.30)
+  Downloading httptools-0.9.0-cp312-cp312-win_amd64.whl.metadata (3.7 kB)
+Collecting pyyaml>=5.1 (from uvicorn[standard]>=0.30)
+  Downloading pyyaml-6.0.3-cp312-cp312-win_amd64.whl.metadata (2.4 kB)
+Collecting watchfiles>=0.20 (from uvicorn[standard]>=0.30)
+  Downloading watchfiles-1.3.0-cp310-abi3-win_amd64.whl.metadata (5.0 kB)
+Collecting websockets>=13.0 (from uvicorn[standard]>=0.30)
+  Downloading websockets-17.3-cp312-cp312-win_amd64.whl.metadata (6.5 kB)
+Requirement already satisfied: annotated-types>=0.6.0 in c:\users\dontm\appdata\local\programs\python\python312\lib\site-packages (from pydantic>=2.9.0->fastapi>=0.115) (0.8.0)
+Requirement already satisfied: pydantic-core==2.50.1 in c:\users\dontm\appdata\local\programs\python\python312\lib\site-packages (from pydantic>=2.9.0->fastapi>=0.115) (2.50.1)
+Downloading fastapi-0.162.0-py3-none-any.whl (148 kB)
+Downloading uvicorn-0.54.0-py3-none-any.whl (87 kB)
+Downloading pydantic_settings-2.16.1-py3-none-any.whl (80 kB)
+Downloading pytest-9.1.1-py3-none-any.whl (386 kB)
+Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+Downloading annotated_doc-0.0.5-py3-none-any.whl (5.3 kB)
+Downloading click-8.5.0-py3-none-any.whl (125 kB)
+Downloading colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+Downloading httptools-0.9.0-cp312-cp312-win_amd64.whl (92 kB)
+Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+Downloading opentelemetry_api-1.45.1-py3-none-any.whl (60 kB)
+Downloading packaging-26.3-py3-none-any.whl (129 kB)
+Downloading pluggy-1.7.0-py3-none-any.whl (27 kB)
+Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+   ---------------------------------------- 1.3/1.3 MB 10.5 MB/s eta 0:00:00
+Downloading python_dotenv-1.2.4-py3-none-any.whl (23 kB)
+Downloading pyyaml-6.0.3-cp312-cp312-win_amd64.whl (154 kB)
+Downloading starlette-1.10.0-py3-none-any.whl (80 kB)
+Downloading anyio-4.15.1-py3-none-any.whl (132 kB)
+Downloading idna-3.20-py3-none-any.whl (69 kB)
+Downloading watchfiles-1.3.0-cp310-abi3-win_amd64.whl (290 kB)
+Downloading websockets-17.3-cp312-cp312-win_amd64.whl (219 kB)
+Downloading certifi-2026.10.23-py3-none-any.whl (135 kB)
+Installing collected packages: websockets, pyyaml, python-dotenv, pygments, pluggy, packaging, opentelemetry-api, iniconfig, idna, httptools, h11, colorama, click, certifi, annotated-doc, uvicorn, pytest, httpcore, anyio, watchfiles, starlette, pydantic-settings, httpx, fastapi
+python.exe :   WARNING: The script websockets.exe is installed in 
+'C:\Users\dontm\AppData\Local\Programs\Python\Python312\Scripts' which is not 
+on PATH.
+At line:1 char:174
++ ... ython.exe"; & $py -m pip install --disable-pip-version-check "fastapi ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (  WARNING: The ...is not on PATH. 
+   :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  Consider adding this directory to PATH or, if you prefer to suppress this 
+warning, use --no-warn-script-location.
+  WARNING: The script dotenv.exe is installed in 
+'C:\Users\dontm\AppData\Local\Programs\Python\Python312\Scripts' which is not 
+on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this 
+warning, use --no-warn-script-location.
+  WARNING: The script pygmentize.exe is installed in 
+'C:\Users\dontm\AppData\Local\Programs\Python\Python312\Scripts' which is not 
+on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this 
+warning, use --no-warn-script-location.
+  WARNING: The script idna.exe is installed in 
+'C:\Users\dontm\AppData\Local\Programs\Python\Python312\Scripts' which is not 
+on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this 
+warning, use --no-warn-script-location.
+  WARNING: The script uvicorn.exe is installed in 
+'C:\Users\dontm\AppData\Local\Programs\Python\Python312\Scripts' which is not 
+on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this 
+warning, use --no-warn-script-location.
+  WARNING: The scripts py.test.exe and pytest.exe are installed in 
+'C:\Users\dontm\AppData\Local\Programs\Python\Python312\Scripts' which is not 
+on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this 
+warning, use --no-warn-script-location.
+  WARNING: The script watchfiles.exe is installed in 
+'C:\Users\dontm\AppData\Local\Programs\Python\Python312\Scripts' which is not 
+on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this 
+warning, use --no-warn-script-location.
+  WARNING: The script httpx.exe is installed in 
+'C:\Users\dontm\AppData\Local\Programs\Python\Python312\Scripts' which is not 
+on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this 
+warning, use --no-warn-script-location.
+  WARNING: The script fastapi.exe is installed in 
+'C:\Users\dontm\AppData\Local\Programs\Python\Python312\Scripts' which is not 
+on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this 
+warning, use --no-warn-script-location.
+Successfully installed annotated-doc-0.0.5 anyio-4.15.1 certifi-2026.10.23 click-8.5.0 colorama-0.4.6 fastapi-0.162.0 h11-0.16.0 httpcore-1.0.9 httptools-0.9.0 httpx-0.28.1 idna-3.20 iniconfig-2.3.1 opentelemetry-api-1.45.1 packaging-26.3 pluggy-1.7.0 pydantic-settings-2.16.1 pygments-2.21.0 pytest-9.1.1 python-dotenv-1.2.4 pyyaml-6.0.3 starlette-1.10.0 uvicorn-0.54.0 watchfiles-1.3.0 websockets-17.3
+PIPEXIT=0

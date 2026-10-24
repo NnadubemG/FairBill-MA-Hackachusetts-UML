@@ -1,0 +1,4 @@
+﻿HEALTH=200 {"status":"ok"}
+ROOT=200 bytes=835
+APINF=404
+DONE
