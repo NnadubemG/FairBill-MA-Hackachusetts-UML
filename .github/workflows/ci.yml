@@ -1,0 +1,34 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Python 3.12 is the deployment target (tech.md); this is where the suite is verified.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install
+        run: pip install -r requirements.txt -r requirements-dev.txt
+      - name: Python tests
+        run: python -m pytest -q
+      - name: Evals + extract tests
+        run: python -m pytest -q evals/tests backend/extract/tests
+      - name: Validate processed data
+        run: python -m pipeline.validate
+      - name: Frontend tests
+        run: node --test frontend/app/tests/*.test.mjs frontend/src/compare/tests/*.test.mjs
+      - name: Bundle builds
+        run: python infra/build.py --no-deps

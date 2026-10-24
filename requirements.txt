@@ -1,0 +1,5 @@
+# Runtime dependencies for the deployed app (server, Lambda, container). Pinned.
+# jsonschema: used by backend/extract to validate model output.
+# anthropic:  used by the real model client (only when ANTHROPIC_API_KEY is set).
+jsonschema==4.26.0
+anthropic==2.3.0
