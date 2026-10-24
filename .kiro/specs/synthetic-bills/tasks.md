@@ -26,7 +26,7 @@ Requirements are in `requirements.md`. Test cases (TS-*) and properties (PS*) ar
   - Tests TS-R1 to TS-R3.
   - _Requirements: 4.2, 4.3_
 
-- [ ] 4. PDF renderer
+- [x] 4. PDF renderer
   - `render_pdf` with a minimal stdlib PDF writer.
   - Tests TS-R4 to TS-R7 and property PS5.
   - _Requirements: 4.1, 4.4_
