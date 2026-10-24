@@ -15,7 +15,7 @@ Requirements are in `requirements.md`. Test cases (TS-*) and properties (PS*) ar
   - Test TS-K1.
   - _Requirements: 5.1_
 
-- [ ] 2. Catalog and generator
+- [x] 2. Catalog and generator
   - `synthetic/catalog.py` with fictional procedures and reference prices.
   - `synthetic/generate.py` with `generate_bill`, `to_json`, all six scenarios.
   - Tests TS-G1 to TS-G14 and properties PS1 to PS4, PS6.
