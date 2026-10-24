@@ -4,7 +4,7 @@ Small tasks. Do one or two at a time. Each lists the requirements it covers and 
 that prove it. Stay inside `/backend/letter`. Start only after open decision 1 is settled
 (the explain work must be available on this branch).
 
-- [ ] 1. Scaffold package, config, wrapper types, contract shim
+- [x] 1. Scaffold package, config, wrapper types, contract shim
   - `__init__.py`, `_contracts.py` (re-export `Flag`, `LineItem`, `LetterDraft` from
     `contracts.types`), `config.py` (`LETTER_MODEL_ID`, limits, tone-check word lists),
     `models.py` (`LetterType`, `PatientFields`, `LetterRequest`, `LetterResult`,
