@@ -141,7 +141,37 @@ class AnalysisResult:
 
 # --- Synthetic bills (produced by /synthetic; see synthetic-bill.schema.json) ---
 
-SyntheticScenario = Literal["clean", "duplicate", "high_price", "unknown_code", "injection", "mixed"]
+ModifierIndicator = Literal["0", "1", "9"]
+
+
+@dataclass(frozen=True)
+class QuantityLimit:
+    """A typical maximum number of units for a code, with source and year."""
+
+    code: str
+    max_units: float
+    data_source: str
+    data_year: int
+    code_system: Optional[CodeSystem] = None
+
+
+@dataclass(frozen=True)
+class BundlePair:
+    """Two codes normally billed together. The flag goes on the `code_2` line.
+
+    modifier_indicator: "0" may not be billed together; "1" only with a modifier; "9" edit does not apply.
+    """
+
+    code_1: str
+    code_2: str
+    modifier_indicator: ModifierIndicator
+    data_source: str
+    data_year: int
+
+
+SyntheticScenario = Literal[
+    "clean", "duplicate", "high_price", "unknown_code", "injection", "mixed", "quantity", "unbundling"
+]
 
 
 @dataclass(frozen=True)
@@ -172,3 +202,6 @@ class SyntheticBill:
     line_items: list[LineItem]
     price_references: list[PriceReference]
     expected_flags: list[ExpectedFlag]
+    # Optional: older bills omit these. Pass to core.analyze(quantity_limits=..., bundle_pairs=...).
+    quantity_limits: list[QuantityLimit] = field(default_factory=list)
+    bundle_pairs: list[BundlePair] = field(default_factory=list)

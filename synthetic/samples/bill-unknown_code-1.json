@@ -5,6 +5,7 @@
     "statement_date": "2026-03-16",
     "total_billed": 740.5
   },
+  "bundle_pairs": [],
   "expected_flags": [
     {
       "flag_type": "no_reference_found",
@@ -151,6 +152,7 @@
       "medicare_price": 900.0
     }
   ],
+  "quantity_limits": [],
   "scenario": "unknown_code",
   "seed": 1
 }

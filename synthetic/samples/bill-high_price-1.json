@@ -5,6 +5,7 @@
     "statement_date": "2026-10-22",
     "total_billed": 3030.65
   },
+  "bundle_pairs": [],
   "expected_flags": [
     {
       "flag_type": "price_above_reference",
@@ -177,6 +178,7 @@
       "medicare_price": 900.0
     }
   ],
+  "quantity_limits": [],
   "scenario": "high_price",
   "seed": 1
 }

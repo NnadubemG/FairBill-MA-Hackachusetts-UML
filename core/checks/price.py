@@ -8,7 +8,7 @@ from __future__ import annotations
 from decimal import Decimal
 from typing import Optional, Sequence
 
-from contracts.types import Flag, LineItem, PriceReference
+from contracts.types import Flag, LineItem
 from core import constants
 from core.language import (
     above_reference_text,
@@ -16,17 +16,7 @@ from core.language import (
     to_decimal,
     to_money,
 )
-from core.reference import ReferenceIndex, clean_code
-
-
-def _has_provenance(ref: PriceReference) -> bool:
-    """A price figure may only be cited if its source and year are present."""
-    return (
-        isinstance(ref.data_source, str)
-        and ref.data_source.strip() != ""
-        and isinstance(ref.data_year, int)
-        and not isinstance(ref.data_year, bool)
-    )
+from core.reference import ReferenceIndex, clean_code, has_provenance
 
 
 def _unit_price(item: LineItem) -> Optional[Decimal]:
@@ -55,7 +45,7 @@ def check_price(items: Sequence[LineItem], index: ReferenceIndex) -> list[Flag]:
         if match.status != "found" or match.ref is None:
             continue
         ref = match.ref
-        if not _has_provenance(ref):
+        if not has_provenance(ref):
             continue
         code = clean_code(item.code)
         unit_price = _unit_price(item)

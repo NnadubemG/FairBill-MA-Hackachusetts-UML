@@ -17,7 +17,10 @@ SEVERITY: Final[dict[FlagType, FlagSeverity]] = {
     "price_above_reference": "low",
     "duplicate_line_item": "medium",  # when the duplicated items have a date
     "no_reference_found": "info",
+    "quantity_implausible": "low",
 }
+# possible_unbundling severity depends on the edit's modifier indicator.
+UNBUNDLING_SEVERITY: Final[dict[str, FlagSeverity]] = {"0": "medium", "1": "low"}
 DUPLICATE_UNDATED_SEVERITY: Final[FlagSeverity] = "low"
 
 # Words and phrases that must never appear in a flag's reason or basis.

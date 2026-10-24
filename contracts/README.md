@@ -22,6 +22,8 @@ If a mirror disagrees with the JSON Schema, **the JSON Schema wins.**
 | `flag.schema.json` | `Flag` — a "may be worth asking about" flag |
 | `letter-draft.schema.json` | `LetterDraft` — editable patient letter |
 | `analysis-result.schema.json` | `AnalysisResult` — full response payload |
+| `quantity-limit.schema.json` | `QuantityLimit` — typical max units for a code (for `quantity_implausible`) |
+| `bundle-pair.schema.json` | `BundlePair` — two codes normally billed together (for `possible_unbundling`) |
 | `synthetic-bill.schema.json` | `SyntheticBill` — fictional bill plus ground truth (`/synthetic`, evals) |
 
 ## Rules baked into the contracts
