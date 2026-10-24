@@ -1,0 +1,3 @@
+[
+  {"code": "99213", "code_system": "CPT", "medicare_price": 92.47, "ma_range_low": 420.0, "ma_range_high": 980.0, "data_source": "CMS PFS 2025; MA gross charges 2024 (older year shown)", "data_year": 2024}
+]

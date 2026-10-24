@@ -85,3 +85,28 @@ test("fabrication guard: null figure never becomes 0", () => {
   assert.notEqual(bmc.value, 0);
   assert.equal(bmc.kind, "none");
 });
+
+test("MA range surfaced from statewide; domain includes it; summary mentions it", () => {
+  const vm = toViewModel(SAMPLE, "commercial");
+  assert.ok(vm.maRange);
+  assert.equal(vm.maRange.low, 420);
+  assert.equal(vm.maRange.high, 980);
+  assert.ok(vm.domain.max >= 980); // band fits on scale
+  assert.ok(vm.summary.includes("Statewide MA gross charges span"));
+});
+
+test("MA range falls back to reference when statewide lacks it", () => {
+  const r = JSON.parse(JSON.stringify(SAMPLE));
+  delete r.statewide.ma_range_low;
+  delete r.statewide.ma_range_high;
+  const vm = toViewModel(r, "commercial");
+  assert.equal(vm.maRange.low, 420); // from reference record
+});
+
+test("no MA range anywhere -> maRange null, never fabricated", () => {
+  const r = JSON.parse(JSON.stringify(SAMPLE));
+  r.reference = null;
+  r.statewide = { min: null, median: null, max: null, ma_range_low: null, ma_range_high: null };
+  const vm = toViewModel(r, "commercial");
+  assert.equal(vm.maRange, null);
+});

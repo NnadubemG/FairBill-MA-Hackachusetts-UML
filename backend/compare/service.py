@@ -23,15 +23,18 @@ def list_procedures(store: Store) -> dict:
     }
 
 
-def _collect_data_years(hospitals: list[dict], medicare: dict | None) -> list[int]:
+def _collect_data_years(
+    hospitals: list[dict], medicare: dict | None, reference: dict | None
+) -> list[int]:
     years: set[int] = set()
     for h in hospitals:
         for ps in h["price_stats"].values():
             y = ps.get("data_year")
             if y is not None:
                 years.add(y)
-    if medicare and medicare.get("data_year") is not None:
-        years.add(medicare["data_year"])
+    for rec in (medicare, reference):
+        if rec and rec.get("data_year") is not None:
+            years.add(rec["data_year"])
     return sorted(years)
 
 
@@ -70,7 +73,14 @@ def compare(store: Store, code: str) -> dict:
             "code_system": None,
             "hospitals": [],
             "medicare": None,
-            "statewide": {"min": None, "median": None, "max": None},
+            "reference": None,
+            "statewide": {
+                "min": None,
+                "median": None,
+                "max": None,
+                "ma_range_low": None,
+                "ma_range_high": None,
+            },
             "data_years": [],
             "note": "Code not found in the curated list.",
             "framing_note": FRAMING_NOTE,
@@ -90,14 +100,23 @@ def compare(store: Store, code: str) -> dict:
     ]
 
     medicare = store.medicare_by_code.get(code)
+    # The combined PriceReference (medicare_price + MA gross range) from the reference
+    # stage. Falls back to the medicare record if the reference stage hasn't run, so the
+    # response shape is stable either way. Never fabricated.
+    reference = store.reference_by_code.get(code) or medicare
 
-    # Statewide: one representative value per hospital = its commercial median_rate.
+    # Statewide negotiated: one representative value per hospital = its commercial median.
     commercial_medians = []
     for h in hospitals:
         commercial = h["price_stats"].get("commercial")
         if commercial and commercial.get("median_rate") is not None:
             commercial_medians.append(commercial["median_rate"])
     lo, med, hi = summarize(commercial_medians)
+
+    # Statewide MA gross range comes from the combined reference record (never computed
+    # here); null when absent.
+    ma_low = reference.get("ma_range_low") if reference else None
+    ma_high = reference.get("ma_range_high") if reference else None
 
     return {
         "code": code,
@@ -106,7 +125,14 @@ def compare(store: Store, code: str) -> dict:
         "code_system": proc.get("code_system"),
         "hospitals": hospitals,
         "medicare": medicare,
-        "statewide": {"min": lo, "median": med, "max": hi},
-        "data_years": _collect_data_years(hospitals, medicare),
+        "reference": reference,
+        "statewide": {
+            "min": lo,
+            "median": med,
+            "max": hi,
+            "ma_range_low": ma_low,
+            "ma_range_high": ma_high,
+        },
+        "data_years": _collect_data_years(hospitals, medicare, reference),
         "framing_note": FRAMING_NOTE,
     }

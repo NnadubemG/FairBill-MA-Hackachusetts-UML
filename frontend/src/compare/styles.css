@@ -31,6 +31,8 @@
 .single-marker { fill: #13395e; }         /* diamond = single value */
 .medicare-line { stroke: #b5651d; stroke-width: 2; } /* dashed via stroke-dasharray */
 .medicare-label { font-size: 12px; fill: #b5651d; font-weight: 600; }
+.ma-band-label { font-size: 11px; fill: #5a6a4a; font-weight: 600; }
+.ma-hatch-line { stroke: #9bb07a; stroke-width: 1.2; } /* diagonal hatch = texture cue */
 .empty { font-size: 14px; fill: #4a5a68; }
 
 /* Data table alternative (always present for screen readers / no-color). */

@@ -33,6 +33,7 @@ def test_c9_store_loads_from_disk():
     assert "99213" in s.prices_by_code
     assert "99213" in s.medicare_by_code
     assert "mgh" in s.chia_by_hospital
+    assert "99213" in s.reference_by_code
 
 
 def test_c9_missing_file_tolerated(tmp_path):
@@ -79,10 +80,12 @@ def test_c1_known_code():
     assert mgh["chia_tier"]["tier"] == "high"
 
     assert out["medicare"]["medicare_price"] == 92.47
-    # statewide over commercial medians 150 (mgh) and 170 (bmc)
-    assert out["statewide"] == {"min": 150.0, "median": 160.0, "max": 170.0}
-    # all 99213 price stats + medicare are 2025 (the 2024 record is for code 80053)
-    assert out["data_years"] == [2025]
+    # statewide negotiated over commercial medians 150 (mgh) and 170 (bmc)
+    assert out["statewide"]["min"] == 150.0
+    assert out["statewide"]["median"] == 160.0
+    assert out["statewide"]["max"] == 170.0
+    # 99213 price stats are 2025; reference.json for 99213 carries 2024 (older gross year)
+    assert out["data_years"] == [2024, 2025]
 
 
 # C6: code present but no medicare entry
@@ -100,7 +103,9 @@ def test_c2_unknown_code():
     assert out["found"] is False
     assert out["hospitals"] == []
     assert out["medicare"] is None
-    assert out["statewide"] == {"min": None, "median": None, "max": None}
+    assert out["reference"] is None
+    assert out["statewide"]["min"] is None
+    assert out["statewide"]["ma_range_low"] is None
     assert out["note"]
     assert out["framing_note"] == FRAMING_NOTE
 
@@ -125,7 +130,9 @@ def test_c4_cash_only_excluded_from_statewide():
                  "data_source": "s", "data_year": 2025}],
     )
     out = compare(s, "99213")
-    assert out["statewide"] == {"min": None, "median": None, "max": None}
+    assert out["statewide"]["min"] is None
+    assert out["statewide"]["median"] is None
+    assert out["statewide"]["max"] is None
     h = out["hospitals"][0]
     assert h["price_stats"]["cash"]["cash_price"] == 50.0
     assert h["missing_note"] == "no commercial negotiated rates in the source files"
@@ -144,10 +151,56 @@ def test_c8_statewide_three_hospitals():
         for h, m in (("a", 100.0), ("b", 200.0), ("c", 300.0))
     ]
     out = compare(Store.from_dicts(procedures=procs, hospitals=hosp, prices=prices), "99213")
-    assert out["statewide"] == {"min": 100.0, "median": 200.0, "max": 300.0}
+    assert out["statewide"]["min"] == 100.0
+    assert out["statewide"]["median"] == 200.0
+    assert out["statewide"]["max"] == 300.0
 
 
 # C7: determinism -- same store, same request -> byte-identical serialization
 def test_c7_determinism():
     s = _store()
     assert jsonio.dumps(compare(s, "99213")) == jsonio.dumps(compare(s, "99213"))
+
+
+# CR1: reference record surfaced, and statewide MA range comes from it
+def test_cr1_reference_surfaced():
+    out = compare(_store(), "99213")
+    ref = out["reference"]
+    assert ref is not None
+    assert ref["medicare_price"] == 92.47
+    assert ref["ma_range_low"] == 420.0
+    assert ref["ma_range_high"] == 980.0
+    # statewide carries the MA gross range straight from the reference record
+    assert out["statewide"]["ma_range_low"] == 420.0
+    assert out["statewide"]["ma_range_high"] == 980.0
+
+
+# CR2: when reference.json is absent, reference falls back to the medicare record
+def test_cr2_reference_falls_back_to_medicare():
+    s = Store.from_dicts(
+        procedures=[{"code": "99213", "code_system": "CPT", "plain_label": "x",
+                     "category": None, "typical_max_units": None}],
+        medicare=[{"code": "99213", "code_system": "HCPCS", "medicare_price": 92.47,
+                   "ma_range_low": None, "ma_range_high": None,
+                   "data_source": "CMS PFS", "data_year": 2025}],
+        # no reference provided
+    )
+    out = compare(s, "99213")
+    assert out["reference"]["medicare_price"] == 92.47
+    assert out["statewide"]["ma_range_low"] is None  # no range available, not fabricated
+
+
+# CR3: no reference and no medicare -> reference null, MA range null (never invented)
+def test_cr3_no_reference_no_medicare():
+    s = Store.from_dicts(
+        procedures=[{"code": "80053", "code_system": "CPT", "plain_label": "x",
+                     "category": None, "typical_max_units": None}],
+        prices=[{"hospital_id": "h1", "code": "80053", "code_system": "CPT",
+                 "payer_group": "gross", "min_rate": None, "median_rate": None,
+                 "max_rate": None, "cash_price": None, "gross_charge": 400.0,
+                 "data_source": "s", "data_year": 2025}],
+    )
+    out = compare(s, "80053")
+    assert out["reference"] is None
+    assert out["statewide"]["ma_range_low"] is None
+    assert out["statewide"]["ma_range_high"] is None

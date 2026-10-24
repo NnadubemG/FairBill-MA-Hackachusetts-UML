@@ -41,9 +41,19 @@ test("V8 data table alternative has header + one row per hospital", () => {
   const html = renderTable(toViewModel(SAMPLE, "commercial"));
   assert.ok(html.includes("<table"));
   assert.ok(html.includes("<caption>"));
-  // 2 hospitals -> 2 <th scope="row"> plus medicare reference row
+  // 2 hospitals + medicare reference row + statewide MA gross range row = 4
   const rowHeaders = (html.match(/<th scope="row">/g) || []).length;
-  assert.equal(rowHeaders, 3);
+  assert.equal(rowHeaders, 4);
+});
+
+test("MA range band + label render in SVG and table", () => {
+  const vm = toViewModel(SAMPLE, "commercial");
+  const svg = renderSVG(vm);
+  assert.ok(svg.includes('class="ma-band"'));
+  assert.ok(svg.includes("MA gross"));
+  assert.ok(svg.includes("maHatch")); // hatch pattern = non-color-only cue
+  const html = renderTable(vm);
+  assert.ok(html.includes("Statewide MA gross range"));
 });
 
 test("V7 unknown code renders empty SVG without throwing", () => {

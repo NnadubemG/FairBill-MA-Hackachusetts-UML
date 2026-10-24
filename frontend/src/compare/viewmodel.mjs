@@ -59,7 +59,7 @@ function rowFor(hospital, payerGroup) {
   };
 }
 
-function summarize(rows, payerGroup, medicarePrice) {
+function summarize(rows, payerGroup, medicarePrice, maRange) {
   const label = GROUP_LABELS[payerGroup] || payerGroup;
   const withData = rows.filter((r) => r.kind !== "none");
   if (withData.length === 0) {
@@ -78,7 +78,11 @@ function summarize(rows, payerGroup, medicarePrice) {
     medicarePrice !== null && medicarePrice !== undefined
       ? ` The Medicare reference is ${money(medicarePrice)}.`
       : " There is no Medicare reference for this code in the data.";
-  return `${label} figures range from ${money(lo)} to ${money(hi)} across ${n} Massachusetts ${hosp} in this data.${med}`;
+  const ma =
+    maRange && maRange.low !== null && maRange.high !== null
+      ? ` Statewide MA gross charges span ${money(maRange.low)} to ${money(maRange.high)}.`
+      : "";
+  return `${label} figures range from ${money(lo)} to ${money(hi)} across ${n} Massachusetts ${hosp} in this data.${med}${ma}`;
 }
 
 export function toViewModel(result, payerGroup) {
@@ -108,13 +112,26 @@ export function toViewModel(result, payerGroup) {
 
   const medicarePrice = result.medicare ? result.medicare.medicare_price : null;
 
-  // Domain spans all usable figures plus the medicare reference so the line fits.
+  // Statewide MA gross range: prefer the response's statewide fields, fall back to the
+  // combined reference record. Both come from the pipeline; never computed here.
+  const sw = result.statewide || {};
+  const ref = result.reference || {};
+  const maLow = sw.ma_range_low ?? ref.ma_range_low ?? null;
+  const maHigh = sw.ma_range_high ?? ref.ma_range_high ?? null;
+  const maRange =
+    maLow !== null && maLow !== undefined && maHigh !== null && maHigh !== undefined
+      ? { low: maLow, high: maHigh, label: `MA gross ${money(maLow)}\u2013${money(maHigh)}` }
+      : null;
+
+  // Domain spans all usable figures plus the medicare reference and the MA range so both
+  // the line and the band fit on scale.
   const nums = [];
   for (const r of rows) {
     if (r.kind === "range") nums.push(r.min, r.max);
     else if (r.kind === "single") nums.push(r.value);
   }
   if (medicarePrice !== null && medicarePrice !== undefined) nums.push(medicarePrice);
+  if (maRange) nums.push(maRange.low, maRange.high);
   const domain = nums.length ? { min: Math.min(0, ...nums), max: Math.max(...nums) } : { min: 0, max: 0 };
 
   return {
@@ -129,7 +146,8 @@ export function toViewModel(result, payerGroup) {
       medicarePrice !== null && medicarePrice !== undefined
         ? { price: medicarePrice, label: `Medicare ${money(medicarePrice)}` }
         : null,
-    summary: summarize(rows, active, medicarePrice),
+    maRange,
+    summary: summarize(rows, active, medicarePrice, maRange),
     framingNote,
     note: null,
   };

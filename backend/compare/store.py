@@ -25,6 +25,7 @@ class Store:
     prices_by_code: dict[str, list[dict]] = field(default_factory=dict)
     medicare_by_code: dict[str, dict] = field(default_factory=dict)
     chia_by_hospital: dict[str, dict] = field(default_factory=dict)
+    reference_by_code: dict[str, dict] = field(default_factory=dict)
 
     @classmethod
     def from_dicts(
@@ -34,6 +35,7 @@ class Store:
         prices: list[dict] | None = None,
         medicare: list[dict] | None = None,
         chia: list[dict] | None = None,
+        reference: list[dict] | None = None,
     ) -> "Store":
         store = cls()
         for p in procedures or []:
@@ -50,6 +52,9 @@ class Store:
             store.medicare_by_code.setdefault(_norm_code(m["code"]), m)
         for c in chia or []:
             store.chia_by_hospital.setdefault(c["hospital_id"], c)
+        for r in reference or []:
+            # reference.json is one combined PriceReference per code (pipeline guarantees).
+            store.reference_by_code.setdefault(_norm_code(r["code"]), r)
         # Stable procedure order by code.
         store.procedures_order.sort()
         return store
@@ -71,4 +76,5 @@ class Store:
             prices=read("prices.json"),
             medicare=read("medicare.json"),
             chia=read("chia_tiers.json"),
+            reference=read("reference.json"),
         )
