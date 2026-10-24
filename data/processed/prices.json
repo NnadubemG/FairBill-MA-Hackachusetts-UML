@@ -2,7 +2,7 @@
   {
     "cash_price": 2825.0,
     "code": "43239",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -15,7 +15,7 @@
   {
     "cash_price": null,
     "code": "43239",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -28,7 +28,7 @@
   {
     "cash_price": null,
     "code": "43239",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": 2825.0,
@@ -41,7 +41,7 @@
   {
     "cash_price": 2868.0,
     "code": "45378",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -54,7 +54,7 @@
   {
     "cash_price": null,
     "code": "45378",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -67,7 +67,7 @@
   {
     "cash_price": null,
     "code": "45378",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": 2868.0,
@@ -80,7 +80,7 @@
   {
     "cash_price": 4044.0,
     "code": "45385",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -93,7 +93,7 @@
   {
     "cash_price": null,
     "code": "45385",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -106,7 +106,7 @@
   {
     "cash_price": null,
     "code": "45385",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": 4044.0,
@@ -119,7 +119,7 @@
   {
     "cash_price": 2945.0,
     "code": "70551",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -132,7 +132,7 @@
   {
     "cash_price": null,
     "code": "70551",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -145,7 +145,7 @@
   {
     "cash_price": null,
     "code": "70551",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": 2945.0,
@@ -158,7 +158,7 @@
   {
     "cash_price": 206.0,
     "code": "71046",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -171,7 +171,7 @@
   {
     "cash_price": null,
     "code": "71046",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -184,7 +184,7 @@
   {
     "cash_price": null,
     "code": "71046",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": 206.0,
@@ -197,7 +197,7 @@
   {
     "cash_price": 2945.0,
     "code": "73721",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -210,7 +210,7 @@
   {
     "cash_price": null,
     "code": "73721",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -223,7 +223,7 @@
   {
     "cash_price": null,
     "code": "73721",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": 2945.0,
@@ -236,7 +236,7 @@
   {
     "cash_price": 1991.0,
     "code": "74177",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -249,7 +249,7 @@
   {
     "cash_price": null,
     "code": "74177",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -262,7 +262,7 @@
   {
     "cash_price": null,
     "code": "74177",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": 1991.0,
@@ -275,7 +275,7 @@
   {
     "cash_price": 728.0,
     "code": "77067",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -288,7 +288,7 @@
   {
     "cash_price": null,
     "code": "77067",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -301,7 +301,7 @@
   {
     "cash_price": null,
     "code": "77067",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": 728.0,
@@ -314,7 +314,7 @@
   {
     "cash_price": 127.0,
     "code": "80053",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -327,7 +327,7 @@
   {
     "cash_price": null,
     "code": "80053",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -340,7 +340,7 @@
   {
     "cash_price": null,
     "code": "80053",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": 127.0,
@@ -353,7 +353,7 @@
   {
     "cash_price": 73.0,
     "code": "80061",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -366,7 +366,7 @@
   {
     "cash_price": null,
     "code": "80061",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -379,7 +379,7 @@
   {
     "cash_price": null,
     "code": "80061",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": 73.0,
@@ -392,7 +392,7 @@
   {
     "cash_price": 75.0,
     "code": "83036",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -405,7 +405,7 @@
   {
     "cash_price": null,
     "code": "83036",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -418,7 +418,7 @@
   {
     "cash_price": null,
     "code": "83036",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": 75.0,
@@ -431,7 +431,7 @@
   {
     "cash_price": 58.0,
     "code": "85025",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -444,7 +444,7 @@
   {
     "cash_price": null,
     "code": "85025",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -457,7 +457,7 @@
   {
     "cash_price": null,
     "code": "85025",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": 58.0,
@@ -470,7 +470,7 @@
   {
     "cash_price": 204.0,
     "code": "93000",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -483,7 +483,7 @@
   {
     "cash_price": null,
     "code": "93000",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -496,7 +496,7 @@
   {
     "cash_price": null,
     "code": "93000",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": 204.0,
@@ -509,7 +509,7 @@
   {
     "cash_price": 2250.0,
     "code": "93306",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -522,7 +522,7 @@
   {
     "cash_price": null,
     "code": "93306",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -535,7 +535,7 @@
   {
     "cash_price": null,
     "code": "93306",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": 2250.0,
@@ -548,7 +548,7 @@
   {
     "cash_price": 185.0,
     "code": "97110",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -561,7 +561,7 @@
   {
     "cash_price": null,
     "code": "97110",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -574,7 +574,7 @@
   {
     "cash_price": null,
     "code": "97110",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": 185.0,
@@ -587,7 +587,7 @@
   {
     "cash_price": 236.0,
     "code": "99213",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -600,7 +600,7 @@
   {
     "cash_price": null,
     "code": "99213",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -613,7 +613,7 @@
   {
     "cash_price": null,
     "code": "99213",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": 236.0,
@@ -626,7 +626,7 @@
   {
     "cash_price": null,
     "code": "99213",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -639,7 +639,7 @@
   {
     "cash_price": 236.0,
     "code": "99214",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -652,7 +652,7 @@
   {
     "cash_price": null,
     "code": "99214",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -665,7 +665,7 @@
   {
     "cash_price": null,
     "code": "99214",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": 236.0,
@@ -678,7 +678,7 @@
   {
     "cash_price": null,
     "code": "99214",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -691,7 +691,7 @@
   {
     "cash_price": 1321.0,
     "code": "99283",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -704,7 +704,7 @@
   {
     "cash_price": null,
     "code": "99283",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -717,7 +717,7 @@
   {
     "cash_price": null,
     "code": "99283",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": 1321.0,
@@ -730,7 +730,7 @@
   {
     "cash_price": null,
     "code": "99283",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -743,7 +743,7 @@
   {
     "cash_price": 1862.0,
     "code": "99284",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -756,7 +756,7 @@
   {
     "cash_price": null,
     "code": "99284",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,
@@ -769,7 +769,7 @@
   {
     "cash_price": null,
     "code": "99284",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": 1862.0,
@@ -782,7 +782,7 @@
   {
     "cash_price": null,
     "code": "99284",
-    "code_system": "HCPCS",
+    "code_system": "CPT",
     "data_source": "Lahey price transparency file",
     "data_year": 2026,
     "gross_charge": null,

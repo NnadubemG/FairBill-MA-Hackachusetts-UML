@@ -56,6 +56,21 @@ def _curated_codes() -> set[str]:
     return curated_codes(load_procedures(config.PROCEDURE_LIST_CSV))
 
 
+def _code_system_by_code() -> dict[str, str]:
+    """Map code -> declared code_system from the curated procedure list.
+
+    This is the authoritative code system the prices stage stamps onto each record, so
+    per-hospital stats stay consistent with procedures.json and reference.json.
+    """
+    from .procedure_list import load_procedures
+
+    out: dict[str, str] = {}
+    for p in load_procedures(config.PROCEDURE_LIST_CSV):
+        if p.code_system:
+            out[p.code] = p.code_system
+    return out
+
+
 def _run_stage(
     name: str,
     force: bool,
@@ -90,7 +105,10 @@ def _run_stage(
             HospitalBinding(b["hospital_id"], b["format_id"], b["source_file"])
             for b in read_json(config.HOSPITAL_BINDINGS_JSON)
         ]
-        n = build_prices(bindings, _curated_codes(), data_source, data_year)
+        n = build_prices(
+            bindings, _curated_codes(), data_source, data_year,
+            code_system_by_code=_code_system_by_code(),
+        )
         return f"prices: wrote {n}"
 
     if name == "medicare":

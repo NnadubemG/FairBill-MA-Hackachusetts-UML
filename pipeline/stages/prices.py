@@ -112,8 +112,15 @@ def build_prices_for_hospital(
     data_year: int,
     raw_dir: Path | None = None,
     skip_log_path: Path | None = None,
+    code_system_by_code: dict[str, str] | None = None,
 ) -> list[PriceStat]:
-    """Produce the PriceStat records for a single hospital."""
+    """Produce the PriceStat records for a single hospital.
+
+    ``code_system_by_code`` (from procedures.json, our source of truth) overrides the
+    code system a raw file happens to label a code with. Hospital files often tag plain
+    CPT codes as "HCPCS" (CPT is a subset of HCPCS); normalizing here keeps every record
+    consistent with the curated procedure list and with reference.json.
+    """
     raw_dir = raw_dir or config.RAW_DIR
     parser = get_parser(binding.format_id)
     path = str(raw_dir / binding.source_file)
@@ -124,6 +131,9 @@ def build_prices_for_hospital(
     for (code, group), bucket in buckets.items():
         if not bucket.values:
             continue  # nothing usable -> no record (fail safe, no guessed number)
+        # Prefer the authoritative code system from procedures.json when we have it.
+        if code_system_by_code and code in code_system_by_code:
+            bucket.code_system = code_system_by_code[code]
         stats.append(
             _bucket_to_pricestat(
                 binding.hospital_id, code, group, bucket, data_source, data_year
@@ -140,6 +150,7 @@ def build_prices(
     out_path: str | Path | None = None,
     raw_dir: Path | None = None,
     skip_log_path: Path | None = None,
+    code_system_by_code: dict[str, str] | None = None,
 ) -> int:
     """Build prices.json across all hospitals. Returns the record count."""
     out_path = Path(out_path) if out_path else config.PRICES_JSON
@@ -148,7 +159,8 @@ def build_prices(
     for binding in bindings:
         all_stats.extend(
             build_prices_for_hospital(
-                binding, curated, data_source, data_year, raw_dir, skip_log_path
+                binding, curated, data_source, data_year, raw_dir, skip_log_path,
+                code_system_by_code,
             )
         )
 
