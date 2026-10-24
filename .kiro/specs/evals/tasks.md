@@ -4,7 +4,7 @@ Small tasks. Do one or two at a time. Each lists the requirements it covers and 
 prove it. Stay inside `/evals`. Start only after open decision 1 is settled (the extract,
 explain and letter code must be available on this branch).
 
-- [ ] 1. Scaffold, config, corpus, private-path guard
+- [x] 1. Scaffold, config, corpus, private-path guard
   - `__init__.py`, `config.py` (env var names, defaults, thresholds, limits), `corpus.py`
     (`Bill`, `build_corpus`, `ensure_not_private`), `results/` and `tests/` folders.
   - Tests S1, S2, S3, S4; thresholds sane.
