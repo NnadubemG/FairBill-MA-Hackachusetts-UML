@@ -10,7 +10,7 @@ explain and letter code must be available on this branch).
   - Tests S1, S2, S3, S4; thresholds sane.
   - _Requirements: R1, R6.3, R9.2_
 
-- [ ] 2. Disk cache
+- [x] 2. Disk cache
   - `cache.py`: `CachingClient`, `CacheStats`, `CacheMiss`, `BudgetExceeded`, hashing,
     atomic write, self-ignoring folder.
   - Tests C1 to C13; properties PE6, PE7.
