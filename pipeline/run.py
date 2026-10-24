@@ -24,7 +24,10 @@ from . import config
 
 # Dependency order matters: prices needs hospitals (bindings); reference needs
 # procedures + medicare + prices.
-STAGES = ["procedures", "hospitals", "prices", "medicare", "ncci", "chia", "reference"]
+STAGES = [
+    "procedures", "hospitals", "prices", "medicare", "ncci", "chia",
+    "reference", "quantity_limits",
+]
 
 
 def is_up_to_date(output: Path, inputs: list[Path]) -> bool:
@@ -103,7 +106,7 @@ def _run_stage(
         from .stages.ncci import build_ncci_pairs
 
         _require_params(name, data_source, data_year)
-        if not force and is_up_to_date(config.NCCI_PAIRS_JSON, [config.NCCI_RAW]):
+        if not force and is_up_to_date(config.BUNDLE_PAIRS_JSON, [config.NCCI_RAW]):
             return "ncci: cached"
         n = build_ncci_pairs(config.NCCI_RAW, _curated_codes(), data_source, data_year)
         return f"ncci: wrote {n}"
@@ -124,6 +127,15 @@ def _run_stage(
         if not force and is_up_to_date(config.REFERENCE_JSON, inputs):
             return "reference: cached"
         return f"reference: wrote {write_reference()}"
+
+    if name == "quantity_limits":
+        from .stages.quantity_limits import build_quantity_limits
+
+        _require_params(name, data_source, data_year)
+        if not force and is_up_to_date(config.QUANTITY_LIMITS_JSON, [config.PROCEDURES_JSON]):
+            return "quantity_limits: cached"
+        n = build_quantity_limits(data_source, data_year)
+        return f"quantity_limits: wrote {n}"
 
     raise SystemExit(f"unknown stage: {name}")
 

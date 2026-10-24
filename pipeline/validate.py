@@ -92,17 +92,56 @@ def _check_reference(
             )
 
 
+def _check_quantity_limits(path: Path, valid: set[str], problems: list[str]) -> None:
+    """Validate quantity_limits.json (QuantityLimit): code known, max_units > 0, provenance."""
+    for idx, rec in enumerate(jsonio.read_json(path)):
+        _check_provenance("quantity_limits", idx, rec, problems)
+        _check_code_known("quantity_limits", idx, rec, valid, problems)
+        mu = rec.get("max_units")
+        if mu is None or not isinstance(mu, (int, float)) or mu <= 0:
+            problems.append(
+                f"quantity_limits[{idx}] code={rec.get('code')!r}: max_units must be > 0"
+            )
+
+
+def _check_bundle_pairs(path: Path, valid: set[str], problems: list[str]) -> None:
+    """Validate bundle_pairs.json (BundlePair): both codes known, indicator in 0/1/9, provenance."""
+    seen: set[tuple] = set()
+    for idx, rec in enumerate(jsonio.read_json(path)):
+        source, year = rec.get("data_source"), rec.get("data_year")
+        if not source or not str(source).strip():
+            problems.append(f"bundle_pairs[{idx}]: missing data_source")
+        if year is None:
+            problems.append(f"bundle_pairs[{idx}]: missing data_year")
+        for fld in ("code_1", "code_2"):
+            code = rec.get(fld)
+            if code not in valid:
+                problems.append(f"bundle_pairs[{idx}]: {fld} {code!r} not in procedures.json")
+        if rec.get("modifier_indicator") not in {"0", "1", "9"}:
+            problems.append(
+                f"bundle_pairs[{idx}]: modifier_indicator must be '0', '1', or '9'"
+            )
+        key = (rec.get("code_1"), rec.get("code_2"))
+        if key in seen:
+            problems.append(f"bundle_pairs[{idx}]: duplicate pair {key!r}")
+        seen.add(key)
+
+
 def validate(
     prices_path: Path | None = None,
     medicare_path: Path | None = None,
     procedures_path: Path | None = None,
     reference_path: Path | None = None,
+    quantity_limits_path: Path | None = None,
+    bundle_pairs_path: Path | None = None,
 ) -> list[str]:
     """Return a list of problem strings. Empty list == valid."""
     prices_path = prices_path or config.PRICES_JSON
     medicare_path = medicare_path or config.MEDICARE_JSON
     procedures_path = procedures_path or config.PROCEDURES_JSON
     reference_path = reference_path or config.REFERENCE_JSON
+    quantity_limits_path = quantity_limits_path or config.QUANTITY_LIMITS_JSON
+    bundle_pairs_path = bundle_pairs_path or config.BUNDLE_PAIRS_JSON
 
     problems: list[str] = []
     valid = _valid_codes(procedures_path)
@@ -118,9 +157,13 @@ def validate(
         _check_code_known("medicare", idx, rec, valid, problems)
         _check_nonnegative("medicare", idx, rec, ("medicare_price",), problems)
 
-    # reference.json is optional (partial pipelines); validate only if present.
+    # These outputs are optional (partial pipelines); validate only if present.
     if Path(reference_path).exists():
         _check_reference(Path(reference_path), valid, problems)
+    if Path(quantity_limits_path).exists():
+        _check_quantity_limits(Path(quantity_limits_path), valid, problems)
+    if Path(bundle_pairs_path).exists():
+        _check_bundle_pairs(Path(bundle_pairs_path), valid, problems)
 
     return problems
 

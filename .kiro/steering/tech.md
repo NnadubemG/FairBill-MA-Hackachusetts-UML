@@ -13,6 +13,9 @@ inclusion: always
 
 ## /core (deterministic checks engine)
 - Pure **Python 3.12**.
+- **Version decision (2026-10-24):** the deployment target for all Python is 3.12 (the Lambda runtime
+  should be `python3.12`). Locally the suite also passes on 3.13 and 3.14. It has NOT yet been run on
+  3.12 itself, so before submission someone with 3.12 must run the full suite there and report.
 - **No network. No file writes. No randomness. No LLM.**
 - Same input always produces the same output.
 - Every check has unit tests and property-based tests (Hypothesis). See
