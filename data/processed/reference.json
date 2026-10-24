@@ -2,74 +2,74 @@
   {
     "code": "43239",
     "code_system": "CPT",
-    "data_source": "Hospital price transparency files",
+    "data_source": "CMS Medicare Physician Fee Schedule 2026 (non-QP), MA Metro Boston locality, non-facility; MA gross charges",
     "data_year": 2026,
     "ma_range_high": 2825.0,
-    "ma_range_low": 2615.0,
-    "medicare_price": null
+    "ma_range_low": 1238.0,
+    "medicare_price": 485.46
   },
   {
     "code": "45378",
     "code_system": "CPT",
-    "data_source": "Hospital price transparency files",
+    "data_source": "CMS Medicare Physician Fee Schedule 2026 (non-QP), MA Metro Boston locality, non-facility; MA gross charges",
     "data_year": 2026,
     "ma_range_high": 2868.0,
-    "ma_range_low": 2406.0,
-    "medicare_price": null
+    "ma_range_low": 1209.0,
+    "medicare_price": 431.04
   },
   {
     "code": "45385",
     "code_system": "CPT",
-    "data_source": "Hospital price transparency files",
+    "data_source": "CMS Medicare Physician Fee Schedule 2026 (non-QP), MA Metro Boston locality, non-facility; MA gross charges",
     "data_year": 2026,
     "ma_range_high": 4044.0,
-    "ma_range_low": 3237.0,
-    "medicare_price": null
+    "ma_range_low": 2093.0,
+    "medicare_price": 569.04
   },
   {
     "code": "70551",
     "code_system": "CPT",
-    "data_source": "Hospital price transparency files",
+    "data_source": "CMS Medicare Physician Fee Schedule 2026 (non-QP), MA Metro Boston locality, non-facility; MA gross charges",
     "data_year": 2026,
     "ma_range_high": 3170.0,
-    "ma_range_low": 2945.0,
-    "medicare_price": null
+    "ma_range_low": 1760.0,
+    "medicare_price": 224.93
   },
   {
     "code": "71046",
     "code_system": "CPT",
-    "data_source": "Hospital price transparency files",
+    "data_source": "CMS Medicare Physician Fee Schedule 2026 (non-QP), MA Metro Boston locality, non-facility; MA gross charges",
     "data_year": 2026,
-    "ma_range_high": 325.0,
+    "ma_range_high": 424.0,
     "ma_range_low": 206.0,
-    "medicare_price": null
+    "medicare_price": 38.21
   },
   {
     "code": "73721",
     "code_system": "CPT",
-    "data_source": "Hospital price transparency files",
+    "data_source": "CMS Medicare Physician Fee Schedule 2026 (non-QP), MA Metro Boston locality, non-facility; MA gross charges",
     "data_year": 2026,
-    "ma_range_high": 2945.0,
-    "ma_range_low": 2921.0,
-    "medicare_price": null
+    "ma_range_high": 2956.0,
+    "ma_range_low": 1760.0,
+    "medicare_price": 236.41
   },
   {
     "code": "74177",
     "code_system": "CPT",
-    "data_source": "Hospital price transparency files",
+    "data_source": "CMS Medicare Physician Fee Schedule 2026 (non-QP), MA Metro Boston locality, non-facility; MA gross charges",
     "data_year": 2026,
-    "ma_range_high": 3721.0,
+    "ma_range_high": 5890.0,
     "ma_range_low": 1991.0,
-    "medicare_price": null
+    "medicare_price": 348.16
   },
   {
     "code": "77067",
     "code_system": "CPT",
-    "data_source": "Hospital price transparency files",
+    "data_source": "CMS Medicare Physician Fee Schedule 2026 (non-QP), MA Metro Boston locality, non-facility; MA gross charges",
     "data_year": 2026,
     "ma_range_high": 889.0,
-    "ma_range_low": 728.0,
-    "medicare_price": null
+    "ma_range_low": 525.0,
+    "medicare_price": 146.46
   },
   {
     "code": "80053",
@@ -77,7 +77,7 @@
     "data_source": "Hospital price transparency files",
     "data_year": 2026,
     "ma_range_high": 658.0,
-    "ma_range_low": 127.0,
+    "ma_range_low": 91.0,
     "medicare_price": null
   },
   {
@@ -85,7 +85,7 @@
     "code_system": "CPT",
     "data_source": "Hospital price transparency files",
     "data_year": 2026,
-    "ma_range_high": 125.0,
+    "ma_range_high": 237.0,
     "ma_range_low": 73.0,
     "medicare_price": null
   },
@@ -94,8 +94,8 @@
     "code_system": "CPT",
     "data_source": "Hospital price transparency files",
     "data_year": 2026,
-    "ma_range_high": 75.0,
-    "ma_range_low": 51.0,
+    "ma_range_high": 194.0,
+    "ma_range_low": 42.0,
     "medicare_price": null
   },
   {
@@ -103,71 +103,71 @@
     "code_system": "CPT",
     "data_source": "Hospital price transparency files",
     "data_year": 2026,
-    "ma_range_high": 79.0,
-    "ma_range_low": 58.0,
+    "ma_range_high": 104.0,
+    "ma_range_low": 48.0,
     "medicare_price": null
   },
   {
     "code": "93000",
     "code_system": "CPT",
-    "data_source": "Hospital price transparency files",
+    "data_source": "CMS Medicare Physician Fee Schedule 2026 (non-QP), MA Metro Boston locality, non-facility; MA gross charges",
     "data_year": 2026,
     "ma_range_high": 593.0,
-    "ma_range_low": 204.0,
-    "medicare_price": null
+    "ma_range_low": 120.0,
+    "medicare_price": 17.27
   },
   {
     "code": "93306",
     "code_system": "CPT",
-    "data_source": "Hospital price transparency files",
+    "data_source": "CMS Medicare Physician Fee Schedule 2026 (non-QP), MA Metro Boston locality, non-facility; MA gross charges",
     "data_year": 2026,
     "ma_range_high": 3346.0,
-    "ma_range_low": 2250.0,
-    "medicare_price": null
+    "ma_range_low": 1609.0,
+    "medicare_price": 226.83
   },
   {
     "code": "97110",
     "code_system": "CPT",
-    "data_source": "Hospital price transparency files",
+    "data_source": "CMS Medicare Physician Fee Schedule 2026 (non-QP), MA Metro Boston locality, non-facility; MA gross charges",
     "data_year": 2026,
-    "ma_range_high": 229.0,
-    "ma_range_low": 185.0,
-    "medicare_price": null
+    "ma_range_high": 264.0,
+    "ma_range_low": 141.0,
+    "medicare_price": 32.29
   },
   {
     "code": "99213",
     "code_system": "CPT",
-    "data_source": "Hospital price transparency files",
+    "data_source": "CMS Medicare Physician Fee Schedule 2026 (non-QP), MA Metro Boston locality, non-facility; MA gross charges",
     "data_year": 2026,
-    "ma_range_high": 236.0,
-    "ma_range_low": 187.0,
-    "medicare_price": null
+    "ma_range_high": 391.0,
+    "ma_range_low": 141.0,
+    "medicare_price": 106.1
   },
   {
     "code": "99214",
     "code_system": "CPT",
-    "data_source": "Hospital price transparency files",
+    "data_source": "CMS Medicare Physician Fee Schedule 2026 (non-QP), MA Metro Boston locality, non-facility; MA gross charges",
     "data_year": 2026,
-    "ma_range_high": 236.0,
-    "ma_range_low": 226.0,
-    "medicare_price": null
+    "ma_range_high": 463.0,
+    "ma_range_low": 174.0,
+    "medicare_price": 150.68
   },
   {
     "code": "99283",
     "code_system": "CPT",
-    "data_source": "Hospital price transparency files",
+    "data_source": "CMS Medicare Physician Fee Schedule 2026 (non-QP), MA Metro Boston locality, non-facility; MA gross charges",
     "data_year": 2026,
-    "ma_range_high": 1321.0,
-    "ma_range_low": 1193.0,
-    "medicare_price": null
+    "ma_range_high": 2076.0,
+    "ma_range_low": 612.0,
+    "medicare_price": 72.74
   },
   {
     "code": "99284",
     "code_system": "CPT",
-    "data_source": "Hospital price transparency files",
+    "data_source": "CMS Medicare Physician Fee Schedule 2026 (non-QP), MA Metro Boston locality, non-facility; MA gross charges",
     "data_year": 2026,
-    "ma_range_high": 1922.0,
-    "ma_range_low": 1862.0,
-    "medicare_price": null
+    "ma_range_high": 2263.0,
+    "ma_range_low": 1115.0,
+    "medicare_price": 123.62
   }
 ]

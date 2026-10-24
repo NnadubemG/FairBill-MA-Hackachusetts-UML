@@ -1,0 +1,135 @@
+[
+  {
+    "code": "43239",
+    "code_system": "CPT",
+    "data_source": "CMS Medicare NCCI MUE, practitioner services, effective 2026-10-01",
+    "data_year": 2026,
+    "max_units": 1.0
+  },
+  {
+    "code": "45378",
+    "code_system": "CPT",
+    "data_source": "CMS Medicare NCCI MUE, practitioner services, effective 2026-10-01",
+    "data_year": 2026,
+    "max_units": 1.0
+  },
+  {
+    "code": "45385",
+    "code_system": "CPT",
+    "data_source": "CMS Medicare NCCI MUE, practitioner services, effective 2026-10-01",
+    "data_year": 2026,
+    "max_units": 1.0
+  },
+  {
+    "code": "70551",
+    "code_system": "CPT",
+    "data_source": "CMS Medicare NCCI MUE, practitioner services, effective 2026-10-01",
+    "data_year": 2026,
+    "max_units": 2.0
+  },
+  {
+    "code": "71046",
+    "code_system": "CPT",
+    "data_source": "CMS Medicare NCCI MUE, practitioner services, effective 2026-10-01",
+    "data_year": 2026,
+    "max_units": 2.0
+  },
+  {
+    "code": "73721",
+    "code_system": "CPT",
+    "data_source": "CMS Medicare NCCI MUE, practitioner services, effective 2026-10-01",
+    "data_year": 2026,
+    "max_units": 3.0
+  },
+  {
+    "code": "74177",
+    "code_system": "CPT",
+    "data_source": "CMS Medicare NCCI MUE, practitioner services, effective 2026-10-01",
+    "data_year": 2026,
+    "max_units": 2.0
+  },
+  {
+    "code": "77067",
+    "code_system": "CPT",
+    "data_source": "CMS Medicare NCCI MUE, practitioner services, effective 2026-10-01",
+    "data_year": 2026,
+    "max_units": 1.0
+  },
+  {
+    "code": "80053",
+    "code_system": "CPT",
+    "data_source": "CMS Medicare NCCI MUE, practitioner services, effective 2026-10-01",
+    "data_year": 2026,
+    "max_units": 1.0
+  },
+  {
+    "code": "80061",
+    "code_system": "CPT",
+    "data_source": "CMS Medicare NCCI MUE, practitioner services, effective 2026-10-01",
+    "data_year": 2026,
+    "max_units": 1.0
+  },
+  {
+    "code": "83036",
+    "code_system": "CPT",
+    "data_source": "CMS Medicare NCCI MUE, practitioner services, effective 2026-10-01",
+    "data_year": 2026,
+    "max_units": 1.0
+  },
+  {
+    "code": "85025",
+    "code_system": "CPT",
+    "data_source": "CMS Medicare NCCI MUE, practitioner services, effective 2026-10-01",
+    "data_year": 2026,
+    "max_units": 2.0
+  },
+  {
+    "code": "93000",
+    "code_system": "CPT",
+    "data_source": "CMS Medicare NCCI MUE, practitioner services, effective 2026-10-01",
+    "data_year": 2026,
+    "max_units": 3.0
+  },
+  {
+    "code": "93306",
+    "code_system": "CPT",
+    "data_source": "CMS Medicare NCCI MUE, practitioner services, effective 2026-10-01",
+    "data_year": 2026,
+    "max_units": 1.0
+  },
+  {
+    "code": "97110",
+    "code_system": "CPT",
+    "data_source": "CMS Medicare NCCI MUE, practitioner services, effective 2026-10-01",
+    "data_year": 2026,
+    "max_units": 6.0
+  },
+  {
+    "code": "99213",
+    "code_system": "CPT",
+    "data_source": "CMS Medicare NCCI MUE, practitioner services, effective 2026-10-01",
+    "data_year": 2026,
+    "max_units": 2.0
+  },
+  {
+    "code": "99214",
+    "code_system": "CPT",
+    "data_source": "CMS Medicare NCCI MUE, practitioner services, effective 2026-10-01",
+    "data_year": 2026,
+    "max_units": 2.0
+  },
+  {
+    "code": "99283",
+    "code_system": "CPT",
+    "data_source": "CMS Medicare NCCI MUE, practitioner services, effective 2026-10-01",
+    "data_year": 2026,
+    "max_units": 1.0
+  },
+  {
+    "code": "99284",
+    "code_system": "CPT",
+    "data_source": "CMS Medicare NCCI MUE, practitioner services, effective 2026-10-01",
+    "data_year": 2026,
+    "max_units": 1.0
+  }
+]
