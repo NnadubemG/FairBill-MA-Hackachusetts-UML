@@ -21,6 +21,8 @@ MEDICARE_JSON = PROCESSED_DIR / "medicare.json"
 NCCI_PAIRS_JSON = PROCESSED_DIR / "ncci_pairs.json"
 CHIA_TIERS_JSON = PROCESSED_DIR / "chia_tiers.json"
 REFERENCE_JSON = PROCESSED_DIR / "reference.json"  # one PriceReference per code for /core
+QUANTITY_LIMITS_JSON = PROCESSED_DIR / "quantity_limits.json"  # QuantityLimit per code
+BUNDLE_PAIRS_JSON = PROCESSED_DIR / "bundle_pairs.json"  # BundlePair per code pair for /core
 SKIPPED_LOG = PROCESSED_DIR / "skipped.log"
 
 # Hospitals input (not raw; curated by us) and the internal bindings manifest.

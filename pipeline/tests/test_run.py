@@ -127,9 +127,10 @@ def test_cli_all_end_to_end(tmp_path, monkeypatch):
         ("HOSPITAL_BINDINGS_JSON", "hospital_bindings.json"),
         ("PRICES_JSON", "prices.json"),
         ("MEDICARE_JSON", "medicare.json"),
-        ("NCCI_PAIRS_JSON", "ncci_pairs.json"),
+        ("BUNDLE_PAIRS_JSON", "bundle_pairs.json"),
         ("CHIA_TIERS_JSON", "chia_tiers.json"),
         ("REFERENCE_JSON", "reference.json"),
+        ("QUANTITY_LIMITS_JSON", "quantity_limits.json"),
         ("SKIPPED_LOG", "skipped.log"),
     ]:
         monkeypatch.setattr(config, attr, proc / name)
@@ -139,7 +140,8 @@ def test_cli_all_end_to_end(tmp_path, monkeypatch):
 
     # Every processed output exists.
     for name in ("procedures.json", "hospitals.json", "prices.json", "medicare.json",
-                 "ncci_pairs.json", "chia_tiers.json", "reference.json"):
+                 "bundle_pairs.json", "chia_tiers.json", "reference.json",
+                 "quantity_limits.json"):
         assert (proc / name).exists(), f"missing {name}"
 
     # reference.json combined medicare + gross range for 99213.

@@ -1,4 +1,4 @@
-"""Stage: NCCI procedure-to-procedure edits -> /data/processed/ncci_pairs.json.
+"""Stage: NCCI procedure-to-procedure edits -> /data/processed/bundle_pairs.json.
 
 NCCI PTP edits are code pairs: a column-1 code and a column-2 code, with a modifier
 indicator:
@@ -8,7 +8,8 @@ indicator:
 We keep only pairs where BOTH codes are in our curated set, dropping any pair that
 touches a non-curated code, and retain the modifier indicator verbatim.
 
-ncci_pairs.json is a pipeline-internal shape (not a shared contract). Each record:
+Output conforms to contracts/bundle-pair.schema.json (BundlePair), which /core consumes
+for possible_unbundling flags. Each record:
     {code_1, code_2, modifier_indicator, data_source, data_year}
 
 Input CSV columns (header required): code_1, code_2, modifier_indicator
@@ -33,8 +34,8 @@ def build_ncci_pairs(
     data_year: int,
     out_path: str | Path | None = None,
 ) -> int:
-    """Build ncci_pairs.json. Returns the number of pairs written."""
-    out_path = Path(out_path) if out_path else config.NCCI_PAIRS_JSON
+    """Build bundle_pairs.json (BundlePair records). Returns the number of pairs written."""
+    out_path = Path(out_path) if out_path else config.BUNDLE_PAIRS_JSON
 
     records: list[dict] = []
     seen: set[tuple[str, str]] = set()
