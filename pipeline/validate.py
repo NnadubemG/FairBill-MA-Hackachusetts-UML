@@ -64,15 +64,45 @@ def _check_ordering(label: str, idx: int, rec: dict, problems: list[str]) -> Non
         problems.append(f"{label}[{idx}] code={rec.get('code')!r}: median_rate > max_rate")
 
 
+def _check_reference(
+    reference_path: Path, valid: set[str], problems: list[str]
+) -> None:
+    """Validate reference.json: one combined PriceReference per code for /core."""
+    seen_keys: set[tuple] = set()
+    for idx, rec in enumerate(jsonio.read_json(reference_path)):
+        _check_provenance("reference", idx, rec, problems)
+        _check_code_known("reference", idx, rec, valid, problems)
+        _check_nonnegative(
+            "reference", idx, rec, ("medicare_price", "ma_range_low", "ma_range_high"), problems
+        )
+        # code_system must be present (non-null, non-empty) -- /core needs it.
+        cs = rec.get("code_system")
+        if not cs or not str(cs).strip():
+            problems.append(f"reference[{idx}] code={rec.get('code')!r}: missing code_system")
+        # No duplicate (code, code_system) keys.
+        key = (rec.get("code"), cs)
+        if key in seen_keys:
+            problems.append(f"reference[{idx}]: duplicate (code, code_system) {key!r}")
+        seen_keys.add(key)
+        # MA range ordering.
+        lo, hi = rec.get("ma_range_low"), rec.get("ma_range_high")
+        if lo is not None and hi is not None and lo > hi:
+            problems.append(
+                f"reference[{idx}] code={rec.get('code')!r}: ma_range_low > ma_range_high"
+            )
+
+
 def validate(
     prices_path: Path | None = None,
     medicare_path: Path | None = None,
     procedures_path: Path | None = None,
+    reference_path: Path | None = None,
 ) -> list[str]:
     """Return a list of problem strings. Empty list == valid."""
     prices_path = prices_path or config.PRICES_JSON
     medicare_path = medicare_path or config.MEDICARE_JSON
     procedures_path = procedures_path or config.PROCEDURES_JSON
+    reference_path = reference_path or config.REFERENCE_JSON
 
     problems: list[str] = []
     valid = _valid_codes(procedures_path)
@@ -87,6 +117,10 @@ def validate(
         _check_provenance("medicare", idx, rec, problems)
         _check_code_known("medicare", idx, rec, valid, problems)
         _check_nonnegative("medicare", idx, rec, ("medicare_price",), problems)
+
+    # reference.json is optional (partial pipelines); validate only if present.
+    if Path(reference_path).exists():
+        _check_reference(Path(reference_path), valid, problems)
 
     return problems
 
