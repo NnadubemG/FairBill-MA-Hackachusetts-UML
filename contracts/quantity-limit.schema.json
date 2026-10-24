@@ -1,0 +1,30 @@
+{
+  "title": "QuantityLimit",
+  "description": "A typical maximum number of units for a billing code, with a source and year. Used by /core to flag quantities that may be worth asking about. Produced outside /core (the data pipeline); /core never invents a limit.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["code", "max_units", "data_source", "data_year"],
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "Billing code this limit applies to."
+    },
+    "code_system": {
+      "type": ["string", "null"],
+      "enum": ["CPT", "HCPCS", "DRG", "REV", "ICD10", "OTHER", null],
+      "description": "Which coding system `code` belongs to. Set it whenever known."
+    },
+    "max_units": {
+      "type": "number",
+      "description": "Typical maximum units for one line. Must be greater than zero."
+    },
+    "data_source": {
+      "type": "string",
+      "description": "Where this limit came from. Required and non-empty."
+    },
+    "data_year": {
+      "type": "integer",
+      "description": "Year the limit is from. Required."
+    }
+  }
+}

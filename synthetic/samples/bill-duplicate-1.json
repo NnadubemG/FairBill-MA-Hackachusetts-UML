@@ -5,6 +5,7 @@
     "statement_date": "2026-07-02",
     "total_billed": 773.43
   },
+  "bundle_pairs": [],
   "expected_flags": [
     {
       "flag_type": "duplicate_line_item",
@@ -188,6 +189,7 @@
       "medicare_price": 900.0
     }
   ],
+  "quantity_limits": [],
   "scenario": "duplicate",
   "seed": 1
 }

@@ -5,6 +5,7 @@
     "statement_date": "2026-05-13",
     "total_billed": 1784.92
   },
+  "bundle_pairs": [],
   "expected_flags": [],
   "line_items": [
     {
@@ -168,6 +169,7 @@
       "medicare_price": 900.0
     }
   ],
+  "quantity_limits": [],
   "scenario": "clean",
   "seed": 1
 }

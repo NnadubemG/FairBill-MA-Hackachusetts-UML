@@ -113,13 +113,36 @@ export interface AnalysisResult {
 
 // --- Synthetic bills (produced by /synthetic; see synthetic-bill.schema.json) ---
 
+export type ModifierIndicator = "0" | "1" | "9";
+
+/** A typical maximum number of units for a code, with source and year. */
+export interface QuantityLimit {
+  code: string;
+  code_system?: CodeSystem | null;
+  max_units: number;
+  data_source: string;
+  data_year: number;
+}
+
+/** Two codes normally billed together. The flag goes on the code_2 line.
+ *  "0" may not be billed together; "1" only with a modifier; "9" edit does not apply. */
+export interface BundlePair {
+  code_1: string;
+  code_2: string;
+  modifier_indicator: ModifierIndicator;
+  data_source: string;
+  data_year: number;
+}
+
 export type SyntheticScenario =
   | "clean"
   | "duplicate"
   | "high_price"
   | "unknown_code"
   | "injection"
-  | "mixed";
+  | "mixed"
+  | "quantity"
+  | "unbundling";
 
 /** Fictional statement header. statement_date is ISO 8601 (YYYY-MM-DD). */
 export interface BillMetadata {
@@ -144,6 +167,10 @@ export interface SyntheticBill {
   line_items: LineItem[];
   /** Fictional reference prices (data_source "synthetic-demo"). */
   price_references: PriceReference[];
+  /** Optional (older bills omit it). Pass to analyze as quantity_limits. */
+  quantity_limits?: QuantityLimit[];
+  /** Optional (older bills omit it). Pass to analyze as bundle_pairs. */
+  bundle_pairs?: BundlePair[];
   /** Exactly what /core should return for line_items and price_references. */
   expected_flags: ExpectedFlag[];
 }

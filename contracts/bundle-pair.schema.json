@@ -1,0 +1,30 @@
+{
+  "title": "BundlePair",
+  "description": "Two codes that a published coding edit says are normally billed together. code_1 is the primary code; code_2 is the code the edit says should not be billed separately. Matches the pipeline's ncci_pairs record. Used by /core for possible_unbundling flags.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["code_1", "code_2", "modifier_indicator", "data_source", "data_year"],
+  "properties": {
+    "code_1": {
+      "type": "string",
+      "description": "Primary code."
+    },
+    "code_2": {
+      "type": "string",
+      "description": "Code that is normally part of code_1. The flag is placed on the line with this code."
+    },
+    "modifier_indicator": {
+      "type": "string",
+      "enum": ["0", "1", "9"],
+      "description": "\"0\" the pair may not be billed together; \"1\" may be billed together only with an appropriate modifier; \"9\" the edit does not apply (ignored by /core)."
+    },
+    "data_source": {
+      "type": "string",
+      "description": "Where this pair came from. Required and non-empty."
+    },
+    "data_year": {
+      "type": "integer",
+      "description": "Year the pair is from. Required."
+    }
+  }
+}
