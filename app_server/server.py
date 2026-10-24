@@ -11,11 +11,18 @@ from __future__ import annotations
 import argparse
 import json
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
 from .app import AppContext, route
 
 MAX_BODY_BYTES = 8 * 1024 * 1024  # 8 MB cap (bills/images); rejects larger bodies.
+
+# The compare UI (ND-owned slice). Served at "/" so the app is viewable in a browser.
+_UI_FILE = Path(__file__).resolve().parent.parent / "frontend" / "src" / "compare" / "index.html"
+
+# Paths handled by the JSON API (everything else GET falls through to the UI).
+_API_PATHS = {"/health", "/procedures", "/compare", "/extract", "/analyze", "/letter"}
 
 
 def make_handler(ctx: AppContext) -> type[BaseHTTPRequestHandler]:
@@ -37,8 +44,23 @@ def make_handler(ctx: AppContext) -> type[BaseHTTPRequestHandler]:
         def do_OPTIONS(self):  # CORS preflight
             self._send(204, {})
 
+        def _send_html(self, status: int, html: bytes) -> None:
+            self.send_response(status)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.send_header("Content-Length", str(len(html)))
+            self.end_headers()
+            self.wfile.write(html)
+
         def do_GET(self):  # noqa: N802
             parsed = urlparse(self.path)
+            # Serve the compare UI for the root and any non-API GET path.
+            if parsed.path in ("/", "/index.html") or parsed.path not in _API_PATHS:
+                if parsed.path in ("/", "/index.html"):
+                    if _UI_FILE.exists():
+                        self._send_html(200, _UI_FILE.read_bytes())
+                    else:
+                        self._send_html(404, b"<h1>compare UI not built</h1>")
+                    return
             query = parse_qs(parsed.query)
             status, payload = route(ctx, "GET", parsed.path, query, None)
             self._send(status, payload)

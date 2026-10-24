@@ -30,6 +30,19 @@ def _valid_codes(procedures_path: Path) -> set[str]:
     return {row["code"] for row in data}
 
 
+def _read_optional(path: Path) -> list[dict]:
+    """Read a processed JSON list, treating a missing file as empty.
+
+    Several processed outputs come from manually-downloaded raw inputs (e.g. the CMS
+    PFS file -> medicare.json). A partial pipeline that hasn't produced one yet is a
+    valid state, not a validation error, so a missing file reads as [].
+    """
+    if not path.exists():
+        return []
+    data = jsonio.read_json(path)
+    return data if isinstance(data, list) else []
+
+
 def _check_provenance(label: str, idx: int, rec: dict, problems: list[str]) -> None:
     source = rec.get("data_source")
     year = rec.get("data_year")
@@ -146,13 +159,13 @@ def validate(
     problems: list[str] = []
     valid = _valid_codes(procedures_path)
 
-    for idx, rec in enumerate(jsonio.read_json(prices_path)):
+    for idx, rec in enumerate(_read_optional(Path(prices_path))):
         _check_provenance("prices", idx, rec, problems)
         _check_code_known("prices", idx, rec, valid, problems)
         _check_nonnegative("prices", idx, rec, _PRICE_FIELDS, problems)
         _check_ordering("prices", idx, rec, problems)
 
-    for idx, rec in enumerate(jsonio.read_json(medicare_path)):
+    for idx, rec in enumerate(_read_optional(Path(medicare_path))):
         _check_provenance("medicare", idx, rec, problems)
         _check_code_known("medicare", idx, rec, valid, problems)
         _check_nonnegative("medicare", idx, rec, ("medicare_price",), problems)

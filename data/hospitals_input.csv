@@ -1,0 +1,2 @@
+id,name,city,type,format_id,source_file
+lahey_burlington,"Lahey Hospital & Medical Center",Burlington,academic,cms_json,hospitals/lahey_burlington.json

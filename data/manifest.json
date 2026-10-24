@@ -1,0 +1,84 @@
+{
+  "sources": {
+    "bidmc": {
+      "date_downloaded": null,
+      "format": "cms_csv",
+      "local_path": "C:\\Users\\fijis\\OneDrive\\Documents\\Hackachusetts-UML\\data\\raw\\hospitals\\bidmc.csv",
+      "name": "Beth Israel Deaconess Medical Center standard charges",
+      "notes": "Linked from https://bilh.org/billing-financial-services/price-transparency . Download BIDMC's standard charges file (CSV or JSON) into data/raw/hospitals/ and set its format in hospitals_input.csv.",
+      "size_bytes": null,
+      "status": "manual",
+      "url": null
+    },
+    "chia_prices": {
+      "date_downloaded": null,
+      "format": "xlsx",
+      "local_path": "C:\\Users\\fijis\\OneDrive\\Documents\\Hackachusetts-UML\\data\\raw\\chia\\chia_procedure_prices.xlsx",
+      "name": "CHIA CompareCare procedure price data (Excel)",
+      "notes": "From https://www.chiamass.gov/procedure-price-data (form-gated). Download the Excel into data/raw/chia/ and record the data year from the file. Treat as older data.",
+      "size_bytes": null,
+      "status": "manual",
+      "url": null
+    },
+    "chia_relative": {
+      "date_downloaded": null,
+      "format": "manual_csv",
+      "local_path": "C:\\Users\\fijis\\OneDrive\\Documents\\Hackachusetts-UML\\data\\raw\\chia_relative_price_manual.csv",
+      "name": "CHIA relative price tiers",
+      "notes": "From https://www.chiamass.gov/relative-price-and-provider-price-variation/ . If no downloadable table, hand-enter into data/raw/chia_relative_price_manual.csv with columns hospital,tier_or_value,year,source_url.",
+      "size_bytes": null,
+      "status": "manual",
+      "url": null
+    },
+    "lahey": {
+      "date_downloaded": "2026-10-24",
+      "format": "cms_json",
+      "local_path": "C:\\Users\\fijis\\OneDrive\\Documents\\Hackachusetts-UML\\data\\raw\\hospitals\\lahey_burlington.json",
+      "name": "Lahey Hospital & Medical Center (Burlington) standard charges",
+      "notes": "already complete",
+      "size_bytes": 24764786,
+      "status": "ok",
+      "url": "https://www.lahey.org/042704686_lahey-hospital-medical-center-burlington_standardcharges.json"
+    },
+    "massgeneral": {
+      "date_downloaded": null,
+      "format": "cms_csv",
+      "local_path": "C:\\Users\\fijis\\OneDrive\\Documents\\Hackachusetts-UML\\data\\raw\\hospitals\\mass_general.csv",
+      "name": "Massachusetts General Hospital standard charges",
+      "notes": "~1.8 GB CSV delivered as a ZIP from Mass General Brigham. Direct link is not script-discoverable; open https://www.massgeneral.org/notices/billing/cms-required-hospital-charge-data and download the standard charges file manually into data/raw/hospitals/.",
+      "size_bytes": null,
+      "status": "manual",
+      "url": null
+    },
+    "ncci": {
+      "date_downloaded": null,
+      "format": "ncci_txt",
+      "local_path": "C:\\Users\\fijis\\OneDrive\\Documents\\Hackachusetts-UML\\data\\raw\\ncci_ptp_raw.csv",
+      "name": "CMS NCCI procedure-to-procedure (PTP) edits, practitioner + hospital",
+      "notes": "From the CMS NCCI edits page. Usually behind a license click-through, so download the Column One/Column Two edit file(s) manually and export to CSV as data/raw/ncci_ptp_raw.csv.",
+      "size_bytes": null,
+      "status": "manual",
+      "url": null
+    },
+    "pfs": {
+      "date_downloaded": null,
+      "format": "pfs_csv",
+      "local_path": "C:\\Users\\fijis\\OneDrive\\Documents\\Hackachusetts-UML\\data\\raw\\cms_pfs.csv",
+      "name": "CMS Physician Fee Schedule national payment amount (Oct 2026, non-QP)",
+      "notes": "From https://www.cms.gov/medicare/payment/fee-schedules/physician/national-payment-amount-file/pfrev26d . Use the NON-QP file (2026 has two conversion factors). Export the payment-amount member to CSV as data/raw/cms_pfs.csv. data_source label: 'Medicare national, non-QP'.",
+      "size_bytes": null,
+      "status": "manual",
+      "url": null
+    },
+    "umass": {
+      "date_downloaded": null,
+      "format": "cms_csv",
+      "local_path": "C:\\Users\\fijis\\OneDrive\\Documents\\Hackachusetts-UML\\data\\raw\\hospitals\\umass_memorial.csv",
+      "name": "UMass Memorial Medical Center standard charges",
+      "notes": "From https://ummhealth.org/.../price-transparency . Download the standard charges file into data/raw/hospitals/.",
+      "size_bytes": null,
+      "status": "manual",
+      "url": null
+    }
+  }
+}

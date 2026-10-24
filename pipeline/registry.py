@@ -8,12 +8,14 @@ import the parser module and add one entry here.
 from __future__ import annotations
 
 from .parsers.base import Parser
+from .parsers.cms_hospital_json import CmsHospitalJsonParser
 from .parsers.hospital_generic_csv import GenericCsvParser
 from .parsers.hospital_generic_json import GenericJsonParser
 
 REGISTRY: dict[str, Parser] = {
     GenericCsvParser.format_id: GenericCsvParser(),
     GenericJsonParser.format_id: GenericJsonParser(),
+    CmsHospitalJsonParser.format_id: CmsHospitalJsonParser(),
 }
 
 
