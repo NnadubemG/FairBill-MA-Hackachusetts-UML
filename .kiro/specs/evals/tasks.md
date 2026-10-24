@@ -21,7 +21,7 @@ explain and letter code must be available on this branch).
   - Tests A1 to A12; properties PE1, PE2, PE3, PE4, PE9.
   - _Requirements: R2_
 
-- [ ] 4. Flag scoring
+- [x] 4. Flag scoring
   - `score_flags.py`: map flags through the alignment, per-type catch rate, false positives,
     clean-bill rate, `/core` self-check.
   - Tests F1 to F7.
