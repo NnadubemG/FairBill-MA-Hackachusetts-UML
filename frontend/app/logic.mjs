@@ -2,6 +2,7 @@
 // unit-testable with `node --test`. Every price shown comes from the API; these
 // functions only format or group what the API returned. They never invent a number.
 
+// language-guard: allow  (this list exists so the UI can be tested against it)
 export const BANNED_PHRASES = [
   "overcharged",
   "illegal",

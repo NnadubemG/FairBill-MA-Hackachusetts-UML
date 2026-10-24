@@ -106,6 +106,36 @@ def load_samples(samples_dir: Path = SAMPLES_DIR) -> list[dict]:
         )
     order = list(_SAMPLE_LABELS)
     out.sort(key=lambda s: order.index(s["scenario"]))
+    return _load_demo_bills() + out
+
+
+DEMO_DIR = REPO_ROOT / "data" / "demo"
+
+
+def _load_demo_bills(demo_dir: Path = DEMO_DIR) -> list[dict]:
+    """Fictional test bills priced against the real processed data (data/demo/*.json).
+
+    Listed first in the picker. Only label, metadata and line items are sent.
+    """
+    out: list[dict] = []
+    if not demo_dir.exists():
+        return out
+    for path in sorted(demo_dir.glob("*.json")):
+        try:
+            bill = jsonio.read_json(path)
+        except (OSError, ValueError):
+            continue
+        if not isinstance(bill, dict) or not bill.get("line_items"):
+            continue
+        out.append(
+            {
+                "id": str(bill.get("id") or path.stem),
+                "label": str(bill.get("label") or path.stem),
+                "scenario": str(bill.get("scenario") or "demo"),
+                "metadata": bill.get("metadata") or {},
+                "line_items": bill["line_items"],
+            }
+        )
     return out
 
 
