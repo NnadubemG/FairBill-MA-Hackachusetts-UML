@@ -49,7 +49,7 @@ that prove it. Stay inside `/backend/letter`. Start only after open decision 1 i
   - Tests L2, L3 (no call), L9, L10, L11, L13, L14; properties PL1, PL3, PL4, PL5.
   - _Requirements: R1.1, R1.2, R1.5, R1.6, R5.1, R5.2, R5.4, R7.2_
 
-- [ ] 8. Client wiring and privacy
+- [x] 8. Client wiring and privacy
   - `client.py`: `make_letter_client()` using `LETTER_MODEL_ID`.
   - Tests L20, L23; privacy PR1 (logs, output, warnings, no files).
   - _Requirements: R5.6, R5.7, R9.1, R9.2, R9.3, R9.4_
