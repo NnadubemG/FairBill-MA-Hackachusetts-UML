@@ -27,7 +27,7 @@ explain and letter code must be available on this branch).
   - Tests F1 to F7.
   - _Requirements: R3_
 
-- [ ] 5. Oracle (fake model) and invariants
+- [x] 5. Oracle (fake model) and invariants
   - `oracle.py` (extract, explain, letter replies from the truth), `invariants.py`.
   - Tests X3, oracle replies pass the real handlers; property PE5.
   - _Requirements: R4.3, R8.2_
