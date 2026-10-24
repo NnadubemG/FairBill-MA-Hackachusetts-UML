@@ -53,7 +53,7 @@ requirements it covers and the tests that prove it.
   - Unit test T9; property test P3; privacy assertion PR1.
   - _Requirements: R6.1, R6.2, R7.1, R7.2_
 
-- [ ] 9. Wire test cases end to end + fixtures
+- [x] 9. Wire test cases end to end + fixtures
   - Add remaining property tests (P4) and a small fixtures module of scripted model
     outputs (no real bill data).
   - Confirm the full suite runs offline with the fake client.
