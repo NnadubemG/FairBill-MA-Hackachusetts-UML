@@ -64,6 +64,7 @@ def _to_line_item(obj: dict[str, Any]) -> LineItem:
         raw_description=obj.get("raw_description"),
         quantity=obj.get("quantity"),
         unit=obj.get("unit"),
+        date_of_service=obj.get("date_of_service"),
     )
 
 

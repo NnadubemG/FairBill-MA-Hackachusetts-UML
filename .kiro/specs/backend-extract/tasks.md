@@ -41,7 +41,7 @@ requirements it covers and the tests that prove it.
   - Unit tests T2, T3, T4; property tests P2.
   - _Requirements: R2.1, R2.2, R2.3, R2.4, R4.3, R4.4_
 
-- [ ] 7. Handler orchestration + validation retry
+- [x] 7. Handler orchestration + validation retry
   - `handler.py`: wire client -> validate -> retry once -> postprocess ->
     `ExtractionResult`.
   - Unit tests T1, T5, T6, T8.
