@@ -13,6 +13,8 @@ import sys
 
 import pytest
 
+from synthetic import SCENARIOS, STYLES
+
 from evals import __main__ as cli
 from evals import config, run as run_module
 from evals.corpus import build_corpus
@@ -20,6 +22,7 @@ from evals.invariants import Violation
 from evals.oracle import OracleClient
 
 BILLS = build_corpus()
+EXPECTED_BILLS = len(SCENARIOS) * len(STYLES)   # computed from /synthetic, never hard-coded
 FAKE_KEY = "fake-test-key-not-real"
 MODEL_VARS = (config.ENV_EXTRACT_MODEL, config.ENV_EXPLAIN_MODEL, config.ENV_LETTER_MODEL)
 
@@ -68,8 +71,8 @@ def test_k1_fake_run_works_offline_and_scores_the_oracle_perfectly(tmp_path, mon
     report = (tmp_path / "r.md").read_text()
     assert "FAKE ORACLE - not a model" in report
     assert "| Line recall | 100.0% | >= 95.0% | PASS |" in report
-    assert "Thresholds failed: 0 of 13" in out and "Running 16 bills in fake mode." in out
-    assert "[1/16] " in out and "[16/16] " in out
+    assert "Thresholds failed: 0 of 13" in out and f"Running {EXPECTED_BILLS} bills in fake mode." in out
+    assert f"[1/{EXPECTED_BILLS}] " in out and f"[{EXPECTED_BILLS}/{EXPECTED_BILLS}] " in out
     assert "FAKE ORACLE run" in out
     assert not (tmp_path / "cache").exists()                 # the oracle needs no cache
 
@@ -78,7 +81,7 @@ def test_k1_progress_lines_name_bills_only(tmp_path, monkeypatch):
     clear_env(monkeypatch)
     _, out, _ = run_cli(["--fake", *paths(tmp_path)])
     progress = [ln for ln in out.splitlines() if ln.startswith("[")]
-    assert len(progress) == 16
+    assert len(progress) == EXPECTED_BILLS
     assert all(ln.endswith(": done") for ln in progress)
     for b in BILLS:
         for li in b.truth.line_items:

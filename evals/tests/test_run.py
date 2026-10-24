@@ -9,6 +9,8 @@ from dataclasses import replace
 
 import pytest
 
+from synthetic import SCENARIOS, STYLES
+
 from evals import config, run as run_module
 from evals.cache import CachingClient
 from evals.corpus import build_corpus
@@ -23,6 +25,7 @@ from evals.run import (
 )
 
 BILLS = build_corpus()
+EXPECTED_BILLS = len(SCENARIOS) * len(STYLES)   # computed from /synthetic, never hard-coded
 
 
 def fake_run(bills=BILLS, oracle=None, progress=None):
@@ -35,11 +38,11 @@ def fake_run(bills=BILLS, oracle=None, progress=None):
 def test_x1_oracle_run_is_perfect_everywhere():
     r = fake_run()
     assert r.mode == "fake" and r.models == {t: config.FAKE_MODEL_LABEL for t in TASKS}
-    assert len(r.bills) == 16
+    assert len(r.bills) == EXPECTED_BILLS
     e, f = r.extraction, r.flags
     assert (e.line_recall, e.line_precision, e.code_exact, e.charge_exact) == (1.0, 1.0, 1.0, 1.0)
     assert e.units_exact == 1.0 and e.date_exact == 1.0 and e.hallucinated_codes == 0
-    assert e.injection_extra_lines == 0 and e.fallback_bills == 0 and e.bills == 16
+    assert e.injection_extra_lines == 0 and e.fallback_bills == 0 and e.bills == EXPECTED_BILLS
     assert f.overall_catch_rate == 1.0 and f.min_catch_rate == 1.0 and f.total_false_positives == 0
     assert f.fp_rate_clean == 0.0 and f.core_self_check_mismatches == 0 and f.core_errors == 0
     assert r.explain_total > 0 and r.explain_fallback_rate == 0.0
@@ -78,7 +81,7 @@ def test_x2_x4_a_letter_is_made_only_for_bills_that_have_flags():
 def test_x5_when_every_call_misses_the_cache_everything_falls_back_and_nothing_crashes(tmp_path):
     cache = CachingClient({t: None for t in TASKS}, {t: "m" for t in TASKS}, tmp_path / "c", cache_only=True)
     r = run_corpus(BILLS, cache, mode="cache-only")
-    assert r.extraction.fallback_bills == 16 and r.extraction.line_recall == 0.0
+    assert r.extraction.fallback_bills == EXPECTED_BILLS and r.extraction.line_recall == 0.0
     assert r.explain_fallback_rate == 1.0 and r.letter_fallback_rate == 1.0
     assert r.violations == ()                               # fallbacks are still safe
     assert r.stats.real_calls == 0 and r.stats.cache_only_misses > 0 and r.stats.hits == 0
@@ -93,7 +96,7 @@ def test_the_call_budget_stops_real_calls_and_the_run_still_finishes(tmp_path):
                           tmp_path / "c", max_calls=5)
     r = run_corpus(BILLS, cache, mode="real")
     assert r.stats.budget_hit and r.stats.real_calls == 5
-    assert len(r.bills) == 16 and r.violations == ()
+    assert len(r.bills) == EXPECTED_BILLS and r.violations == ()
     assert 0 < r.extraction.line_recall < 1.0               # 5 bills were read, the rest fell back
 
 
@@ -103,7 +106,7 @@ def test_a_second_run_is_answered_from_the_cache_and_gives_the_same_results(tmp_
     oracle = OracleClient(BILLS)
     first_cache = CachingClient({t: oracle.inner(t) for t in TASKS}, {t: "fake" for t in TASKS}, tmp_path / "c")
     first = run_corpus(BILLS, first_cache, mode="real")
-    assert first.stats.hits == 0 and first.stats.misses == first.stats.real_calls > 16
+    assert first.stats.hits == 0 and first.stats.misses == first.stats.real_calls > len(BILLS)
     assert first.extraction.line_recall == 1.0
 
     replay_cache = CachingClient({t: None for t in TASKS}, {t: "fake" for t in TASKS}, tmp_path / "c", cache_only=True)
