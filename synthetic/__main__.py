@@ -30,6 +30,7 @@ SAMPLE_SPECS: tuple[tuple[str, int, str], ...] = (
     ("mixed", 1, "messy"),
     ("quantity", 1, "plain"),
     ("unbundling", 1, "plain"),
+    ("no_code", 1, "plain"),
 )
 
 

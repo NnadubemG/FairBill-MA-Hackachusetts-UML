@@ -170,7 +170,7 @@ class BundlePair:
 
 
 SyntheticScenario = Literal[
-    "clean", "duplicate", "high_price", "unknown_code", "injection", "mixed", "quantity", "unbundling"
+    "clean", "duplicate", "high_price", "unknown_code", "injection", "mixed", "quantity", "unbundling", "no_code"
 ]
 
 

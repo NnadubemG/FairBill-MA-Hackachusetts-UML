@@ -40,6 +40,7 @@ The data shape is `contracts/synthetic-bill.schema.json` (`SyntheticBill`).
 | `mixed` | duplicate, high price, and unknown code together | all of the above |
 | `quantity` | one line with more units than its limit | `quantity_implausible` on that line |
 | `unbundling` | code 93000 plus 93005, which the demo pair says is part of it | `possible_unbundling` on the 93005 line |
+| `no_code` | 2 or 3 lines print no code; ground truth keeps `code: null` (never guessed) | none (no code, so nothing to compare) |
 
 To check `/core` against a bill, pass everything the bill carries:
 
@@ -54,7 +55,7 @@ and `messy` (`MM/DD/YY` dates, no `$`, extra header and footer lines).
 
 ## Samples
 
-`synthetic/samples/` holds one bill per scenario, eight in all (seed 1) as JSON, text, and PDF. A test fails if
+`synthetic/samples/` holds one bill per scenario, nine in all (seed 1) as JSON, text, and PDF. A test fails if
 they are out of date; fix it with `python -m synthetic --samples`. Do not edit them by hand.
 `.gitattributes` keeps them byte-identical across operating systems.
 

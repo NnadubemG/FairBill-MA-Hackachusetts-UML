@@ -75,6 +75,14 @@ All of these are recorded in `docs/kiro-log.md`:
   plus tests that fail if the generators ever stop triggering the flags.
 - **A crash the stronger test then found (Thomas).** `analyze` raised an error when two matching records
   existed and one had no `data_year`. It is meant to never raise. Fixed, with a regression test.
+- **Four bugs the tests caught in the AI lane (Sam).** All recorded in the log:
+  - A Hypothesis test found that an amount of negative zero printed as `$-0.00`. It now prints `$0.00`.
+  - A test found that a date like `2026-03-04` let `3` and `4` pass as separate numbers (so "I called 3 times"
+    would slip through). A date is now allowed only as a whole.
+  - A Hypothesis run found that the code-fence parser failed on JSON containing three backticks inside a
+    string. The parser now tries the whole reply first and strips a fence only if that fails.
+  - A paragraph with a line break only at the very start or end was rejected, but models often add those.
+    The edges are now trimmed; line breaks inside a paragraph are still rejected.
 - **A path bug in our own hook (Thomas).** Testing the guard showed that stripping `./` removed the leading
   dot from `.kiro/` paths.
 - **Line endings would corrupt the sample PDFs.** One machine rewrites line endings, so we added
@@ -108,7 +116,10 @@ All of these are recorded in `docs/kiro-log.md`:
 - **Pipeline.** `python -m pipeline.run all` runs all 7 stages in order once real files are in `/data/raw`.
 
 `[NEEDS INPUT from David]` Public URL, what runs on AWS, and whether the end-to-end flow works on the live URL.
-`[NEEDS INPUT from Sam]` Explain and letter handlers, eval results, and which Bedrock model was used.
+`[NEEDS INPUT from Sam]` The eval numbers from the real run (extraction, flags, explain, letter, and the
+13 thresholds), and whether any threshold failed. The fake-oracle run only tests the harness, not a model.
+`[NEEDS INPUT from Sam]` The model names used for extract, explain, and letter (the log says he switched from
+AWS Bedrock to the direct Anthropic API).
 `[NEEDS INPUT from ND]` Which real hospital price files were processed, and how many procedures and hospitals.
 `[NEEDS INPUT from Thomas]` Video link and a demo walkthrough script.
 
@@ -121,7 +132,8 @@ All of these are recorded in `docs/kiro-log.md`:
 - No independent PDF validator was available; PDF validity was checked by our own tests and by a person.
 - The quantity and unbundling checks need data that the pipeline must supply (`QuantityLimit`,
   `BundlePair`); until it does, `/core` simply returns no such flags.
-- `[NEEDS INPUT from Sam]` The log notes a real Bedrock model id was still pending from David.
+- `[NEEDS INPUT from Sam]` Whether the real (non-fake) model run has happened yet. Until it does, the eval
+  numbers above are not model results.
 
 ## 7. What we would do next
 

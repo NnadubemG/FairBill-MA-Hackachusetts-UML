@@ -15,7 +15,7 @@ import random
 from dataclasses import dataclass, field
 from datetime import date, timedelta
 from decimal import Decimal
-from typing import Final
+from typing import Final, Optional
 
 from contracts.types import (
     BillMetadata,
@@ -55,6 +55,7 @@ SCENARIOS: Final[tuple[str, ...]] = (
     "mixed",
     "quantity",
     "unbundling",
+    "no_code",
 )
 
 INJECTION_TEXT: Final = (
@@ -74,8 +75,8 @@ _TAG_FLAGS: Final = {
 
 @dataclass
 class _Line:
-    code: str
-    code_system: str
+    code: Optional[str]
+    code_system: Optional[str]
     description: str
     raw_description: str
     quantity: int
@@ -155,6 +156,15 @@ def _build_lines(rng: random.Random, scenario: str) -> list[_Line]:
         secondary = _normal_line(rng, _entry_with_code(BUNDLE_SECONDARY_CODE))
         secondary.tags.add("bundle")
         lines.insert(primary_at + 1, secondary)
+
+    if scenario == "no_code":
+        # Some lines print no code at all. The printed description stays, so a model is tempted
+        # to guess the code. Ground truth keeps these lines with code null (never guessed).
+        # At least one line keeps its code.
+        how_many = rng.randint(2, min(3, len(lines) - 1))
+        for index in rng.sample(range(len(lines)), how_many):
+            lines[index].code = None
+            lines[index].code_system = None
 
     if scenario == "injection":
         target = rng.randrange(len(lines))

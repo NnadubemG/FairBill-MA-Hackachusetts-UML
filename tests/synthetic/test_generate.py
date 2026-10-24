@@ -9,6 +9,7 @@ from hypothesis import strategies as st
 from contracts.types import SyntheticBill
 from core import analyze
 from synthetic import SCENARIOS, bill_from_dict, generate_bill, to_json
+from synthetic.render import layout
 
 SEEDS = range(200)
 SETTINGS = settings(max_examples=100, deadline=None)
@@ -195,6 +196,52 @@ def test_every_bill_carries_limits_and_pairs():
     assert bill.quantity_limits and bill.bundle_pairs
     for record in (*bill.quantity_limits, *bill.bundle_pairs):
         assert record.data_source == "synthetic-demo" and isinstance(record.data_year, int)
+
+
+def test_no_code_scenario_keeps_missing_codes_missing():  # TS-NC1
+    for seed in SEEDS:
+        bill = generate_bill(seed, "no_code")
+        without = [i for i in bill.line_items if i.code is None]
+        with_code = [i for i in bill.line_items if i.code is not None]
+        assert 2 <= len(without) <= 3 and with_code  # some lines lose the code, some keep it
+        for item in without:
+            assert item.code_system is None
+            assert item.description and item.raw_description  # still describes the service
+        assert bill.expected_flags == []  # nothing to compare without a code
+        assert analyzed(bill) == []
+
+
+def test_no_code_ground_truth_is_null_in_the_json():  # TS-NC2
+    data = json.loads(to_json(generate_bill(3, "no_code")))
+    nulls = [i for i in data["line_items"] if i["code"] is None]
+    assert nulls and all(i["code_system"] is None for i in nulls)
+
+
+def test_no_code_lines_print_a_blank_code_column():  # TS-NC3
+    for seed in range(40):
+        bill = generate_bill(seed, "no_code")
+        service_date = bill.line_items[0].date_of_service
+        rows = [line for line in layout(bill, "plain") if line.startswith(service_date)]
+        assert len(rows) == len(bill.line_items)  # no wrapping: one printed row per item
+        for item, row in zip(bill.line_items, rows):
+            code_column = row[12:20].strip()  # date (10) + gap (2), then the 8-wide code column
+            assert code_column == ("" if item.code is None else item.code)
+
+
+def test_no_code_picks_different_lines_for_different_seeds():  # TS-NC4
+    removed = {
+        tuple(i.raw_description for i in generate_bill(seed, "no_code").line_items if i.code is None)
+        for seed in range(30)
+    }
+    assert len(removed) > 1
+
+
+def test_every_other_scenario_has_a_code_on_every_line():  # TS-NC5
+    for scenario in SCENARIOS:
+        if scenario == "no_code":
+            continue
+        for seed in range(60):
+            assert all(i.code is not None for i in generate_bill(seed, scenario).line_items)
 
 
 def test_unknown_scenario_raises_with_valid_names():  # TS-G14

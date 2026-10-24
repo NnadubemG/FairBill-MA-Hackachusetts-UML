@@ -17,7 +17,8 @@ def test_plain_text_contains_every_line_item():  # TS-R1
             bill = generate_bill(seed, scenario)
             text = render_text(bill, "plain")
             for item in bill.line_items:
-                assert item.code in text
+                if item.code is not None:  # a no_code line prints a blank code column
+                    assert item.code in text
                 assert f"${money(item.billed_amount)}" in text
                 for word in (item.raw_description or "").split():
                     assert word in text
@@ -34,7 +35,8 @@ def test_messy_text_changes_format_but_keeps_content():  # TS-R2
             assert "$" not in text
             assert "ACCT STMT" in text and "PLEASE REMIT" in text
             for item in bill.line_items:
-                assert item.code in text
+                if item.code is not None:
+                    assert item.code in text
                 assert money(item.billed_amount) in text
                 for word in (item.raw_description or "").split():
                     assert word in text

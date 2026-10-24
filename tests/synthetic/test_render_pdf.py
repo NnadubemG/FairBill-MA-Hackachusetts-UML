@@ -44,7 +44,8 @@ def test_pdf_contains_every_code_and_amount():  # TS-R5
         bill = generate_bill(3, scenario)
         pdf = render_pdf(bill, "plain")
         for item in bill.line_items:
-            assert item.code.encode() in pdf
+            if item.code is not None:  # a no_code line prints a blank code column
+                assert item.code.encode() in pdf
             assert f"${Decimal(str(item.billed_amount)):,.2f}".encode() in pdf
 
 

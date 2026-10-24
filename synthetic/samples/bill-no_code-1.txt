@@ -1,0 +1,16 @@
+Sample Harbor Hospital (FICTIONAL)
+PATIENT STATEMENT
+Statement date: 2026-02-22
+Account: SYN-no_code-1    Patient: SAMPLE PATIENT (FICTIONAL)
+
+DATE        CODE      DESCRIPTION                          QTY        AMOUNT
+----------------------------------------------------------------------------
+2026-02-16            EKG 12 LEAD                            1        $21.74
+2026-02-16  99284     ER VISIT LVL4                          1       $266.40
+2026-02-16  99285     ER VISIT LVL5                          1       $302.50
+2026-02-16  71046     XR CHEST 2V                            1        $59.60
+2026-02-16  J1100     DEXAMETHASONE INJ                      2         $4.24
+2026-02-16  80053     CMP PANEL                              1        $19.65
+2026-02-16            IV PUSH SNGL                           1        $85.20
+----------------------------------------------------------------------------
+TOTAL CHARGES                                                        $759.33

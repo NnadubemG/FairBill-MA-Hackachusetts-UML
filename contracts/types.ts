@@ -142,7 +142,8 @@ export type SyntheticScenario =
   | "injection"
   | "mixed"
   | "quantity"
-  | "unbundling";
+  | "unbundling"
+  | "no_code";
 
 /** Fictional statement header. statement_date is ISO 8601 (YYYY-MM-DD). */
 export interface BillMetadata {

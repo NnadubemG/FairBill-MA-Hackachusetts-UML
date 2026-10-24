@@ -15,7 +15,7 @@
     },
     "scenario": {
       "type": "string",
-      "enum": ["clean", "duplicate", "high_price", "unknown_code", "injection", "mixed", "quantity", "unbundling"],
+      "enum": ["clean", "duplicate", "high_price", "unknown_code", "injection", "mixed", "quantity", "unbundling", "no_code"],
       "description": "Which recipe produced the bill."
     },
     "bill_metadata": {
