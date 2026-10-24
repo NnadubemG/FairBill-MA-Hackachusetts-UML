@@ -48,7 +48,7 @@ explain and letter code must be available on this branch).
   - Tests K1, K2, K3, K4, K5, K7; privacy PR1.
   - _Requirements: R8, R9_
 
-- [ ] 9. README and full suite
+- [x] 9. README and full suite
   - `README.md`: how to run, env vars, cache, comparing models, limits (optimistic extraction,
     no real-bill step), how to read the report.
   - Run `pytest evals` and `pytest backend`. Print one fake-run report and read it.
