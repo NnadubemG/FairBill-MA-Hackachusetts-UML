@@ -10,7 +10,7 @@ python -m evals --cache-only              # replay from the disk cache, never ca
 ```
 
 ## What it measures
-For each of 16 bills (8 scenarios x 2 layouts, as PDFs):
+For each bill (one per scenario and layout, as PDFs; today 8 scenarios x 2 layouts = 16 bills):
 
 | Stage | What is checked |
 | --- | --- |
@@ -32,7 +32,7 @@ export EXPLAIN_MODEL_ID=...
 export LETTER_MODEL_ID=...
 python -m evals --out evals/results/run-small.md
 ```
-A full run is 40 model calls (16 extract + 12 explain + 12 letter). `--max-calls` (default 60)
+A full run is about 40 model calls today: one extract call per bill, plus one explain and one letter call per bill that has flags. `--max-calls` (default 60)
 stops real calls after N; cache hits do not count. If anything is missing the command prints
 the variable names and exits with code 2.
 

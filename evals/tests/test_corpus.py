@@ -17,8 +17,9 @@ from evals.corpus import PrivatePathError, build_corpus, ensure_not_private
 
 def test_s1_default_corpus_is_every_scenario_in_every_style():
     bills = build_corpus()
-    assert len(bills) == len(SCENARIOS) * len(STYLES) == 16
-    assert len({b.key for b in bills}) == 16
+    expected = len(SCENARIOS) * len(STYLES)        # computed, so a new scenario cannot break this
+    assert len(bills) == expected
+    assert len({b.key for b in bills}) == expected
     assert {b.scenario for b in bills} == set(SCENARIOS)
     assert {b.style for b in bills} == set(STYLES)
     for b in bills:

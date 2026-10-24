@@ -1,6 +1,11 @@
 [
   {
     "format_id": "cms_json",
+    "hospital_id": "bidmc",
+    "source_file": "hospitals/bidmc.json"
+  },
+  {
+    "format_id": "cms_json",
     "hospital_id": "lahey_burlington",
     "source_file": "hospitals/lahey_burlington.json"
   }

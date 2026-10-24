@@ -60,12 +60,15 @@ python -m pipeline.validate
 
 ## Known gaps (as of this writing)
 
-- **Downloaded automatically:** Lahey (Burlington) CMS JSON — the live format test case.
-- **Manual / not yet downloaded:** Mass General (~1.8 GB ZIP), BIDMC and other Beth
-  Israel Lahey hospitals, UMass Memorial, Baystate, Boston Medical Center, Cambridge
-  Health Alliance; CMS Physician Fee Schedule (PFS, drives `medicare.json`); CMS NCCI
-  edits (license click-through, drives `bundle_pairs.json`); CHIA procedure prices and
-  relative-price tiers (form-gated). See `manifest.json` for the status of each.
+- **Downloaded automatically:** Lahey (Burlington) and BIDMC (Boston) CMS price
+  transparency JSON files — two real MA hospitals, directly fetchable from their sites.
+- **Manual / not yet downloaded:** Mass General (~1.8 GB ZIP), other Beth Israel Lahey
+  hospitals, UMass Memorial, Baystate, Boston Medical Center, Cambridge Health Alliance;
+  CMS Physician Fee Schedule payment-amount file (PFS, drives `medicare.json` — the
+  data.cms.gov API exposes only Indicators/Localities tables, not the computed payment
+  amount, so this still needs the manual payment file); CMS NCCI edits (license
+  click-through, drives `bundle_pairs.json`); CHIA procedure prices and relative-price
+  tiers (form-gated). See `manifest.json` for the status of each.
 - Because PFS/NCCI/CHIA aren't downloaded yet, `medicare.json`, `bundle_pairs.json`,
   and `chia_tiers.json` are absent and the compare API returns `medicare: null` and
   `chia_tier: null` — honest empty, not fabricated.

@@ -1,5 +1,11 @@
 [
   {
+    "city": "Boston",
+    "id": "bidmc",
+    "name": "Beth Israel Deaconess Medical Center",
+    "type": "academic"
+  },
+  {
     "city": "Burlington",
     "id": "lahey_burlington",
     "name": "Lahey Hospital & Medical Center",

@@ -1,14 +1,14 @@
 {
   "sources": {
     "bidmc": {
-      "date_downloaded": null,
-      "format": "cms_csv",
-      "local_path": "C:\\Users\\fijis\\OneDrive\\Documents\\Hackachusetts-UML\\data\\raw\\hospitals\\bidmc.csv",
+      "date_downloaded": "2026-10-24",
+      "format": "cms_json",
+      "local_path": "C:\\Users\\fijis\\OneDrive\\Documents\\Hackachusetts-UML\\data\\raw\\hospitals\\bidmc.json",
       "name": "Beth Israel Deaconess Medical Center standard charges",
-      "notes": "Linked from https://bilh.org/billing-financial-services/price-transparency . Download BIDMC's standard charges file (CSV or JSON) into data/raw/hospitals/ and set its format in hospitals_input.csv.",
-      "size_bytes": null,
-      "status": "manual",
-      "url": null
+      "notes": "CMS hospital price transparency v2.x JSON (~28 MB). Direct from bidmc.org.",
+      "size_bytes": 28109168,
+      "status": "ok",
+      "url": "https://bidmc.org/042103881_beth-israel-deaconess-medical-center_standardcharges.json"
     },
     "chia_prices": {
       "date_downloaded": null,
