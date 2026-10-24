@@ -118,7 +118,7 @@ explanations, letters), and AWS SAM + CloudFront (deploy).
 
 - **Working app:** upload → confirm → flags → letter, plus a hospital price comparison. Nothing is
   stored, and it works offline in demo mode.
-- **Real data:** 2 Massachusetts hospitals (Lahey, BIDMC), 19 procedures, 122 price records parsed
-  from public price files (25–27 MB each).
+- **Real data:** 7 Massachusetts hospitals, 19 procedures, 405 price records from public price files,
+  plus the 2026 CMS Medicare fee schedule and quantity limits.
 - **Tests:** 413 + 452 Python and 40 frontend tests passing.
 - **Logged:** every notable catch is in `docs/kiro-log.md`, newest at the bottom.

@@ -4,3 +4,5 @@ synthetic/samples/** -text
 
 # The shared log is append-only: keep both sides' lines on merge instead of conflicting.
 docs/kiro-log.md merge=union
+# PDFs are binary everywhere; line-ending conversion would corrupt them.
+*.pdf binary
