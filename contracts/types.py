@@ -137,3 +137,38 @@ class AnalysisResult:
     flags: list[Flag]
     price_references: list[PriceReference] = field(default_factory=list)
     letter_draft: Optional[LetterDraft] = None
+
+
+# --- Synthetic bills (produced by /synthetic; see synthetic-bill.schema.json) ---
+
+SyntheticScenario = Literal["clean", "duplicate", "high_price", "unknown_code", "injection", "mixed"]
+
+
+@dataclass(frozen=True)
+class BillMetadata:
+    """Fictional statement header. `statement_date` is ISO 8601 (YYYY-MM-DD)."""
+
+    hospital_name: str
+    statement_date: str
+    total_billed: float
+
+
+@dataclass(frozen=True)
+class ExpectedFlag:
+    """One (line item, flag type) pair that /core should produce."""
+
+    line_item_id: str
+    flag_type: FlagType
+
+
+@dataclass(frozen=True)
+class SyntheticBill:
+    """A fictional bill plus ground truth for evals, tests, and demos."""
+
+    bill_id: str
+    seed: int
+    scenario: SyntheticScenario
+    bill_metadata: BillMetadata
+    line_items: list[LineItem]
+    price_references: list[PriceReference]
+    expected_flags: list[ExpectedFlag]
