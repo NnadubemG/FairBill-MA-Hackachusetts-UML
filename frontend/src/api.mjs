@@ -32,12 +32,17 @@ export async function analyzeBill(lineItems) {
   return responseJson(response);
 }
 
-/** POST letter context; final request details remain isolated here for Sam's adapter. */
-export async function draftLetter({ lineItems, context }) {
+/** POST Sam's current LetterRequest shape to the agreed /letter adapter. */
+export async function draftLetter({ lineItems, flags, letterType, patient }) {
   const response = await fetch("/letter", {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify({ line_items: lineItems, context }),
+    body: JSON.stringify({
+      letter_type: letterType,
+      patient,
+      flags,
+      line_items: lineItems,
+    }),
   });
   return responseJson(response);
 }

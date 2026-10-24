@@ -168,6 +168,7 @@ function renderConfirm() {
   actions.append(button("Back", () => show("home"), true), button("Looks right", async (event) => {
     const trigger = event.currentTarget; trigger.disabled = true; trigger.textContent = "Checking…";
     try {
+      state.analysisMessage = null;
       state.analysis = await analyzeBill(state.lineItems);
     } catch (error) {
       state.analysis = { line_items: state.lineItems, flags: [], price_references: [] };
@@ -219,15 +220,34 @@ function renderResults() {
 }
 
 function renderLetter() {
-  main.innerHTML = `<section><h1>Draft a letter</h1><p class="lede">Add context, then review and edit the returned draft. The app does not send it.</p><div class="card"><label for="letter-context">What would you like to ask?</label><textarea id="letter-context" rows="5"></textarea><div id="letter-message"></div><div class="actions" id="letter-actions"></div></div><div id="draft"></div></section>`;
+  main.innerHTML = `<section><h1>Draft a letter</h1><p class="lede">Choose a letter type and add the details you want included. Review and edit the returned draft before using it. The app does not send it.</p><div class="card">
+    <label for="letter-type">Letter type</label>
+    <select id="letter-type"><option value="itemized_bill">Request an itemized bill</option><option value="coding_review">Ask about flagged charges</option><option value="financial_assistance">Ask about financial assistance</option></select>
+    <label for="patient-name">Your name (optional)</label><input id="patient-name" autocomplete="name">
+    <label for="account-number">Account number (optional)</label><input id="account-number">
+    <label for="hospital-name">Provider or hospital (optional)</label><input id="hospital-name">
+    <label for="letter-date">Date (optional)</label><input id="letter-date" type="date">
+    <label for="letter-notes">Additional notes (optional)</label><textarea id="letter-notes" rows="4"></textarea>
+    <div id="letter-message"></div><div class="actions" id="letter-actions"></div></div><div id="draft"></div></section>`;
   main.prepend(generalInfo());
   const actions = main.querySelector("#letter-actions");
   actions.append(button("Back", () => show("results"), true), button("Create draft", async (event) => {
     const trigger = event.currentTarget; trigger.disabled = true; trigger.textContent = "Drafting…";
     const message = main.querySelector("#letter-message"); message.replaceChildren();
     try {
-      const result = await draftLetter({ lineItems: state.lineItems, context: main.querySelector("#letter-context").value.trim() });
-      renderDraft(result.letter_draft || result.letter || result);
+      const result = await draftLetter({
+        lineItems: state.lineItems,
+        flags: state.analysis?.flags || [],
+        letterType: main.querySelector("#letter-type").value,
+        patient: {
+          name: main.querySelector("#patient-name").value,
+          account_number: main.querySelector("#account-number").value,
+          hospital: main.querySelector("#hospital-name").value,
+          date: main.querySelector("#letter-date").value,
+          notes: main.querySelector("#letter-notes").value,
+        },
+      });
+      renderDraft(result.draft || result.letter_draft || result);
     } catch (error) {
       message.append(notice(error.message || "Letter drafting is not available yet.", "error"));
       trigger.disabled = false; trigger.textContent = "Create draft";
