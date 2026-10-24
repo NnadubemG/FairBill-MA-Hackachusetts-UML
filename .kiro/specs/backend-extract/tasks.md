@@ -35,7 +35,7 @@ requirements it covers and the tests that prove it.
   - Unit tests T10, T11.
   - _Requirements: R4.1, R4.2_
 
-- [ ] 6. Post-processing: code + confidence rules
+- [x] 6. Post-processing: code + confidence rules
   - Unknown code -> null + low + needs_confirmation; known-code check vs
     procedures.json; missing procedures.json -> skip + warning.
   - Unit tests T2, T3, T4; property tests P2.
