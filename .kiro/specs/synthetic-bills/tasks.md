@@ -21,7 +21,7 @@ Requirements are in `requirements.md`. Test cases (TS-*) and properties (PS*) ar
   - Tests TS-G1 to TS-G14 and properties PS1 to PS4, PS6.
   - _Requirements: 1.1, 1.2, 1.3, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2, 3.3_
 
-- [ ] 3. Text renderer
+- [x] 3. Text renderer
   - `render_text` with `plain` and `messy` styles.
   - Tests TS-R1 to TS-R3.
   - _Requirements: 4.2, 4.3_
