@@ -20,6 +20,8 @@ export interface LineItem {
   raw_description?: string | null;
   quantity?: number | null;
   unit?: string | null;
+  /** ISO 8601 date (YYYY-MM-DD), if printed on the bill. Optional. */
+  date_of_service?: string | null;
   billed_amount: number;
 }
 

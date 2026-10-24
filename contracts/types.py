@@ -49,6 +49,7 @@ class LineItem:
     raw_description: Optional[str] = None
     quantity: Optional[float] = None
     unit: Optional[str] = None
+    date_of_service: Optional[str] = None  # ISO 8601 (YYYY-MM-DD), optional
 
 
 @dataclass(frozen=True)
