@@ -16,7 +16,7 @@ one small change in `/backend/extract/llm_client.py`).
   - Tests E2, E3, E4, E5, E6, E7, E8; properties P1 and P5 (on `accept`).
   - _Requirements: R2.3, R2.4, R3.1, R3.2, R4.1_
 
-- [ ] 3. Fallback templates
+- [x] 3. Fallback templates
   - `templates.py`: `fallback(flag)`, six types plus generic, banned-word guard.
   - Tests E17, E18, E22; properties P4, P6.
   - _Requirements: R4.4, R5.1, R5.2, R5.5, R5.6_
