@@ -49,6 +49,7 @@ Rules:
 - Format: `NAME=value` per line. `export NAME=value`, quotes and `#` comments also work.
 - The loader (`backend/envfile.py`) uses only the standard library. It never prints, logs or stores a value.
 - Only the real command (`python -m evals`) reads `.env`. The tests never do.
+- A real run starts with one check line, for example `ANTHROPIC_API_KEY: length 40, ends with ...abcd`. It shows only the length and the last 4 characters. A key shorter than 12 characters shows the length only.
 
 ## The cache
 Every model call goes through a disk cache in `evals/.cache/`. The key is a SHA-256 of the

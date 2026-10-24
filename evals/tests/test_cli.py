@@ -334,6 +334,8 @@ def test_pr1_the_key_and_bill_text_never_reach_the_output_report_or_cache(tmp_pa
     files = [p.read_text() for p in (tmp_path / "cache").iterdir() if p.is_file()]
     for text in (out, err, report, *files):
         assert FAKE_KEY not in text
+    # The startup check shows only the length and the last 4 characters.
+    assert f"length {len(FAKE_KEY)}, ends with ...{FAKE_KEY[-4:]}" in out
     for text in (out, err, report):
         for b in BILLS:
             assert b.truth.bill_metadata.hospital_name not in text

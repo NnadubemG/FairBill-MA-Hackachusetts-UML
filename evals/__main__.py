@@ -23,7 +23,7 @@ import sys
 from pathlib import Path
 from typing import Callable, Sequence, TextIO
 
-from backend.envfile import load_env
+from backend.envfile import describe_secret, load_env
 from backend.extract.llm_client import LLMClient, make_client
 
 from . import config
@@ -131,6 +131,10 @@ def main(
         factory = CachingClient(
             inners, models, cache_dir, cache_only=(mode == "cache-only"), max_calls=args.max_calls
         )
+
+    if mode == "real":
+        # Startup check: length and last 4 characters only, never the whole key.
+        print(f"{config.ENV_API_KEY}: {describe_secret(os.environ.get(config.ENV_API_KEY))}", file=out)
 
     print(f"Running {len(bills)} bills in {mode} mode.", file=out)
     result = run_corpus(bills, factory, mode=mode, progress=lambda line: print(line, file=out))

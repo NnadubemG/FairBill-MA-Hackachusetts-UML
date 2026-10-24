@@ -53,6 +53,23 @@ def parse_env(text: str) -> dict[str, str]:
     return found
 
 
+_MIN_LEN_TO_SHOW_TAIL = 12
+
+
+def describe_secret(value: str | None) -> str:
+    """Safe one-line description of a secret: its length and last 4 characters only.
+
+    A short value shows only its length, so the tail never gives away much of it.
+    The full value is never returned.
+    """
+    text = (value or "").strip()
+    if not text:
+        return "not set"
+    if len(text) < _MIN_LEN_TO_SHOW_TAIL:
+        return f"length {len(text)} (too short to show any characters)"
+    return f"length {len(text)}, ends with ...{text[-4:]}"
+
+
 def load_env(
     path: Path | str = DEFAULT_ENV_PATH,
     *,

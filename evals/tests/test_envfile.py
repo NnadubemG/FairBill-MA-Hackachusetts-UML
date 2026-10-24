@@ -5,7 +5,7 @@ from __future__ import annotations
 import subprocess
 from pathlib import Path
 
-from backend.envfile import REPO_ROOT, load_env, parse_env
+from backend.envfile import REPO_ROOT, describe_secret, load_env, parse_env
 
 FAKE = "fake-value-123"
 
@@ -122,3 +122,24 @@ def test_git_ignores_env_but_not_the_example():
 
     assert ignored(".env")
     assert not ignored(".env.example")
+
+
+def test_describe_secret_shows_only_length_and_last_four():
+    secret = "abcdefghij-0123456789-WXYZ"
+    text = describe_secret(secret)
+    assert text == f"length {len(secret)}, ends with ...WXYZ"
+    assert secret not in text and secret[:-4] not in text
+
+
+def test_describe_secret_hides_short_and_empty_values():
+    assert describe_secret(None) == "not set"
+    assert describe_secret("   ") == "not set"
+    short = "short-key"
+    assert describe_secret(short) == "length 9 (too short to show any characters)"
+    assert short[-4:] not in describe_secret(short)
+
+
+def test_shell_key_wins_over_env_file(tmp_path):
+    env = {"ANTHROPIC_API_KEY": "from-shell-0000"}
+    load_env(_write(tmp_path, "ANTHROPIC_API_KEY=from-file-1111\n"), environ=env)
+    assert env["ANTHROPIC_API_KEY"] == "from-shell-0000"
