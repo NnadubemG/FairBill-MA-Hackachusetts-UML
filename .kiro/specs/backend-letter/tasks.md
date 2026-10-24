@@ -54,7 +54,7 @@ that prove it. Stay inside `/backend/letter`. Start only after open decision 1 i
   - Tests L20, L23; privacy PR1 (logs, output, warnings, no files).
   - _Requirements: R5.6, R5.7, R9.1, R9.2, R9.3, R9.4_
 
-- [ ] 9. README and full suite
+- [x] 9. README and full suite
   - `README.md`: what it does, the three letter types, env vars, how to run the tests.
   - Run the whole backend suite offline.
   - _Requirements: all_
