@@ -1,0 +1,16 @@
+Demo Hills Health (FICTIONAL)
+PATIENT STATEMENT
+Statement date: 2026-10-22
+Account: SYN-high_price-1    Patient: SAMPLE PATIENT (FICTIONAL)
+
+DATE        CODE      DESCRIPTION                          QTY        AMOUNT
+----------------------------------------------------------------------------
+2026-10-11  93000     EKG 12 LEAD                            1        $22.25
+2026-10-11  85025     CBC W/DIFF                             1       $210.00
+2026-10-11  96374     IV PUSH SNGL                           1        $67.20
+2026-10-11  J1100     DEXAMETHASONE INJ                      1         $1.80
+2026-10-11  99284     ER VISIT LVL4                          1       $246.60
+2026-10-11  71046     XR CHEST 2V                            1        $52.80
+2026-10-11  0120      R&B SEMI-PVT                           2     $2,430.00
+----------------------------------------------------------------------------
+TOTAL CHARGES                                                      $3,030.65

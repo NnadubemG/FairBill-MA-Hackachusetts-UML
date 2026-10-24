@@ -1,0 +1,73 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [4 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 1295 >>
+stream
+BT /F1 9 Tf 12 TL 40 750 Td
+(*** ACCT STMT - DUPLICATE COPY ***) Tj
+T*
+(----------------------------------------------------------------------------) Tj
+T*
+(Sample Harbor Hospital \(FICTIONAL\)) Tj
+T*
+(PATIENT STATEMENT) Tj
+T*
+(Statement date: 08/27/26) Tj
+T*
+(Account: SYN-mixed-1    Patient: SAMPLE PATIENT \(FICTIONAL\)) Tj
+T*
+() Tj
+T*
+(DATE        CODE      DESCRIPTION                          QTY        AMOUNT) Tj
+T*
+(----------------------------------------------------------------------------) Tj
+T*
+(08/11/26    Z9101     SPECIAL SUPPLY KIT                     1         75.00) Tj
+T*
+(08/11/26    96374     IV PUSH SNGL                           1      1,200.00) Tj
+T*
+(08/11/26    99285     ER VISIT LVL5                          1        307.50) Tj
+T*
+(08/11/26    85025     CBC W/DIFF                             1         14.60) Tj
+T*
+(08/11/26    85025     CBC W/DIFF                             1         14.60) Tj
+T*
+(08/11/26    J1100     DEXAMETHASONE INJ                      5          9.15) Tj
+T*
+(----------------------------------------------------------------------------) Tj
+T*
+(TOTAL CHARGES                                                       1,620.85) Tj
+T*
+() Tj
+T*
+(PLEASE REMIT PAYMENT WITHIN 30 DAYS) Tj
+T*
+(QUESTIONS? CALL 555-0100 \(FICTIONAL NUMBER\)) Tj
+ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000121 00000 n 
+0000000216 00000 n 
+0000000342 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+1689
+%%EOF

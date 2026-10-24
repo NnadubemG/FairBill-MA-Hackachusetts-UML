@@ -1,0 +1,14 @@
+Demo Hills Health (FICTIONAL)
+PATIENT STATEMENT
+Statement date: 2026-03-16
+Account: SYN-unknown_code-1    Patient: SAMPLE PATIENT (FICTIONAL)
+
+DATE        CODE      DESCRIPTION                          QTY        AMOUNT
+----------------------------------------------------------------------------
+2026-02-26  99285     ER VISIT LVL5                          1       $365.00
+2026-02-26  96374     IV PUSH SNGL                           1        $73.80
+2026-02-26  Z9102     PROC ROOM SVC                          1       $220.00
+2026-02-26  93000     EKG 12 LEAD                            1        $25.70
+2026-02-26  71046     XR CHEST 2V                            1        $56.00
+----------------------------------------------------------------------------
+TOTAL CHARGES                                                        $740.50
