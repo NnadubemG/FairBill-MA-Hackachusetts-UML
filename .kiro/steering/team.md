@@ -13,7 +13,7 @@ someone else's folder, stop and tell the user to coordinate with that person ins
 |---|---|---|---|
 | Thomas | Contracts, checks engine, Kiro workflow, writeup, video | /contracts, /core, /synthetic, /.kiro/steering, /.kiro/hooks, /docs | Shared schemas, deterministic checks (Flags), synthetic bills with ground truth, hooks, Kiro writeup, demo video |
 | Sam | AI features | /backend/extract, /backend/explain, /backend/letter, /evals | Bill extraction (LineItems), plain-language explanations, letter drafts, eval results |
-| ND | Data and visualization | /pipeline, /data/processed, /backend/compare, /frontend/src/compare | Processed price data, compare/lookup API, price charts |
+| ND | Data and visualization, analyze logic | /pipeline, /data/processed, /backend/compare, /backend/analyze, /frontend/src/compare | Processed price data, compare/lookup API, price charts, the analyze function (core flags + reference data -> AnalysisResult) |
 | David | AWS and front end | /infra, /frontend (except /frontend/src/compare), deploy scripts | Public URL, API Gateway and Lambdas, CloudFront hosting, app screens |
 
 ## Shared, owned by one person
@@ -29,6 +29,9 @@ someone else's folder, stop and tell the user to coordinate with that person ins
   Thomas's /core and ND's compare API read these. The format is fixed by /contracts.
 - Sam -> Thomas and David: extract returns LineItem[] plus bill metadata. Thomas's /core takes LineItem[]
   and returns Flag[]. The analyze handler combines core output with compare data.
+- Analyze (decided 2026-10-24): ND writes the analyze function in /backend/analyze (pure Python:
+  confirmed LineItem[] in, AnalysisResult out; it calls core.analyze with ND's processed data and
+  optionally Sam's explain function). David only wraps it in a Lambda and the POST /analyze route.
 - Thomas -> Sam and David: Flag[] is the only thing /core outputs. Sam's explain handler rewrites Flag.explanation.
 - David -> everyone: the deployed stub URL and the API routes: POST /extract, POST /analyze, GET /procedures,
   GET /compare, POST /letter. Route names and response shapes follow /contracts.
