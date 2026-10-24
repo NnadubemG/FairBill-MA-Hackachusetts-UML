@@ -43,6 +43,25 @@ export function renderSVG(vm) {
     return parts.join("");
   }
 
+  // Statewide MA gross range: a hatched band behind the rows (hatch = texture cue, not
+  // color-only) with a label. Drawn first so bars/lines sit on top.
+  if (vm.maRange) {
+    const bx0 = x(vm.maRange.low);
+    const bx1 = x(vm.maRange.high);
+    parts.push(
+      `<defs><pattern id="maHatch" width="6" height="6" patternUnits="userSpaceOnUse" ` +
+        `patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" ` +
+        `class="ma-hatch-line" /></pattern></defs>`
+    );
+    parts.push(
+      `<rect x="${bx0}" y="${TOP - 4}" width="${Math.max(1, bx1 - bx0)}" ` +
+        `height="${height - TOP - 12}" fill="url(#maHatch)" class="ma-band" aria-hidden="true" />`
+    );
+    parts.push(
+      `<text x="${bx1 + 6}" y="${TOP - 14}" class="ma-band-label">${esc(vm.maRange.label)}</text>`
+    );
+  }
+
   // Medicare reference line (dashed = shape cue, not color-only) + label.
   if (vm.medicare) {
     const mx = x(vm.medicare.price);
@@ -124,11 +143,16 @@ export function renderTable(vm) {
     ? `<tr><th scope="row">Medicare reference</th><td colspan="3">${esc(money(vm.medicare.price))}</td></tr>`
     : "";
 
+  const maRow = vm.maRange
+    ? `<tr><th scope="row">Statewide MA gross range</th><td>${esc(money(vm.maRange.low))}</td>` +
+      `<td>\u2014</td><td>${esc(money(vm.maRange.high))}</td></tr>`
+    : "";
+
   return (
     `<table class="compare-table">` +
     `<caption>${esc(vm.plainLabel)} \u2014 ${esc(vm.payerGroup)} prices by hospital</caption>` +
     `<thead><tr><th scope="col">Hospital</th><th scope="col">Min</th>` +
     `<th scope="col">Median</th><th scope="col">Max</th></tr></thead>` +
-    `<tbody>${rows}${medicareRow}</tbody></table>`
+    `<tbody>${rows}${medicareRow}${maRow}</tbody></table>`
   );
 }
