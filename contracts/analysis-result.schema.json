@@ -1,0 +1,29 @@
+{
+  "title": "AnalysisResult",
+  "description": "The full result returned to the client after a bill is analyzed. Nothing here is persisted.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["line_items", "flags"],
+  "properties": {
+    "line_items": {
+      "type": "array",
+      "items": { "$ref": "line-item.schema.json" }
+    },
+    "price_references": {
+      "type": "array",
+      "items": { "$ref": "price-reference.schema.json" },
+      "default": []
+    },
+    "flags": {
+      "type": "array",
+      "items": { "$ref": "flag.schema.json" }
+    },
+    "letter_draft": {
+      "oneOf": [
+        { "$ref": "letter-draft.schema.json" },
+        { "type": "null" }
+      ],
+      "default": null
+    }
+  }
+}

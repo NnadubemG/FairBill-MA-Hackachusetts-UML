@@ -1,0 +1,32 @@
+# FairBill MA
+# NOTE: never add .kiro here. Steering, hooks, and specs are tracked on purpose.
+
+# Local-only, never committed
+/private/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.hypothesis/
+.mypy_cache/
+.ruff_cache/
+
+# Node / web
+node_modules/
+dist/
+build/
+.next/
+*.tsbuildinfo
+
+# Env / secrets
+.env
+.env.*
+*.key
+*.pem
+
+# OS / editor
+.DS_Store
+Thumbs.db
