@@ -30,10 +30,11 @@ works except reading an uploaded PDF automatically.
 ### Try it in 60 seconds
 1. On the home page, choose **"Test bill: ER visit priced against real MA data"**, then click **Use sample bill**.
 2. Review the lines and click **Check my bill**.
-3. You should see 5 flags: two charges above the Massachusetts range, a duplicated blood test, and
-   one item with no reference price. Each flag shows its reason and data source.
+3. You should see the ER visit flagged as above both the Medicare reference and the Massachusetts
+   range, the CT scan, chest X-ray, and ECG flagged as above the Medicare reference, a duplicated
+   blood test, and one item with no reference price. Each flag shows its reason and data source.
 4. Click **Draft a letter**, then **Ask for a coding review**, then **Create my letter**. Copy, download, or print it.
-5. Open **Compare prices** in the top menu to see two hospitals side by side for any of 19 procedures.
+5. Open **Compare prices** in the top menu to see 7 Massachusetts hospitals side by side for any of 19 procedures.
 
 A plain-text copy of the test bill is in [`data/demo/test-bill-er-visit.txt`](data/demo/test-bill-er-visit.txt).
 
@@ -82,11 +83,14 @@ python -m pipeline.validate                           # data rules: provenance, 
 
 ## Data sources
 - **Hospital prices:** the public machine-readable standard-charges files that hospitals must publish
-  under federal price-transparency rules (45 CFR 180), downloaded directly from
-  [Lahey Hospital & Medical Center](https://www.lahey.org/) and
-  [Beth Israel Deaconess Medical Center](https://bidmc.org/). 19 common procedures, 2026 files.
-- Status and gaps for each source are listed in [`data/manifest.json`](data/manifest.json) and [`data/README.md`](data/README.md).
-  The Medicare benchmark is not loaded yet, so it shows as "—".
+  under federal price-transparency rules (45 CFR 180), downloaded from each hospital's own site.
+  Seven Massachusetts hospitals: Lahey Hospital & Medical Center, Beth Israel Deaconess Medical Center,
+  BID-Milton, BID-Needham, BID-Plymouth, Anna Jaques Hospital, and South Shore Hospital. 19 common
+  procedures, 405 price records, 2026 files.
+- **Medicare reference:** CMS Medicare Physician Fee Schedule 2026 (non-QP), Massachusetts locality.
+- **Quantity limits:** CMS NCCI Medically Unlikely Edits (practitioner services).
+- Status and gaps for each source are in [`data/manifest.json`](data/manifest.json) and [`data/README.md`](data/README.md).
+  Codes with no published figure show "—".
 - All bills in this repo are **fictional**.
 
 ## Privacy

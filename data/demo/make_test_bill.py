@@ -28,23 +28,24 @@ from synthetic.render import render_pdf, render_text  # noqa: E402
 DOS = "2026-09-14"
 
 # (id, code, system, description as printed, plain description, qty, amount, expected)
+# Expected outcomes against data/processed as of the 7-hospital + Medicare PFS update.
 LINES = [
     ("1", "99284", "CPT", "ER VISIT LEVEL 4", "Emergency room visit, higher level", 1, 2950.00,
-     "Above the MA range ($1,862-$1,922): price_outside_ma_range"),
+     "price_above_reference + price_outside_ma_range"),
     ("2", "74177", "CPT", "CT ABD/PELVIS W CONTRAST", "CT scan of the abdomen and pelvis", 1, 5400.00,
-     "Above the MA range ($1,991-$3,721): price_outside_ma_range"),
+     "price_above_reference (inside MA range)"),
     ("3", "80053", "CPT", "COMPREHENSIVE METABOLIC PNL", "Basic metabolic and chemistry blood panel", 1, 240.00,
-     "Inside the MA range ($127-$658): no flag"),
+     "no flag (inside MA range, no Medicare fee)"),
     ("4", "85025", "CPT", "CBC W/AUTO DIFF", "Complete blood count lab test", 1, 68.00,
-     "Same code, date and amount as line 5: duplicate_line_item"),
+     "duplicate_line_item (same as line 5)"),
     ("5", "85025", "CPT", "CBC W/AUTO DIFF", "Complete blood count lab test", 1, 68.00,
-     "Same code, date and amount as line 4: duplicate_line_item"),
+     "duplicate_line_item (same as line 4)"),
     ("6", "71046", "CPT", "XR CHEST 2 VIEWS", "Chest X-ray", 1, 280.00,
-     "Inside the MA range ($206-$325): no flag"),
+     "price_above_reference (inside MA range)"),
     ("7", "93000", "CPT", "ECG 12 LEAD W/INTERP", "Heart rhythm tracing (ECG)", 1, 410.00,
-     "Inside the MA range ($204-$593): no flag"),
+     "price_above_reference (inside MA range)"),
     ("8", "J7030", "HCPCS", "NS 0.9% 1000ML INFUSION", "Saline IV fluid, 1000 mL", 1, 95.00,
-     "Not in our reference data: no_reference_found"),
+     "no_reference_found"),
 ]
 
 META = {

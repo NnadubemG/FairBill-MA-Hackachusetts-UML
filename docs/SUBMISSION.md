@@ -42,9 +42,11 @@ can use.
   asking about" and give the reason.
 - **Private by design.** No login, nothing stored, nothing logged.
 
-**Real data.** 122 price records parsed from the public price-transparency files of Lahey Hospital &
-Medical Center and Beth Israel Deaconess Medical Center. A streaming parser handles the official CMS
-file format.
+**Real data.** 405 price records from the public price-transparency files of 7 Massachusetts
+hospitals (Lahey, BIDMC, BID-Milton, BID-Needham, BID-Plymouth, Anna Jaques, South Shore), plus the
+2026 CMS Medicare Physician Fee Schedule for Massachusetts and CMS quantity limits (Medically
+Unlikely Edits). A streaming parser handles the official CMS hospital file format, so a 25 MB file
+never has to fit in memory.
 
 **Built with:** Python 3.12, a vanilla-JavaScript web app (no build step), the Anthropic API, AWS
 Lambda + CloudFront (SAM). 900+ automated tests, including Hypothesis property tests.
@@ -82,9 +84,9 @@ Then open http://127.0.0.1:8000/.
 
 **Test path:**
 1. Choose **"Test bill: ER visit priced against real MA data"**, then click **Use sample bill**.
-2. Click **Check my bill**. Expect 5 flags: the ER visit and the CT scan above the Massachusetts
-   range, a blood test listed twice, and a saline line with no reference price. The other lines show
-   "Nothing stood out".
+2. Click **Check my bill**. Expect: the ER visit above both the Medicare reference and the
+   Massachusetts range; the CT scan, chest X-ray, and ECG above the Medicare reference; a blood test
+   listed twice; and a saline line with no reference price. The metabolic panel shows "Nothing stood out".
 3. Click **Draft a letter**, then **Ask for a coding review**, then **Create my letter**.
 4. Click **Compare prices** in the top menu and choose any procedure.
 

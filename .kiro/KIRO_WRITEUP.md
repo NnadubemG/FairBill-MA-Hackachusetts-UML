@@ -52,7 +52,7 @@ Five always-on files: `product.md`, `tech.md`, `structure.md`, `testing.md`, `te
 
 **What made the biggest difference: hard rules that are easy to test.**
 - *"Never invent numbers. Every price carries `data_source` and `data_year`."* Every session wrote
-  `null` instead of a guess. Today the Medicare benchmark shows "—" rather than a made-up figure.
+  `null` instead of a guess. A lab code with no Medicare fee shows "—", never a made-up figure.
 - *"Flags come from deterministic code. The LLM only extracts, rewrites, and drafts letters."* This
   became the architecture: `/core` holds the rules, and the model is kept out of all judgments.
 - *A banned-word list* ("overcharged", "fraud", …) with an approved phrase: "may be worth asking about".
@@ -102,8 +102,9 @@ We did **not** configure MCP servers or install Kiro Powers. Kiro's built-in web
 the outside-world work instead:
 - Found that BIDMC's price file follows the CMS naming pattern and downloaded it directly (27 MB).
   That gave us a second real hospital.
-- Explored the CMS fee schedule API and found it doesn't expose payment amounts. This is documented
-  as a gap instead of computed.
+- Explored the CMS fee schedule API and found it doesn't expose payment amounts. We logged that as a
+  gap instead of computing a figure. A teammate's session then downloaded the official CMS files and
+  added parsers for them.
 - Found that AWS changed the permissions for public Lambda Function URLs in Oct 2025. That fix went
   into our template before the first deploy.
 

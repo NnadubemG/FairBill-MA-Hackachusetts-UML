@@ -98,13 +98,13 @@
     }
   ],
   "expected": {
-    "1": "Above the MA range ($1,862-$1,922): price_outside_ma_range",
-    "2": "Above the MA range ($1,991-$3,721): price_outside_ma_range",
-    "3": "Inside the MA range ($127-$658): no flag",
-    "4": "Same code, date and amount as line 5: duplicate_line_item",
-    "5": "Same code, date and amount as line 4: duplicate_line_item",
-    "6": "Inside the MA range ($206-$325): no flag",
-    "7": "Inside the MA range ($204-$593): no flag",
-    "8": "Not in our reference data: no_reference_found"
+    "1": "price_above_reference + price_outside_ma_range",
+    "2": "price_above_reference (inside MA range)",
+    "3": "no flag (inside MA range, no Medicare fee)",
+    "4": "duplicate_line_item (same as line 5)",
+    "5": "duplicate_line_item (same as line 4)",
+    "6": "price_above_reference (inside MA range)",
+    "7": "price_above_reference (inside MA range)",
+    "8": "no_reference_found"
   }
 }
