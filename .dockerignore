@@ -1,0 +1,15 @@
+.git
+.kiro
+private
+data/raw
+**/__pycache__
+**/*.pyc
+**/.pytest_cache
+**/.hypothesis
+**/node_modules
+infra/build
+infra/.aws-sam
+.env
+.env.*
+*.key
+*.pem

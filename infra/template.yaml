@@ -1,0 +1,268 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: FairBill MA - one Python Lambda Function URL behind CloudFront
+
+Parameters:
+  AnthropicSecretArn:
+    Type: String
+    Default: arn:aws:secretsmanager:us-east-1:000000000000:secret:offline
+    Description: ARN of fairbill/anthropic. Ignored when OfflineMode is true.
+  ExtractModelId:
+    Type: String
+    Default: offline
+  ExplainModelId:
+    Type: String
+    Default: offline
+  LetterModelId:
+    Type: String
+    Default: offline
+  OfflineMode:
+    Type: String
+    Default: 'true'
+    AllowedValues: ['true', 'false']
+  ReservedConcurrency:
+    Type: Number
+    Default: 5
+    MinValue: 1
+    MaxValue: 20
+  MonthlyBudgetAmount:
+    Type: Number
+    Default: 20
+    MinValue: 1
+  BudgetEmail:
+    Type: String
+    Default: ''
+    Description: Optional email for AWS Budget notifications. Empty skips the budget resource.
+
+Conditions:
+  CreateBudget: !Not [!Equals [!Ref BudgetEmail, '']]
+
+Resources:
+  FairBillFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: fairbill-ma-app
+      Runtime: python3.12
+      Architectures: [x86_64]
+      CodeUri: build/
+      Handler: app_server.lambda_handler.handler
+      MemorySize: 1024
+      Timeout: 60
+      ReservedConcurrentExecutions: !Ref ReservedConcurrency
+      Environment:
+        Variables:
+          ANTHROPIC_SECRET_ARN: !Ref AnthropicSecretArn
+          EXTRACT_MODEL_ID: !Ref ExtractModelId
+          EXPLAIN_MODEL_ID: !Ref ExplainModelId
+          LETTER_MODEL_ID: !Ref LetterModelId
+          OFFLINE_MODE: !Ref OfflineMode
+          DATA_DIR: /var/task/data/processed
+          STATIC_DIR: /var/task/static
+      LoggingConfig:
+        LogFormat: JSON
+        ApplicationLogLevel: ERROR
+        SystemLogLevel: WARN
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action: secretsmanager:GetSecretValue
+              Resource: !Ref AnthropicSecretArn
+
+  FairBillLogGroup:
+    Type: AWS::Logs::LogGroup
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Delete
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${FairBillFunction}
+      RetentionInDays: 7
+
+  FairBillFunctionUrl:
+    Type: AWS::Lambda::Url
+    Properties:
+      TargetFunctionArn: !GetAtt FairBillFunction.Arn
+      AuthType: AWS_IAM
+      InvokeMode: BUFFERED
+
+  FunctionUrlOriginAccessControl:
+    Type: AWS::CloudFront::OriginAccessControl
+    Properties:
+      OriginAccessControlConfig:
+        Name: !Sub ${AWS::StackName}-lambda-url
+        Description: Sign CloudFront requests to the private Lambda Function URL
+        OriginAccessControlOriginType: lambda
+        SigningBehavior: always
+        SigningProtocol: sigv4
+
+  SecurityHeaders:
+    Type: AWS::CloudFront::ResponseHeadersPolicy
+    Properties:
+      ResponseHeadersPolicyConfig:
+        Name: !Sub ${AWS::StackName}-security
+        Comment: FairBill MA browser security headers
+        SecurityHeadersConfig:
+          ContentSecurityPolicy:
+            Override: true
+            ContentSecurityPolicy: >-
+              default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+              img-src 'self' data: blob:; connect-src 'self'; object-src 'none'; base-uri 'self';
+              frame-ancestors 'none'; form-action 'self'
+          ContentTypeOptions:
+            Override: true
+          FrameOptions:
+            FrameOption: DENY
+            Override: true
+          ReferrerPolicy:
+            ReferrerPolicy: strict-origin-when-cross-origin
+            Override: true
+          StrictTransportSecurity:
+            AccessControlMaxAgeSec: 31536000
+            IncludeSubdomains: true
+            Override: true
+            Preload: true
+          XSSProtection:
+            Protection: true
+            ModeBlock: true
+            Override: true
+
+  Distribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Enabled: true
+        HttpVersion: http2and3
+        IPV6Enabled: true
+        PriceClass: PriceClass_100
+        DefaultRootObject: index.html
+        Origins:
+          - Id: LambdaUrlOrigin
+            DomainName: !Select [2, !Split ['/', !GetAtt FairBillFunctionUrl.FunctionUrl]]
+            OriginAccessControlId: !GetAtt FunctionUrlOriginAccessControl.Id
+            CustomOriginConfig:
+              HTTPSPort: 443
+              OriginProtocolPolicy: https-only
+              OriginSSLProtocols: [TLSv1.2]
+        DefaultCacheBehavior:
+          TargetOriginId: LambdaUrlOrigin
+          ViewerProtocolPolicy: redirect-to-https
+          AllowedMethods: [GET, HEAD, OPTIONS]
+          CachedMethods: [GET, HEAD, OPTIONS]
+          CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6
+          OriginRequestPolicyId: b689b0a8-53d0-40ab-baf2-68738e2966ac
+          ResponseHeadersPolicyId: !Ref SecurityHeaders
+          Compress: true
+        CacheBehaviors:
+          - PathPattern: health
+            TargetOriginId: LambdaUrlOrigin
+            ViewerProtocolPolicy: redirect-to-https
+            AllowedMethods: [GET, HEAD, OPTIONS]
+            CachedMethods: [GET, HEAD, OPTIONS]
+            CachePolicyId: 413f1600-9e6b-4e8e-9d03-e794d3672f7e
+            OriginRequestPolicyId: b689b0a8-53d0-40ab-baf2-68738e2966ac
+            ResponseHeadersPolicyId: !Ref SecurityHeaders
+            Compress: true
+          - PathPattern: procedures
+            TargetOriginId: LambdaUrlOrigin
+            ViewerProtocolPolicy: redirect-to-https
+            AllowedMethods: [GET, HEAD, OPTIONS]
+            CachedMethods: [GET, HEAD, OPTIONS]
+            CachePolicyId: 413f1600-9e6b-4e8e-9d03-e794d3672f7e
+            OriginRequestPolicyId: b689b0a8-53d0-40ab-baf2-68738e2966ac
+            ResponseHeadersPolicyId: !Ref SecurityHeaders
+            Compress: true
+          - PathPattern: compare
+            TargetOriginId: LambdaUrlOrigin
+            ViewerProtocolPolicy: redirect-to-https
+            AllowedMethods: [GET, HEAD, OPTIONS]
+            CachedMethods: [GET, HEAD, OPTIONS]
+            CachePolicyId: 413f1600-9e6b-4e8e-9d03-e794d3672f7e
+            OriginRequestPolicyId: b689b0a8-53d0-40ab-baf2-68738e2966ac
+            ResponseHeadersPolicyId: !Ref SecurityHeaders
+            Compress: true
+          - PathPattern: extract
+            TargetOriginId: LambdaUrlOrigin
+            ViewerProtocolPolicy: redirect-to-https
+            AllowedMethods: [GET, HEAD, OPTIONS, PUT, PATCH, POST, DELETE]
+            CachedMethods: [GET, HEAD, OPTIONS]
+            CachePolicyId: 413f1600-9e6b-4e8e-9d03-e794d3672f7e
+            OriginRequestPolicyId: b689b0a8-53d0-40ab-baf2-68738e2966ac
+            ResponseHeadersPolicyId: !Ref SecurityHeaders
+            Compress: true
+          - PathPattern: analyze
+            TargetOriginId: LambdaUrlOrigin
+            ViewerProtocolPolicy: redirect-to-https
+            AllowedMethods: [GET, HEAD, OPTIONS, PUT, PATCH, POST, DELETE]
+            CachedMethods: [GET, HEAD, OPTIONS]
+            CachePolicyId: 413f1600-9e6b-4e8e-9d03-e794d3672f7e
+            OriginRequestPolicyId: b689b0a8-53d0-40ab-baf2-68738e2966ac
+            ResponseHeadersPolicyId: !Ref SecurityHeaders
+            Compress: true
+          - PathPattern: letter
+            TargetOriginId: LambdaUrlOrigin
+            ViewerProtocolPolicy: redirect-to-https
+            AllowedMethods: [GET, HEAD, OPTIONS, PUT, PATCH, POST, DELETE]
+            CachedMethods: [GET, HEAD, OPTIONS]
+            CachePolicyId: 413f1600-9e6b-4e8e-9d03-e794d3672f7e
+            OriginRequestPolicyId: b689b0a8-53d0-40ab-baf2-68738e2966ac
+            ResponseHeadersPolicyId: !Ref SecurityHeaders
+            Compress: true
+
+  AllowCloudFrontFunctionUrl:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref FairBillFunction
+      Action: lambda:InvokeFunctionUrl
+      Principal: cloudfront.amazonaws.com
+      FunctionUrlAuthType: AWS_IAM
+      SourceArn: !Sub arn:${AWS::Partition}:cloudfront::${AWS::AccountId}:distribution/${Distribution}
+
+  AllowCloudFrontInvoke:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref FairBillFunction
+      Action: lambda:InvokeFunction
+      Principal: cloudfront.amazonaws.com
+      InvokedViaFunctionUrl: true
+      SourceArn: !Sub arn:${AWS::Partition}:cloudfront::${AWS::AccountId}:distribution/${Distribution}
+
+  MonthlyBudget:
+    Type: AWS::Budgets::Budget
+    Condition: CreateBudget
+    Properties:
+      Budget:
+        BudgetName: !Sub ${AWS::StackName}-monthly
+        BudgetLimit:
+          Amount: !Ref MonthlyBudgetAmount
+          Unit: USD
+        BudgetType: COST
+        TimeUnit: MONTHLY
+      NotificationsWithSubscribers:
+        - Notification:
+            ComparisonOperator: GREATER_THAN
+            NotificationType: FORECASTED
+            Threshold: 80
+            ThresholdType: PERCENTAGE
+          Subscribers:
+            - Address: !Ref BudgetEmail
+              SubscriptionType: EMAIL
+        - Notification:
+            ComparisonOperator: GREATER_THAN
+            NotificationType: ACTUAL
+            Threshold: 100
+            ThresholdType: PERCENTAGE
+          Subscribers:
+            - Address: !Ref BudgetEmail
+              SubscriptionType: EMAIL
+
+Outputs:
+  CloudFrontUrl:
+    Description: Public HTTPS URL
+    Value: !Sub https://${Distribution.DomainName}
+  FunctionUrl:
+    Description: Private origin URL; CloudFront-signed requests only
+    Value: !GetAtt FairBillFunctionUrl.FunctionUrl
+  FunctionName:
+    Value: !Ref FairBillFunction
+  DistributionId:
+    Value: !Ref Distribution
