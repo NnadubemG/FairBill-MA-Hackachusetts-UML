@@ -33,6 +33,11 @@ def _normalise(text: str) -> str:
     return _SPACES.sub(" ", text).strip().lower()
 
 
+def normalise(text: str) -> str:
+    """Public name for the text normaliser (other packages in this lane reuse it)."""
+    return _normalise(text)
+
+
 # --- banned words ----------------------------------------------------------
 
 
@@ -131,6 +136,7 @@ def accept(text: object, flag: Flag) -> bool:
 
 
 __all__ = [
+    "normalise",
     "has_banned_word",
     "figures",
     "implied_figure_words",

@@ -23,7 +23,7 @@ that prove it. Stay inside `/backend/letter`. Start only after open decision 1 i
   - Tests L10 (build part), L11 (build part), L12.
   - _Requirements: R3.1, R3.2, R3.3, R3.6, R6.1, R6.2_
 
-- [ ] 4. Paragraph checks
+- [x] 4. Paragraph checks
   - `checks.py`: tone terms, deadline patterns, figures vs source, implied words, shape,
     first person, `accept_paragraph`.
   - Tests L8 (all cases); property PL2 (on `accept_paragraph`).
