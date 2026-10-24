@@ -199,6 +199,11 @@ def test_l8_markdown_links_placeholders_and_breaks(bad):
     assert not ok(bad)
 
 
+def test_line_breaks_at_the_ends_are_harmless_but_not_inside():
+    assert ok("\n  " + GOOD + "  \n\n")
+    assert not ok(GOOD.replace(". I am asking", ".\n\nI am asking"))
+
+
 def test_l8_not_first_person():
     text = ("The charge of $1,234.50 for code 99213 needs a review. "
             "This line should be explained. A review would help everyone.")

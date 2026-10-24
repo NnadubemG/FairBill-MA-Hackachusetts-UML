@@ -90,6 +90,7 @@ def accept_paragraph(text: object, items: Sequence[ItemFact]) -> bool:
     """True only if ``text`` is safe to use as the letter's reason paragraph."""
     if not isinstance(text, str) or not text.strip():
         return False
+    text = text.strip()  # a line break at the very start or end is harmless; inside is not
     if has_banned_word(text):
         return False
     if has_tone_problem(text):

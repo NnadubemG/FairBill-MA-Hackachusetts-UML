@@ -43,7 +43,7 @@ that prove it. Stay inside `/backend/letter`. Start only after open decision 1 i
   - Tests: request has no patient data or descriptions (L5 request part, L17); parser cases.
   - _Requirements: R5.3, R5.5, R5.8_
 
-- [ ] 7. Handler with one model call and fallback
+- [x] 7. Handler with one model call and fallback
   - `handler.py`: `generate_letter`. Model only for `coding_review` with usable flags, no
     retry, per-paragraph accept or fallback, `referenced_line_item_ids`, contract validation.
   - Tests L2, L3 (no call), L9, L10, L11, L13, L14; properties PL1, PL3, PL4, PL5.
