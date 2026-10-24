@@ -2,6 +2,7 @@ from decimal import Decimal
 
 import pytest
 
+from contracts.types import PriceReference
 from core.language import format_money
 from core.reference import ReferenceIndex, normalize_code
 from tests.core.factories import make_item, make_ref
@@ -140,3 +141,19 @@ def test_has_refs_flag():
 )
 def test_format_money(amount, expected):
     assert format_money(amount) == expected
+
+
+def test_missing_or_bad_year_never_crashes_the_lookup():  # found by a property test (PQ2)
+    good = make_ref(data_year=2001, medicare_price=1.0)
+    for bad_year in (None, "2002", True, float("nan")):
+        bad = PriceReference(code="99285", code_system="CPT", data_source="x", data_year=bad_year, medicare_price=2.0)
+        both = ReferenceIndex([bad, good]).lookup(make_item())
+        assert both.status == "found" and both.ref is good  # a real year beats a bad one
+        only = ReferenceIndex([bad]).lookup(make_item())
+        assert only.status == "found"  # still resolved; has_provenance will reject it later
+        assert ReferenceIndex([bad, bad]).lookup(make_item()).status == "found"  # exact duplicates collapse
+    two_bad = [
+        PriceReference(code="99285", code_system="CPT", data_source="x", data_year=None, medicare_price=1.0),
+        PriceReference(code="99285", code_system="CPT", data_source="x", data_year=None, medicare_price=2.0),
+    ]
+    assert ReferenceIndex(two_bad).lookup(make_item()).status == "ambiguous"

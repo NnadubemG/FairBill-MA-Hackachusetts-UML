@@ -25,7 +25,7 @@ Requirements are in `requirements.md`. Test cases (TQ, TU, TE, TS-N) and propert
   - Tests TU1 to TU9, TE1, TE2.
   - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8_
 
-- [ ] 4. Properties
+- [x] 4. Properties
   - Hypothesis tests PQ1 to PQ7.
   - _Requirements: 4.1, 4.2, 4.3, 4.4_
 

@@ -98,8 +98,15 @@ _UNUSABLE: Match = Match("unusable")
 def _resolve(candidates: Sequence[T]) -> Match[T]:
     """Pick the newest reference. A tie between different refs is ambiguous."""
     unique = list(dict.fromkeys(candidates))  # drop exact duplicates, keep order
-    newest_year = max(ref.data_year for ref in unique)
-    newest = [ref for ref in unique if ref.data_year == newest_year]
+
+    def year(ref: T) -> float:
+        # A missing or malformed year counts as older than any real one, so it can never
+        # crash the comparison. Such a record also fails `has_provenance` and is not used.
+        value = ref.data_year
+        return value if isinstance(value, int) and not isinstance(value, bool) else float("-inf")
+
+    newest_year = max(year(ref) for ref in unique)
+    newest = [ref for ref in unique if year(ref) == newest_year]
     if len(newest) == 1:
         return Match("found", newest[0])
     return _AMBIGUOUS
