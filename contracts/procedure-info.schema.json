@@ -1,0 +1,30 @@
+{
+  "title": "ProcedureInfo",
+  "description": "One curated procedure, keyed by code. Produced by the pipeline from /data/procedure_list.csv. Drives filtering of all other pipeline stages.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["code", "plain_label"],
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "Procedure code (CPT/HCPCS/DRG/revenue code)."
+    },
+    "code_system": {
+      "type": ["string", "null"],
+      "enum": ["CPT", "HCPCS", "DRG", "REV", "ICD10", "OTHER", null],
+      "description": "Which coding system `code` belongs to, if known."
+    },
+    "plain_label": {
+      "type": "string",
+      "description": "Plain-language label for the procedure."
+    },
+    "category": {
+      "type": ["string", "null"],
+      "description": "Grouping category, or null if none."
+    },
+    "typical_max_units": {
+      "type": ["number", "null"],
+      "description": "Typical maximum units for this procedure where known, else null. Never a placeholder."
+    }
+  }
+}

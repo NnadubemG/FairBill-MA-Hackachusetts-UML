@@ -17,6 +17,8 @@ If a mirror disagrees with the JSON Schema, **the JSON Schema wins.**
 | --- | --- |
 | `line-item.schema.json` | `LineItem` — one extracted bill line |
 | `price-reference.schema.json` | `PriceReference` — reference prices for a code |
+| `procedure-info.schema.json` | `ProcedureInfo` — one curated procedure (pipeline) |
+| `price-stat.schema.json` | `PriceStat` — price stats per hospital/code/payer group (pipeline) |
 | `flag.schema.json` | `Flag` — a "may be worth asking about" flag |
 | `letter-draft.schema.json` | `LetterDraft` — editable patient letter |
 | `analysis-result.schema.json` | `AnalysisResult` — full response payload |

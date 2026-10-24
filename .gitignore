@@ -4,6 +4,9 @@
 # Local-only, never committed
 /private/
 
+# Large raw source data (curated outputs under /data/processed ARE committed)
+/data/raw/
+
 # Python
 __pycache__/
 *.py[cod]

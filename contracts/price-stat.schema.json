@@ -1,0 +1,55 @@
+{
+  "title": "PriceStat",
+  "description": "Price statistics for one hospital + procedure code + payer group, derived by the pipeline from public price-transparency files. Numeric fields are nullable because we never invent or interpolate a number we do not have. Every record carries data_source and data_year.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["hospital_id", "code", "payer_group", "data_source", "data_year"],
+  "properties": {
+    "hospital_id": {
+      "type": "string",
+      "description": "id of the hospital in hospitals.json."
+    },
+    "code": {
+      "type": "string",
+      "description": "Procedure code. Must exist in procedures.json."
+    },
+    "code_system": {
+      "type": ["string", "null"],
+      "enum": ["CPT", "HCPCS", "DRG", "REV", "ICD10", "OTHER", null],
+      "description": "Which coding system `code` belongs to, if known."
+    },
+    "payer_group": {
+      "type": "string",
+      "enum": ["commercial", "medicare_advantage", "medicaid_managed", "cash", "gross"],
+      "description": "Normalized payer bucket this statistic belongs to."
+    },
+    "min_rate": {
+      "type": ["number", "null"],
+      "description": "Minimum negotiated rate in US dollars, or null if unknown."
+    },
+    "median_rate": {
+      "type": ["number", "null"],
+      "description": "Median negotiated rate in US dollars, or null if unknown. When min/median/max are all present: min_rate <= median_rate <= max_rate."
+    },
+    "max_rate": {
+      "type": ["number", "null"],
+      "description": "Maximum negotiated rate in US dollars, or null if unknown."
+    },
+    "cash_price": {
+      "type": ["number", "null"],
+      "description": "Discounted cash price in US dollars, or null."
+    },
+    "gross_charge": {
+      "type": ["number", "null"],
+      "description": "Gross (chargemaster) charge in US dollars, or null."
+    },
+    "data_source": {
+      "type": "string",
+      "description": "Where these figures came from. Required."
+    },
+    "data_year": {
+      "type": "integer",
+      "description": "Year the figures are from. Required."
+    }
+  }
+}
