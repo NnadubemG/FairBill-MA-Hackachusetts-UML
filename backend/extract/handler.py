@@ -17,6 +17,7 @@ from . import prompts
 from .llm_client import LLMClient
 from .codes import apply_code_and_confidence, load_known_codes
 from .config import Thresholds
+from .jsonutil import parse_model_json
 from .models import BillMetadata, Confidence, ExtractionResult
 from .postprocess import normalize_and_merge, normalize_date, normalize_money
 from .validate import ValidationOutcome, validate_lines
@@ -40,7 +41,7 @@ def _parse_metadata(raw: str) -> BillMetadata:
     import json
 
     try:
-        parsed = json.loads(raw)
+        parsed = parse_model_json(raw)
     except (json.JSONDecodeError, TypeError):
         return BillMetadata()
     if not isinstance(parsed, dict):
@@ -68,7 +69,7 @@ def _model_confidence(raw: str) -> dict[str, Confidence]:
     import json
 
     try:
-        parsed = json.loads(raw)
+        parsed = parse_model_json(raw)
     except (json.JSONDecodeError, TypeError):
         return {}
     if not isinstance(parsed, dict):

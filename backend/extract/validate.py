@@ -16,6 +16,7 @@ from typing import Any
 from jsonschema import Draft7Validator
 
 from ._contracts import LineItem
+from .jsonutil import parse_model_json
 from .schema import line_item_schema
 
 
@@ -76,7 +77,7 @@ def validate_lines(raw: str) -> ValidationOutcome:
     canonical schema; only valid lines are returned.
     """
     try:
-        parsed = json.loads(raw)
+        parsed = parse_model_json(raw)
     except (json.JSONDecodeError, TypeError) as exc:
         return ValidationOutcome(
             line_items=[], errors=[], parse_error=f"invalid JSON: {exc.__class__.__name__}"
