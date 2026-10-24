@@ -30,6 +30,9 @@ WARN_NO_LINES = (
     "No line items could be read from this document automatically. "
     "You can enter the lines by hand."
 )
+WARN_EXTRACTION_UNAVAILABLE = (
+    "Automatic extraction was unavailable. Please enter the bill lines by hand."
+)
 
 
 def _parse_metadata(raw: str) -> BillMetadata:
@@ -94,33 +97,47 @@ def extract(
     wires the happy path and the single validation retry. The broad model-failure
     fallback (never raise) is completed in task 8.
     """
-    system = prompts.build_system_prompt()
-    content = prompts.build_user_content(bill_bytes, content_type)
-
     warnings: list[str] = []
 
-    # First attempt.
-    raw = client.invoke(system=system, content=content)
-    outcome: ValidationOutcome = validate_lines(raw)
+    # --- Model call + validation, with a deterministic fallback -------------
+    # Any failure from building prompts, calling the model, or validating is caught
+    # and turned into a safe empty result. The handler never raises for an expected
+    # model/content failure (R7). We do not log the exception message or any bill
+    # content; only a generic warning is surfaced.
+    try:
+        system = prompts.build_system_prompt()
+        content = prompts.build_user_content(bill_bytes, content_type)
 
-    # Retry once if nothing validated or the model emitted invalid lines.
-    if outcome.parse_error is not None or outcome.errors:
-        hint = outcome.parse_error or (
-            outcome.errors[0].message if outcome.errors else "output did not validate"
-        )
-        raw_retry = client.invoke(system=system, content=content, repair_hint=hint)
-        retry_outcome = validate_lines(raw_retry)
-        # Prefer the retry if it produced at least as many valid lines.
-        if len(retry_outcome.line_items) >= len(outcome.line_items):
-            if retry_outcome.errors or retry_outcome.parse_error:
+        # First attempt.
+        raw = client.invoke(system=system, content=content)
+        outcome: ValidationOutcome = validate_lines(raw)
+
+        # Retry once if nothing validated or the model emitted invalid lines.
+        if outcome.parse_error is not None or outcome.errors:
+            hint = outcome.parse_error or (
+                outcome.errors[0].message if outcome.errors else "output did not validate"
+            )
+            raw_retry = client.invoke(system=system, content=content, repair_hint=hint)
+            retry_outcome = validate_lines(raw_retry)
+            # Prefer the retry if it produced at least as many valid lines.
+            if len(retry_outcome.line_items) >= len(outcome.line_items):
+                if retry_outcome.errors or retry_outcome.parse_error:
+                    warnings.append(WARN_SOME_LINES_DROPPED)
+                outcome = retry_outcome
+                raw = raw_retry
+            else:
                 warnings.append(WARN_SOME_LINES_DROPPED)
-            outcome = retry_outcome
-            raw = raw_retry
-        else:
-            warnings.append(WARN_SOME_LINES_DROPPED)
-    elif not outcome.line_items:
-        # Clean parse but zero lines (e.g. blank page).
-        warnings.append(WARN_NO_LINES)
+        elif not outcome.line_items:
+            # Clean parse but zero lines (e.g. blank page).
+            warnings.append(WARN_NO_LINES)
+    except Exception:  # noqa: BLE001 - deterministic fallback for ANY model failure
+        # No content or exception detail is logged or surfaced (privacy).
+        return ExtractionResult(
+            line_items=[],
+            metadata=BillMetadata(),
+            line_confidence=[],
+            warnings=[WARN_EXTRACTION_UNAVAILABLE],
+        )
 
     # Post-process: normalize + merge continuation rows.
     lines = normalize_and_merge(outcome.line_items)
@@ -146,4 +163,9 @@ def extract(
     )
 
 
-__all__ = ["extract", "WARN_SOME_LINES_DROPPED", "WARN_NO_LINES"]
+__all__ = [
+    "extract",
+    "WARN_SOME_LINES_DROPPED",
+    "WARN_NO_LINES",
+    "WARN_EXTRACTION_UNAVAILABLE",
+]

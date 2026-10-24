@@ -47,7 +47,7 @@ requirements it covers and the tests that prove it.
   - Unit tests T1, T5, T6, T8.
   - _Requirements: R1.3, R3.2, R3.3_
 
-- [ ] 8. Deterministic fallback + privacy
+- [x] 8. Deterministic fallback + privacy
   - Catch expected model failures -> empty lines + warning, never raise.
   - No disk writes, no logging of bodies/content.
   - Unit test T9; property test P3; privacy assertion PR1.
