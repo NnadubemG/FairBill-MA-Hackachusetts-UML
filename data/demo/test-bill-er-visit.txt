@@ -1,0 +1,17 @@
+Riverbend Community Hospital (FICTIONAL)
+PATIENT STATEMENT
+Statement date: 2026-10-01
+Account: SYN-TEST-1    Patient: SAMPLE PATIENT (FICTIONAL)
+
+DATE        CODE      DESCRIPTION                          QTY        AMOUNT
+----------------------------------------------------------------------------
+2026-09-14  99284     ER VISIT LEVEL 4                       1     $2,950.00
+2026-09-14  74177     CT ABD/PELVIS W CONTRAST               1     $5,400.00
+2026-09-14  80053     COMPREHENSIVE METABOLIC PNL            1       $240.00
+2026-09-14  85025     CBC W/AUTO DIFF                        1        $68.00
+2026-09-14  85025     CBC W/AUTO DIFF                        1        $68.00
+2026-09-14  71046     XR CHEST 2 VIEWS                       1       $280.00
+2026-09-14  93000     ECG 12 LEAD W/INTERP                   1       $410.00
+2026-09-14  J7030     NS 0.9% 1000ML INFUSION                1        $95.00
+----------------------------------------------------------------------------
+TOTAL CHARGES                                                      $9,511.00

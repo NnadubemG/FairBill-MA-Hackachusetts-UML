@@ -85,9 +85,17 @@ def make_handler(ctx: AppContext) -> type[BaseHTTPRequestHandler]:
     return AppHandler
 
 
+class _Server(ThreadingHTTPServer):
+    # On Windows, SO_REUSEADDR lets a second server bind a port that is already in use,
+    # so an old process keeps answering silently. Turn it off there so a duplicate start
+    # fails loudly instead.
+    allow_reuse_address = os.name != "nt"
+    daemon_threads = True
+
+
 def build_server(data_dir: str | None, port: int, host: str = "127.0.0.1") -> ThreadingHTTPServer:
     ctx = AppContext.build(data_dir)
-    return ThreadingHTTPServer((host, port), make_handler(ctx))
+    return _Server((host, port), make_handler(ctx))
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -97,7 +105,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--data", default=None, help="processed data dir (default: config)")
     args = parser.parse_args(argv)
 
-    httpd = build_server(args.data, args.port, args.host)
+    try:
+        httpd = build_server(args.data, args.port, args.host)
+    except OSError:
+        print(f"Port {args.port} is already in use. Stop the other server or use --port <another>.", flush=True)
+        return 1
     shown = "127.0.0.1" if args.host in ("0.0.0.0", "") else args.host
     print(f"FairBill MA running at http://{shown}:{args.port}/", flush=True)
     try:
