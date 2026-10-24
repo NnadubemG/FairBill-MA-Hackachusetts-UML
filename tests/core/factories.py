@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from contracts.types import LineItem, PriceReference, QuantityLimit
+from contracts.types import BundlePair, LineItem, PriceReference, QuantityLimit
 
 
 def make_item(
@@ -19,6 +19,23 @@ def make_item(
         code_system=code_system,
         description=description,
         billed_amount=billed_amount,
+        **kwargs,
+    )
+
+
+def make_pair(
+    code_1: str = "93000",
+    code_2: str = "93005",
+    modifier_indicator: str = "0",
+    data_year: int = 2000,
+    **kwargs,
+) -> BundlePair:
+    return BundlePair(
+        code_1=code_1,
+        code_2=code_2,
+        modifier_indicator=modifier_indicator,
+        data_source=kwargs.pop("data_source", "synthetic-test"),
+        data_year=data_year,
         **kwargs,
     )
 

@@ -20,7 +20,7 @@ Requirements are in `requirements.md`. Test cases (TQ, TU, TE, TS-N) and propert
   - Tests TQ1 to TQ9.
   - _Requirements: 1.1, 1.2, 1.3, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7_
 
-- [ ] 3. Unbundling check
+- [x] 3. Unbundling check
   - `core/dates.py` (moved from `duplicates.py`), `core/checks/unbundling.py`, templates, engine wiring.
   - Tests TU1 to TU9, TE1, TE2.
   - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8_

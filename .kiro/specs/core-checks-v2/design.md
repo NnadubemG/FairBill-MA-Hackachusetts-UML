@@ -94,6 +94,7 @@ Test cases (listed before tasks).
 - TU7 two `code_2` items: both flagged; two identical pairs: one flag each.
 - TU8 two different pairs hit one `code_2` item: two flags with different basis.
 - TU9 text names both codes and contains no `$` or banned word.
+- TU10 two pairs for the same codes: the newest year wins; a tie between different pairs is ambiguous and silent.
 
 **Engine and v1 compatibility**
 - TE1 `analyze(items, refs)` equals the earlier result for every v1 test (existing tests keep passing).

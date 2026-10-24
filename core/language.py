@@ -135,3 +135,19 @@ def quantity_text(
         f"{_source(data_source, data_year)}"
     )
     return reason, basis
+
+
+# --- unbundling flags (no $ figures) ----------------------------------------
+
+
+def unbundling_text(code_1: str, code_2: str, data_source: str, data_year: int) -> tuple[str, str]:
+    reason = (
+        f"Code {code_2} appears on the same bill as code {code_1}. "
+        "These two codes are often billed together as one service, "
+        "so it may be worth asking about whether both are expected."
+    )
+    basis = (
+        f"A published coding edit pairs code {code_1} with code {code_2}. "
+        f"{_source(data_source, data_year)}"
+    )
+    return reason, basis

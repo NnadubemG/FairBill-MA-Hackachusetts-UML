@@ -12,6 +12,7 @@ from typing import Optional, Sequence
 
 from contracts.types import Flag, LineItem
 from core import constants
+from core.dates import service_date
 from core.language import duplicate_text, to_money
 from core.reference import normalize_code
 
@@ -28,16 +29,6 @@ def _code_key(item: LineItem) -> Optional[str]:
     return None
 
 
-def _date_key(item: LineItem) -> Optional[date]:
-    value = item.date_of_service
-    if not isinstance(value, str) or not value.strip():
-        return None
-    try:
-        return date.fromisoformat(value.strip())
-    except ValueError:
-        return None  # unreadable date: treated as undated
-
-
 def _group_key(item: LineItem) -> Optional[GroupKey]:
     amount = to_money(item.billed_amount)
     if amount is None or amount <= 0:
@@ -48,7 +39,7 @@ def _group_key(item: LineItem) -> Optional[GroupKey]:
     code = _code_key(item)
     if code is None and description == "":
         return None
-    return (code, item.code_system, description, amount, _date_key(item))
+    return (code, item.code_system, description, amount, service_date(item))
 
 
 def check_duplicates(items: Sequence[LineItem]) -> list[Flag]:
