@@ -1,0 +1,257 @@
+{
+  "bill_id": "unbundling-1",
+  "bill_metadata": {
+    "hospital_name": "Example Valley Medical Center (FICTIONAL)",
+    "statement_date": "2026-06-27",
+    "total_billed": 3207.91
+  },
+  "bundle_pairs": [
+    {
+      "code_1": "93000",
+      "code_2": "93005",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "modifier_indicator": "0"
+    }
+  ],
+  "expected_flags": [
+    {
+      "flag_type": "possible_unbundling",
+      "line_item_id": "4"
+    }
+  ],
+  "line_items": [
+    {
+      "billed_amount": 54.0,
+      "code": "71046",
+      "code_system": "CPT",
+      "date_of_service": "2026-06-07",
+      "description": "Chest X-ray, 2 views",
+      "id": "1",
+      "quantity": 1,
+      "raw_description": "XR CHEST 2V",
+      "unit": "each"
+    },
+    {
+      "billed_amount": 21.45,
+      "code": "80053",
+      "code_system": "CPT",
+      "date_of_service": "2026-06-07",
+      "description": "Comprehensive metabolic blood panel",
+      "id": "2",
+      "quantity": 1,
+      "raw_description": "CMP PANEL",
+      "unit": "each"
+    },
+    {
+      "billed_amount": 25.36,
+      "code": "93000",
+      "code_system": "CPT",
+      "date_of_service": "2026-06-07",
+      "description": "Electrocardiogram (ECG) tracing",
+      "id": "3",
+      "quantity": 1,
+      "raw_description": "EKG 12 LEAD",
+      "unit": "each"
+    },
+    {
+      "billed_amount": 9.9,
+      "code": "93005",
+      "code_system": "CPT",
+      "date_of_service": "2026-06-07",
+      "description": "Electrocardiogram tracing only",
+      "id": "4",
+      "quantity": 1,
+      "raw_description": "EKG TRACING ONLY",
+      "unit": "each"
+    },
+    {
+      "billed_amount": 73.2,
+      "code": "96374",
+      "code_system": "CPT",
+      "date_of_service": "2026-06-07",
+      "description": "IV push of a single medication",
+      "id": "5",
+      "quantity": 1,
+      "raw_description": "IV PUSH SNGL",
+      "unit": "each"
+    },
+    {
+      "billed_amount": 3024.0,
+      "code": "0120",
+      "code_system": "REV",
+      "date_of_service": "2026-06-07",
+      "description": "Room and board, semi-private",
+      "id": "6",
+      "quantity": 3,
+      "raw_description": "R&B SEMI-PVT",
+      "unit": "day"
+    }
+  ],
+  "price_references": [
+    {
+      "code": "99285",
+      "code_system": "CPT",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "ma_range_high": 500.0,
+      "ma_range_low": 275.0,
+      "medicare_price": 250.0
+    },
+    {
+      "code": "99284",
+      "code_system": "CPT",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "ma_range_high": 360.0,
+      "ma_range_low": 198.0,
+      "medicare_price": 180.0
+    },
+    {
+      "code": "71046",
+      "code_system": "CPT",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "ma_range_high": 80.0,
+      "ma_range_low": 44.0,
+      "medicare_price": 40.0
+    },
+    {
+      "code": "80053",
+      "code_system": "CPT",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "ma_range_high": 30.0,
+      "ma_range_low": 16.5,
+      "medicare_price": 15.0
+    },
+    {
+      "code": "85025",
+      "code_system": "CPT",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "ma_range_high": 21.0,
+      "ma_range_low": 11.55,
+      "medicare_price": 10.5
+    },
+    {
+      "code": "93000",
+      "code_system": "CPT",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "ma_range_high": 34.5,
+      "ma_range_low": 18.98,
+      "medicare_price": 17.25
+    },
+    {
+      "code": "96374",
+      "code_system": "CPT",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "ma_range_high": 120.0,
+      "ma_range_low": 66.0,
+      "medicare_price": 60.0
+    },
+    {
+      "code": "J1100",
+      "code_system": "HCPCS",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "ma_range_high": 3.0,
+      "ma_range_low": 1.65,
+      "medicare_price": 1.5
+    },
+    {
+      "code": "120",
+      "code_system": "REV",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "ma_range_high": 1800.0,
+      "ma_range_low": 990.0,
+      "medicare_price": 900.0
+    },
+    {
+      "code": "93005",
+      "code_system": "CPT",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "ma_range_high": 18.0,
+      "ma_range_low": 9.9,
+      "medicare_price": 9.0
+    }
+  ],
+  "quantity_limits": [
+    {
+      "code": "99285",
+      "code_system": "CPT",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "max_units": 1
+    },
+    {
+      "code": "99284",
+      "code_system": "CPT",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "max_units": 1
+    },
+    {
+      "code": "71046",
+      "code_system": "CPT",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "max_units": 1
+    },
+    {
+      "code": "80053",
+      "code_system": "CPT",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "max_units": 1
+    },
+    {
+      "code": "85025",
+      "code_system": "CPT",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "max_units": 1
+    },
+    {
+      "code": "93000",
+      "code_system": "CPT",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "max_units": 1
+    },
+    {
+      "code": "96374",
+      "code_system": "CPT",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "max_units": 1
+    },
+    {
+      "code": "J1100",
+      "code_system": "HCPCS",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "max_units": 8
+    },
+    {
+      "code": "120",
+      "code_system": "REV",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "max_units": 3
+    },
+    {
+      "code": "93005",
+      "code_system": "CPT",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "max_units": 1
+    }
+  ],
+  "scenario": "unbundling",
+  "seed": 1
+}

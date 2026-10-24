@@ -19,21 +19,28 @@ from typing import Final
 
 from contracts.types import (
     BillMetadata,
+    BundlePair,
     ExpectedFlag,
     LineItem,
     PriceReference,
+    QuantityLimit,
     SyntheticBill,
 )
 from synthetic.catalog import (
+    BUNDLE_PRIMARY_CODE,
+    BUNDLE_SECONDARY_CODE,
     CATALOG,
     HIGH_PRICE_FACTOR,
     HOSPITAL_NAMES,
+    NORMAL_CATALOG,
     NORMAL_MAX_PCT,
     NORMAL_MIN_PCT,
     RANGE_HIGH_PCT,
     UNKNOWN_CODES,
     CatalogEntry,
     UnknownEntry,
+    all_bundle_pairs,
+    all_quantity_limits,
     all_references,
     cents,
     pct,
@@ -46,6 +53,8 @@ SCENARIOS: Final[tuple[str, ...]] = (
     "unknown_code",
     "injection",
     "mixed",
+    "quantity",
+    "unbundling",
 )
 
 INJECTION_TEXT: Final = (
@@ -58,6 +67,8 @@ _TAG_FLAGS: Final = {
     "dup": ("duplicate_line_item",),
     "high": ("price_above_reference", "price_outside_ma_range"),
     "unknown": ("no_reference_found",),
+    "qty": ("quantity_implausible",),
+    "bundle": ("possible_unbundling",),
 }
 
 
@@ -93,6 +104,10 @@ def _make_high(line: _Line, entry: CatalogEntry) -> None:
     line.tags.add("high")
 
 
+def _entry_with_code(code: str) -> CatalogEntry:
+    return next(entry for entry in CATALOG if entry.code == code)
+
+
 def _unknown_line(rng: random.Random) -> _Line:
     entry: UnknownEntry = rng.choice(UNKNOWN_CODES)
     return _Line(
@@ -109,7 +124,7 @@ def _unknown_line(rng: random.Random) -> _Line:
 
 def _build_lines(rng: random.Random, scenario: str) -> list[_Line]:
     count = rng.randint(5, 8) if scenario == "mixed" else rng.randint(4, 7)
-    entries = rng.sample(CATALOG, count)  # distinct, so a clean bill has no duplicates
+    entries = rng.sample(NORMAL_CATALOG, count)  # distinct, so a clean bill has no duplicates
     lines = [_normal_line(rng, entry) for entry in entries]
 
     # Pick distinct positions for each injected problem.
@@ -121,6 +136,25 @@ def _build_lines(rng: random.Random, scenario: str) -> list[_Line]:
 
     if scenario in ("unknown_code", "mixed"):
         lines[unknown_at] = _unknown_line(rng)
+
+    if scenario == "quantity":
+        # Same per-unit price, but more units than the largest normal quantity.
+        line, entry = lines[high_at], entries[high_at]
+        unit_price = line.billed / line.quantity
+        line.quantity = entry.max_units + rng.randint(1, 4)
+        line.billed = cents(unit_price * line.quantity)
+        line.tags.add("qty")
+
+    if scenario == "unbundling":
+        # Make sure the primary code (93000) is on the bill, then add the code that is
+        # normally part of it (93005) as its own line.
+        primary_at = next((i for i, line in enumerate(lines) if line.code == BUNDLE_PRIMARY_CODE), None)
+        if primary_at is None:
+            primary_at = dup_at
+            lines[primary_at] = _normal_line(rng, _entry_with_code(BUNDLE_PRIMARY_CODE))
+        secondary = _normal_line(rng, _entry_with_code(BUNDLE_SECONDARY_CODE))
+        secondary.tags.add("bundle")
+        lines.insert(primary_at + 1, secondary)
 
     if scenario == "injection":
         target = rng.randrange(len(lines))
@@ -181,6 +215,8 @@ def generate_bill(seed: int, scenario: str) -> SyntheticBill:
         line_items=items,
         price_references=all_references(),
         expected_flags=expected,
+        quantity_limits=all_quantity_limits(),
+        bundle_pairs=all_bundle_pairs(),
     )
 
 
@@ -200,5 +236,7 @@ def bill_from_dict(data: dict) -> SyntheticBill:
         line_items=[LineItem(**item) for item in data["line_items"]],
         price_references=[PriceReference(**ref) for ref in data["price_references"]],
         expected_flags=[ExpectedFlag(**flag) for flag in data["expected_flags"]],
+        quantity_limits=[QuantityLimit(**q) for q in data.get("quantity_limits", [])],
+        bundle_pairs=[BundlePair(**p) for p in data.get("bundle_pairs", [])],
     )
 

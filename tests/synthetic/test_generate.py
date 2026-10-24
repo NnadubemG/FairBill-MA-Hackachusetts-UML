@@ -20,8 +20,18 @@ def pairs(items):
     return sorted((x.line_item_id, x.flag_type) for x in items)
 
 
+def run_core(bill: SyntheticBill):
+    """Run /core on a bill the way a caller would: with all of the bill's reference data."""
+    return analyze(
+        bill.line_items,
+        bill.price_references,
+        quantity_limits=bill.quantity_limits,
+        bundle_pairs=bill.bundle_pairs,
+    )
+
+
 def analyzed(bill: SyntheticBill):
-    return pairs(analyze(bill.line_items, bill.price_references))
+    return pairs(run_core(bill))
 
 
 def test_same_seed_and_scenario_give_equal_bills():  # TS-G1
@@ -77,7 +87,7 @@ def test_injection_scenario_is_inert():  # TS-G7
         assert bill.expected_flags == []
         injected = [i for i in bill.line_items if "IGNORE PREVIOUS INSTRUCTIONS" in (i.raw_description or "")]
         assert len(injected) == 1
-        flags = analyze(bill.line_items, bill.price_references)
+        flags = run_core(bill)
         assert flags == []
         assert all("IGNORE" not in f.reason + f.basis for f in flags)
 
@@ -139,6 +149,52 @@ def test_quantity_lines_are_exact_multiples_of_a_unit_price():  # TS-G13
             unit = Decimal(str(item.billed_amount)) / quantity
             assert unit == unit.quantize(Decimal("0.01"))
     assert seen_multi  # the catalog really does exercise per-unit pricing
+
+
+def test_quantity_scenario():  # TS-N1
+    for seed in SEEDS:
+        bill = generate_bill(seed, "quantity")
+        assert [f.flag_type for f in bill.expected_flags] == ["quantity_implausible"]
+        item = next(i for i in bill.line_items if i.id == bill.expected_flags[0].line_item_id)
+        limit = next(q for q in bill.quantity_limits if q.code in (item.code, item.code.lstrip("0")))
+        assert item.quantity > limit.max_units
+        assert analyzed(bill) == pairs(bill.expected_flags)
+
+
+def test_unbundling_scenario():  # TS-N2
+    for seed in SEEDS:
+        bill = generate_bill(seed, "unbundling")
+        assert [f.flag_type for f in bill.expected_flags] == ["possible_unbundling"]
+        flagged = next(i for i in bill.line_items if i.id == bill.expected_flags[0].line_item_id)
+        assert flagged.code == "93005"
+        assert "93000" in {i.code for i in bill.line_items}
+        assert analyzed(bill) == pairs(bill.expected_flags)
+
+
+def test_other_scenarios_never_trigger_the_new_checks():  # TS-N3
+    new = {"quantity_implausible", "possible_unbundling"}
+    for scenario in SCENARIOS:
+        if scenario in ("quantity", "unbundling"):
+            continue
+        for seed in range(100):
+            bill = generate_bill(seed, scenario)
+            assert not {f.flag_type for f in bill.expected_flags} & new
+            assert not {f.flag_type for f in run_core(bill)} & new
+
+
+def test_unbundle_only_codes_stay_out_of_other_scenarios():  # TS-N4
+    for scenario in SCENARIOS:
+        if scenario == "unbundling":
+            continue
+        for seed in range(100):
+            assert "93005" not in {i.code for i in generate_bill(seed, scenario).line_items}
+
+
+def test_every_bill_carries_limits_and_pairs():
+    bill = generate_bill(1, "clean")
+    assert bill.quantity_limits and bill.bundle_pairs
+    for record in (*bill.quantity_limits, *bill.bundle_pairs):
+        assert record.data_source == "synthetic-demo" and isinstance(record.data_year, int)
 
 
 def test_unknown_scenario_raises_with_valid_names():  # TS-G14

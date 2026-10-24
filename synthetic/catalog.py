@@ -10,7 +10,7 @@ from dataclasses import dataclass
 from decimal import ROUND_HALF_UP, Decimal
 from typing import Final
 
-from contracts.types import CodeSystem, PriceReference
+from contracts.types import BundlePair, CodeSystem, PriceReference, QuantityLimit
 
 SYNTHETIC_SOURCE: Final = "synthetic-demo"
 SYNTHETIC_YEAR: Final = 2026
@@ -48,6 +48,7 @@ class CatalogEntry:
     max_units: int  # largest normal quantity
     unit: str
     reference_code: str = ""  # code as stored in reference data, if different
+    unbundle_only: bool = False  # appears only in the `unbundling` scenario
 
     @property
     def ref_code(self) -> str:
@@ -66,7 +67,15 @@ CATALOG: Final[tuple[CatalogEntry, ...]] = (
     # Revenue code printed zero-padded on the bill but stored unpadded in reference data,
     # which exercises /core's REV normalization end to end.
     CatalogEntry("0120", "REV", "Room and board, semi-private", "R&B SEMI-PVT", Decimal("900.00"), 3, "day", reference_code="120"),
+    # Part of 93000 (complete ECG) in the demo bundle pair below. Never sampled for ordinary bills.
+    CatalogEntry("93005", "CPT", "Electrocardiogram tracing only", "EKG TRACING ONLY", Decimal("9.00"), 1, "each", unbundle_only=True),
 )
+
+# Entries ordinary bills are built from (everything except unbundle_only).
+NORMAL_CATALOG: Final[tuple[CatalogEntry, ...]] = tuple(e for e in CATALOG if not e.unbundle_only)
+
+BUNDLE_PRIMARY_CODE: Final = "93000"
+BUNDLE_SECONDARY_CODE: Final = "93005"
 
 
 @dataclass(frozen=True)
@@ -100,3 +109,30 @@ def reference_for(entry: CatalogEntry) -> PriceReference:
 
 def all_references() -> list[PriceReference]:
     return [reference_for(entry) for entry in CATALOG]
+
+
+def all_quantity_limits() -> list[QuantityLimit]:
+    """A fictional limit for every catalog entry: its largest normal quantity."""
+    return [
+        QuantityLimit(
+            code=entry.ref_code,
+            code_system=entry.code_system,
+            max_units=entry.max_units,
+            data_source=SYNTHETIC_SOURCE,
+            data_year=SYNTHETIC_YEAR,
+        )
+        for entry in CATALOG
+    ]
+
+
+def all_bundle_pairs() -> list[BundlePair]:
+    """One fictional pair: 93005 is normally part of 93000. Indicator "0": not billed together."""
+    return [
+        BundlePair(
+            code_1=BUNDLE_PRIMARY_CODE,
+            code_2=BUNDLE_SECONDARY_CODE,
+            modifier_indicator="0",
+            data_source=SYNTHETIC_SOURCE,
+            data_year=SYNTHETIC_YEAR,
+        )
+    ]

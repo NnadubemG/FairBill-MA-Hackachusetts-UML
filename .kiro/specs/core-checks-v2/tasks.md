@@ -29,12 +29,12 @@ Requirements are in `requirements.md`. Test cases (TQ, TU, TE, TS-N) and propert
   - Hypothesis tests PQ1 to PQ7.
   - _Requirements: 4.1, 4.2, 4.3, 4.4_
 
-- [ ] 5. Synthetic ground truth
+- [x] 5. Synthetic ground truth
   - `unbundle_only` catalog entry (93005), quantity limits and a bundle pair, scenarios `quantity` and `unbundling`, bills carry limits and pairs, regenerate samples.
   - Tests TS-N1 to TS-N5 and PQ8.
   - _Requirements: 5.2, 5.3_
 
-- [ ] 6. Wrap-up
+- [x] 6. Wrap-up
   - Log lines in `docs/kiro-log.md`; confirm `/core` is still pure.
 
 ## Task Dependency Graph

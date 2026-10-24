@@ -1,0 +1,15 @@
+Example Valley Medical Center (FICTIONAL)
+PATIENT STATEMENT
+Statement date: 2026-06-27
+Account: SYN-unbundling-1    Patient: SAMPLE PATIENT (FICTIONAL)
+
+DATE        CODE      DESCRIPTION                          QTY        AMOUNT
+----------------------------------------------------------------------------
+2026-06-07  71046     XR CHEST 2V                            1        $54.00
+2026-06-07  80053     CMP PANEL                              1        $21.45
+2026-06-07  93000     EKG 12 LEAD                            1        $25.36
+2026-06-07  93005     EKG TRACING ONLY                       1         $9.90
+2026-06-07  96374     IV PUSH SNGL                           1        $73.20
+2026-06-07  0120      R&B SEMI-PVT                           3     $3,024.00
+----------------------------------------------------------------------------
+TOTAL CHARGES                                                      $3,207.91

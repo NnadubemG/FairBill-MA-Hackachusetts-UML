@@ -5,7 +5,15 @@
     "statement_date": "2026-07-02",
     "total_billed": 773.43
   },
-  "bundle_pairs": [],
+  "bundle_pairs": [
+    {
+      "code_1": "93000",
+      "code_2": "93005",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "modifier_indicator": "0"
+    }
+  ],
   "expected_flags": [
     {
       "flag_type": "duplicate_line_item",
@@ -187,9 +195,89 @@
       "ma_range_high": 1800.0,
       "ma_range_low": 990.0,
       "medicare_price": 900.0
+    },
+    {
+      "code": "93005",
+      "code_system": "CPT",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "ma_range_high": 18.0,
+      "ma_range_low": 9.9,
+      "medicare_price": 9.0
     }
   ],
-  "quantity_limits": [],
+  "quantity_limits": [
+    {
+      "code": "99285",
+      "code_system": "CPT",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "max_units": 1
+    },
+    {
+      "code": "99284",
+      "code_system": "CPT",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "max_units": 1
+    },
+    {
+      "code": "71046",
+      "code_system": "CPT",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "max_units": 1
+    },
+    {
+      "code": "80053",
+      "code_system": "CPT",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "max_units": 1
+    },
+    {
+      "code": "85025",
+      "code_system": "CPT",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "max_units": 1
+    },
+    {
+      "code": "93000",
+      "code_system": "CPT",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "max_units": 1
+    },
+    {
+      "code": "96374",
+      "code_system": "CPT",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "max_units": 1
+    },
+    {
+      "code": "J1100",
+      "code_system": "HCPCS",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "max_units": 8
+    },
+    {
+      "code": "120",
+      "code_system": "REV",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "max_units": 3
+    },
+    {
+      "code": "93005",
+      "code_system": "CPT",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "max_units": 1
+    }
+  ],
   "scenario": "duplicate",
   "seed": 1
 }

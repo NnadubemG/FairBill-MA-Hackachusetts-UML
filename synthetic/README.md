@@ -12,6 +12,8 @@ from synthetic import generate_bill, render_text, render_pdf, to_json
 bill = generate_bill(seed=7, scenario="mixed")   # same arguments, same bill
 bill.line_items       # what a perfect extraction returns
 bill.price_references # fictional reference prices to pass to core.analyze
+bill.quantity_limits  # fictional quantity limits (optional analyze argument)
+bill.bundle_pairs     # fictional bundle pairs (optional analyze argument)
 bill.expected_flags   # exactly the (line_item_id, flag_type) pairs /core should return
 render_text(bill, "messy")   # plain-text bill
 render_pdf(bill, "messy")    # PDF bytes
@@ -36,13 +38,23 @@ The data shape is `contracts/synthetic-bill.schema.json` (`SyntheticBill`).
 | `unknown_code` | one code with no reference price | `no_reference_found` on that line |
 | `injection` | instruction-like text inside a line description | none (it is inert data) |
 | `mixed` | duplicate, high price, and unknown code together | all of the above |
+| `quantity` | one line with more units than its limit | `quantity_implausible` on that line |
+| `unbundling` | code 93000 plus 93005, which the demo pair says is part of it | `possible_unbundling` on the 93005 line |
+
+To check `/core` against a bill, pass everything the bill carries:
+
+```python
+from core import analyze
+flags = analyze(bill.line_items, bill.price_references,
+                quantity_limits=bill.quantity_limits, bundle_pairs=bill.bundle_pairs)
+```
 
 Styles change only how the bill looks, never the ground truth: `plain` (ISO dates, `$` amounts)
 and `messy` (`MM/DD/YY` dates, no `$`, extra header and footer lines).
 
 ## Samples
 
-`synthetic/samples/` holds one bill per scenario (seed 1) as JSON, text, and PDF. A test fails if
+`synthetic/samples/` holds one bill per scenario, eight in all (seed 1) as JSON, text, and PDF. A test fails if
 they are out of date; fix it with `python -m synthetic --samples`. Do not edit them by hand.
 `.gitattributes` keeps them byte-identical across operating systems.
 
@@ -50,7 +62,7 @@ they are out of date; fix it with `python -m synthetic --samples`. Do not edit t
 
 Feed the `.txt` or `.pdf` to extraction and compare the result with `line_items` in the `.json`.
 `raw_description` is the text as printed; `description` is our plain-language label.
-Run `core.analyze(line_items, price_references)` and compare with `expected_flags`.
+Run `core.analyze(...)` as shown above and compare with `expected_flags`.
 
 ## Notes
 
