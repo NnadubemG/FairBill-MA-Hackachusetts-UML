@@ -1,5 +1,29 @@
 [
   {
+    "city": "Newburyport",
+    "id": "anna_jaques",
+    "name": "Anna Jaques Hospital",
+    "type": "community"
+  },
+  {
+    "city": "Milton",
+    "id": "bid_milton",
+    "name": "Beth Israel Deaconess Hospital-Milton",
+    "type": "community"
+  },
+  {
+    "city": "Needham",
+    "id": "bid_needham",
+    "name": "Beth Israel Deaconess Hospital-Needham",
+    "type": "community"
+  },
+  {
+    "city": "Plymouth",
+    "id": "bid_plymouth",
+    "name": "Beth Israel Deaconess Hospital-Plymouth",
+    "type": "community"
+  },
+  {
     "city": "Boston",
     "id": "bidmc",
     "name": "Beth Israel Deaconess Medical Center",
@@ -10,5 +34,11 @@
     "id": "lahey_burlington",
     "name": "Lahey Hospital & Medical Center",
     "type": "academic"
+  },
+  {
+    "city": "Weymouth",
+    "id": "south_shore",
+    "name": "South Shore Hospital",
+    "type": "community"
   }
 ]

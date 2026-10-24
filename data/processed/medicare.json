@@ -1,0 +1,137 @@
+[
+  {
+    "code": "43239",
+    "code_system": "HCPCS",
+    "data_source": "CMS Medicare Physician Fee Schedule 2026 (non-QP), MA Metro Boston locality, non-facility",
+    "data_year": 2026,
+    "ma_range_high": null,
+    "ma_range_low": null,
+    "medicare_price": 485.46
+  },
+  {
+    "code": "45378",
+    "code_system": "HCPCS",
+    "data_source": "CMS Medicare Physician Fee Schedule 2026 (non-QP), MA Metro Boston locality, non-facility",
+    "data_year": 2026,
+    "ma_range_high": null,
+    "ma_range_low": null,
+    "medicare_price": 431.04
+  },
+  {
+    "code": "45385",
+    "code_system": "HCPCS",
+    "data_source": "CMS Medicare Physician Fee Schedule 2026 (non-QP), MA Metro Boston locality, non-facility",
+    "data_year": 2026,
+    "ma_range_high": null,
+    "ma_range_low": null,
+    "medicare_price": 569.04
+  },
+  {
+    "code": "70551",
+    "code_system": "HCPCS",
+    "data_source": "CMS Medicare Physician Fee Schedule 2026 (non-QP), MA Metro Boston locality, non-facility",
+    "data_year": 2026,
+    "ma_range_high": null,
+    "ma_range_low": null,
+    "medicare_price": 224.93
+  },
+  {
+    "code": "71046",
+    "code_system": "HCPCS",
+    "data_source": "CMS Medicare Physician Fee Schedule 2026 (non-QP), MA Metro Boston locality, non-facility",
+    "data_year": 2026,
+    "ma_range_high": null,
+    "ma_range_low": null,
+    "medicare_price": 38.21
+  },
+  {
+    "code": "73721",
+    "code_system": "HCPCS",
+    "data_source": "CMS Medicare Physician Fee Schedule 2026 (non-QP), MA Metro Boston locality, non-facility",
+    "data_year": 2026,
+    "ma_range_high": null,
+    "ma_range_low": null,
+    "medicare_price": 236.41
+  },
+  {
+    "code": "74177",
+    "code_system": "HCPCS",
+    "data_source": "CMS Medicare Physician Fee Schedule 2026 (non-QP), MA Metro Boston locality, non-facility",
+    "data_year": 2026,
+    "ma_range_high": null,
+    "ma_range_low": null,
+    "medicare_price": 348.16
+  },
+  {
+    "code": "77067",
+    "code_system": "HCPCS",
+    "data_source": "CMS Medicare Physician Fee Schedule 2026 (non-QP), MA Metro Boston locality, non-facility",
+    "data_year": 2026,
+    "ma_range_high": null,
+    "ma_range_low": null,
+    "medicare_price": 146.46
+  },
+  {
+    "code": "93000",
+    "code_system": "HCPCS",
+    "data_source": "CMS Medicare Physician Fee Schedule 2026 (non-QP), MA Metro Boston locality, non-facility",
+    "data_year": 2026,
+    "ma_range_high": null,
+    "ma_range_low": null,
+    "medicare_price": 17.27
+  },
+  {
+    "code": "93306",
+    "code_system": "HCPCS",
+    "data_source": "CMS Medicare Physician Fee Schedule 2026 (non-QP), MA Metro Boston locality, non-facility",
+    "data_year": 2026,
+    "ma_range_high": null,
+    "ma_range_low": null,
+    "medicare_price": 226.83
+  },
+  {
+    "code": "97110",
+    "code_system": "HCPCS",
+    "data_source": "CMS Medicare Physician Fee Schedule 2026 (non-QP), MA Metro Boston locality, non-facility",
+    "data_year": 2026,
+    "ma_range_high": null,
+    "ma_range_low": null,
+    "medicare_price": 32.29
+  },
+  {
+    "code": "99213",
+    "code_system": "HCPCS",
+    "data_source": "CMS Medicare Physician Fee Schedule 2026 (non-QP), MA Metro Boston locality, non-facility",
+    "data_year": 2026,
+    "ma_range_high": null,
+    "ma_range_low": null,
+    "medicare_price": 106.1
+  },
+  {
+    "code": "99214",
+    "code_system": "HCPCS",
+    "data_source": "CMS Medicare Physician Fee Schedule 2026 (non-QP), MA Metro Boston locality, non-facility",
+    "data_year": 2026,
+    "ma_range_high": null,
+    "ma_range_low": null,
+    "medicare_price": 150.68
+  },
+  {
+    "code": "99283",
+    "code_system": "HCPCS",
+    "data_source": "CMS Medicare Physician Fee Schedule 2026 (non-QP), MA Metro Boston locality, non-facility",
+    "data_year": 2026,
+    "ma_range_high": null,
+    "ma_range_low": null,
+    "medicare_price": 72.74
+  },
+  {
+    "code": "99284",
+    "code_system": "HCPCS",
+    "data_source": "CMS Medicare Physician Fee Schedule 2026 (non-QP), MA Metro Boston locality, non-facility",
+    "data_year": 2026,
+    "ma_range_high": null,
+    "ma_range_low": null,
+    "medicare_price": 123.62
+  }
+]

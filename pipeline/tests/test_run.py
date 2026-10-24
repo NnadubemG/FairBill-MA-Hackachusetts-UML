@@ -105,7 +105,7 @@ def test_cli_all_end_to_end(tmp_path, monkeypatch):
     )
     # Raw CMS PFS, NCCI, CHIA.
     (raw / "cms_pfs.csv").write_text(
-        "hcpcs,locality,payment_amount\n99213,10112,92.47\n", encoding="utf-8"
+        f"hcpcs,locality,payment_amount\n99213,{config.MA_PFS_LOCALITY},92.47\n", encoding="utf-8"
     )
     (raw / "ncci_ptp.csv").write_text(
         "code_1,code_2,modifier_indicator\n99213,80053,1\n", encoding="utf-8"

@@ -1,3 +1,8 @@
 id,name,city,type,format_id,source_file
-lahey_burlington,"Lahey Hospital & Medical Center",Burlington,academic,cms_json,hospitals/lahey_burlington.json
-bidmc,"Beth Israel Deaconess Medical Center",Boston,academic,cms_json,hospitals/bidmc.json
+lahey_burlington,Lahey Hospital & Medical Center,Burlington,academic,cms_json,hospitals/lahey_burlington.json
+bidmc,Beth Israel Deaconess Medical Center,Boston,academic,cms_json,hospitals/bidmc.json
+anna_jaques,Anna Jaques Hospital,Newburyport,community,cms_json,hospitals/anna_jaques.json
+bid_milton,Beth Israel Deaconess Hospital-Milton,Milton,community,cms_json,hospitals/bid_milton.json
+bid_needham,Beth Israel Deaconess Hospital-Needham,Needham,community,cms_json,hospitals/bid_needham.json
+bid_plymouth,Beth Israel Deaconess Hospital-Plymouth,Plymouth,community,cms_json,hospitals/bid_plymouth.json
+south_shore,South Shore Hospital,Weymouth,community,cms_json,hospitals/south_shore.json

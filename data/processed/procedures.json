@@ -4,132 +4,132 @@
     "code": "43239",
     "code_system": "CPT",
     "plain_label": "Upper endoscopy with tissue sample",
-    "typical_max_units": null
+    "typical_max_units": 1.0
   },
   {
     "category": "procedure",
     "code": "45378",
     "code_system": "CPT",
     "plain_label": "Diagnostic colonoscopy",
-    "typical_max_units": null
+    "typical_max_units": 1.0
   },
   {
     "category": "procedure",
     "code": "45385",
     "code_system": "CPT",
     "plain_label": "Colonoscopy with removal of growths",
-    "typical_max_units": null
+    "typical_max_units": 1.0
   },
   {
     "category": "imaging",
     "code": "70551",
     "code_system": "CPT",
     "plain_label": "MRI of the brain",
-    "typical_max_units": null
+    "typical_max_units": 2.0
   },
   {
     "category": "imaging",
     "code": "71046",
     "code_system": "CPT",
     "plain_label": "Chest X-ray",
-    "typical_max_units": null
+    "typical_max_units": 2.0
   },
   {
     "category": "imaging",
     "code": "73721",
     "code_system": "CPT",
     "plain_label": "MRI of a knee or other leg joint",
-    "typical_max_units": null
+    "typical_max_units": 3.0
   },
   {
     "category": "imaging",
     "code": "74177",
     "code_system": "CPT",
     "plain_label": "CT scan of the abdomen and pelvis",
-    "typical_max_units": null
+    "typical_max_units": 2.0
   },
   {
     "category": "imaging",
     "code": "77067",
     "code_system": "CPT",
     "plain_label": "Screening mammogram (both breasts)",
-    "typical_max_units": null
+    "typical_max_units": 1.0
   },
   {
     "category": "lab",
     "code": "80053",
     "code_system": "CPT",
     "plain_label": "Basic metabolic and chemistry blood panel",
-    "typical_max_units": null
+    "typical_max_units": 1.0
   },
   {
     "category": "lab",
     "code": "80061",
     "code_system": "CPT",
     "plain_label": "Cholesterol and blood fat panel",
-    "typical_max_units": null
+    "typical_max_units": 1.0
   },
   {
     "category": "lab",
     "code": "83036",
     "code_system": "CPT",
     "plain_label": "Blood sugar control test (A1c)",
-    "typical_max_units": null
+    "typical_max_units": 1.0
   },
   {
     "category": "lab",
     "code": "85025",
     "code_system": "CPT",
     "plain_label": "Complete blood count lab test",
-    "typical_max_units": null
+    "typical_max_units": 2.0
   },
   {
     "category": "diagnostic",
     "code": "93000",
     "code_system": "CPT",
     "plain_label": "Heart rhythm tracing (ECG)",
-    "typical_max_units": null
+    "typical_max_units": 3.0
   },
   {
     "category": "imaging",
     "code": "93306",
     "code_system": "CPT",
     "plain_label": "Heart ultrasound (echocardiogram)",
-    "typical_max_units": null
+    "typical_max_units": 1.0
   },
   {
     "category": "therapy",
     "code": "97110",
     "code_system": "CPT",
     "plain_label": "Physical therapy session",
-    "typical_max_units": null
+    "typical_max_units": 6.0
   },
   {
     "category": "office_visit",
     "code": "99213",
     "code_system": "CPT",
     "plain_label": "Standard office visit with a doctor (established patient)",
-    "typical_max_units": null
+    "typical_max_units": 2.0
   },
   {
     "category": "office_visit",
     "code": "99214",
     "code_system": "CPT",
     "plain_label": "Longer or more involved office visit (established patient)",
-    "typical_max_units": null
+    "typical_max_units": 2.0
   },
   {
     "category": "er_visit",
     "code": "99283",
     "code_system": "CPT",
     "plain_label": "Emergency room visit, moderate level",
-    "typical_max_units": null
+    "typical_max_units": 1.0
   },
   {
     "category": "er_visit",
     "code": "99284",
     "code_system": "CPT",
     "plain_label": "Emergency room visit, higher level",
-    "typical_max_units": null
+    "typical_max_units": 1.0
   }
 ]

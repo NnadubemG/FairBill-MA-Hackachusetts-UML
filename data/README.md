@@ -25,10 +25,10 @@ This folder holds the inputs and committed outputs of the price-data pipeline.
 | `procedures.json` | `ProcedureInfo[]` | `procedures` | From `procedure_list.csv`. |
 | `hospitals.json` | `{id,name,city,type}[]` | `hospitals` | Public fields only. |
 | `prices.json` | `PriceStat[]` | `prices` | Per hospital × code × payer group. |
-| `medicare.json` | `PriceReference[]` | `medicare` | MA locality `10112`. Needs the PFS raw file. |
+| `medicare.json` | `PriceReference[]` | `medicare` | CMS PFS 2026 non-QP, MA locality `14212-01` (Metro Boston), non-facility. Built by `pipeline.adapters.cms_pfs` from PFREV26 A-D. 15 of 19 codes (lab codes are not on the PFS). |
 | `reference.json` | `PriceReference[]` | `reference` | One combined record per code for `/core`. |
 | `bundle_pairs.json` | `BundlePair[]` | `ncci` | Needs the NCCI raw file. |
-| `quantity_limits.json` | `QuantityLimit[]` | `quantity_limits` | Needs `typical_max_units`. |
+| `quantity_limits.json` | `QuantityLimit[]` | `quantity_limits` | `typical_max_units` = CMS NCCI MUE practitioner values (effective 2026-10-01), filled by `pipeline.adapters.cms_mue`. |
 | `chia_tiers.json` | internal | `chia` | Needs CHIA data. |
 
 ## Field names `/core` and the compare API load
