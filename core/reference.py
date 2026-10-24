@@ -11,6 +11,7 @@ from dataclasses import dataclass
 from typing import Literal, Optional, Sequence
 
 from contracts.types import LineItem, PriceReference
+from core.constants import BANNED_WORDS
 
 _CODE_PATTERN = re.compile(r"[A-Za-z0-9.\-]{1,12}")
 
@@ -25,6 +26,11 @@ def clean_code(code: object) -> Optional[str]:
         return None
     stripped = code.strip()
     if _CODE_PATTERN.fullmatch(stripped) is None:
+        return None
+    # A code is printed in flag text, so it must not carry a banned word
+    # (for example a bill code of "FRAUD").
+    lowered = stripped.lower()
+    if any(word in lowered for word in BANNED_WORDS):
         return None
     return stripped.upper()
 

@@ -74,6 +74,10 @@ loads the JSON and passes `PriceReference[]` in, which keeps `/core` pure.
   no `$` figures and no ids or descriptions, so R3 and R9 hold trivially.
   Amounts that are zero, negative, or non-finite are ignored. An unreadable date counts as undated.
   An invalid code still groups by its own text but is never printed.
+- **Banned words in codes.** A code is printed in flag text, so a code containing a banned word
+  (for example `FRAUD`) is treated as unusable. Found by property test PR1.
+- **Sort key.** `analyze` sorts by every flag field, not just `(line_item_id, flag_type)`, so output is
+  identical for any input order even when two items share an id.
 - **Provenance guard.** A reference with a blank `data_source` or a non-integer `data_year` is never used
   for a price flag, so a price figure can never be cited without its source and year (R3).
 - **Severities:** outside_ma_range `medium`, above_reference `low`, duplicate `medium`/`low`, no_reference `info`.

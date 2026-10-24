@@ -73,6 +73,12 @@ def test_normalize_code_cleans_or_rejects(raw, system, expected):  # TC-L6
     assert normalize_code(raw, system) == expected
 
 
+@pytest.mark.parametrize("raw", ["FRAUD", "fraud7", "Illegal", "xOVERCHARGEDx"])
+def test_codes_containing_banned_words_are_unusable(raw):  # found by property test PR1
+    assert normalize_code(raw, "CPT") is None
+    assert ReferenceIndex([make_ref()]).lookup(make_item(code=raw)).status == "unusable"
+
+
 def test_unusable_code_lookup_status():  # TC-L6
     index = ReferenceIndex([make_ref()])
     assert index.lookup(make_item(code="99285; drop")).status == "unusable"

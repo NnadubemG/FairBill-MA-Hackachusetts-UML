@@ -34,12 +34,12 @@ in `design.md`.
   - Unit tests TC-D1 to TC-D8, TC-N1 to TC-N4.
   - _Requirements: R6, R7_
 
-- [ ] 5. Engine and property tests
+- [x] 5. Engine and property tests
   - `engine.py` runs the checks and sorts output.
   - Unit tests TC-E2, TC-E3. Hypothesis tests PR1 to PR11.
   - _Requirements: R2, R10_
 
-- [ ] 6. Wrap-up
+- [x] 6. Wrap-up
   - Append a line to `docs/kiro-log.md`. Confirm no file I/O or network imports in `core/`.
 
 ## Task Dependency Graph
