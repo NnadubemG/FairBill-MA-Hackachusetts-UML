@@ -23,6 +23,7 @@ from backend.explain.checks import has_banned_word
 from . import config
 from ._contracts import Flag, LineItem
 from .request import clean_field
+from .tone import has_tone_problem
 
 WARN_UNKNOWN_LINE = (
     "Some selected items could not be matched to a bill line and were left out of the letter."
@@ -78,9 +79,12 @@ def format_date(value: object) -> str | None:
 
 
 def _safe_flag_text(text: object) -> str:
-    """One-line flag text, or empty if it is missing or contains a banned word."""
+    """One-line flag text, or empty if it is missing, has a banned word, or has wording
+    the letter must not carry (accusation, legal, money demand, deadline)."""
     cleaned = clean_field(text, _MAX_FLAG_TEXT)
-    return "" if has_banned_word(cleaned) else cleaned
+    if has_banned_word(cleaned) or has_tone_problem(cleaned):
+        return ""
+    return cleaned
 
 
 @dataclass(frozen=True)

@@ -17,35 +17,17 @@ import re
 from decimal import Decimal
 from typing import Sequence
 
-from backend.explain.checks import figures, has_banned_word, implied_figure_words, normalise
+from backend.explain.checks import figures, has_banned_word, implied_figure_words
 
 from . import config
 from .facts import ItemFact, facts_text
-
-_TONE_GROUPS = (
-    config.ACCUSATION_PATTERNS,
-    config.LEGAL_PATTERNS,
-    config.MONEY_DEMAND_PATTERNS,
-    config.DEADLINE_PATTERNS,
-)
-_TONE_REGEXES = tuple(re.compile(p) for group in _TONE_GROUPS for p in group)
+from .tone import has_tone_problem, lower as _lower
 
 _WORD = re.compile(r"[a-z']+")
 _SENTENCE_SPLIT = re.compile(r"(?<=[.?!])\s+")
 # Characters and starts that mean markdown, links, emails or placeholders.
 _FORBIDDEN_CHARS = set("`*#@<>[]{}\\|")
 _LIST_START = re.compile(r"^\s*(?:[-•–—]|\d+[.)])\s")
-
-
-def _lower(text: str) -> str:
-    # Curly apostrophes become plain ones so "I’d" counts as first person.
-    return normalise(text).replace("\u2019", "'").replace("\u2018", "'")
-
-
-def has_tone_problem(text: str) -> bool:
-    """True if the text has accusation, legal, money-demand or deadline wording."""
-    norm = _lower(text)
-    return any(rx.search(norm) for rx in _TONE_REGEXES)
 
 
 def is_first_person(text: str) -> bool:

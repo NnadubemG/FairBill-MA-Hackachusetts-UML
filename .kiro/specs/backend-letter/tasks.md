@@ -29,7 +29,7 @@ that prove it. Stay inside `/backend/letter`. Start only after open decision 1 i
   - Tests L8 (all cases); property PL2 (on `accept_paragraph`).
   - _Requirements: R3.4, R3.5, R4.1, R4.2, R4.3_
 
-- [ ] 5. Templates and `assemble_body` (no model yet)
+- [x] 5. Templates and `assemble_body` (no model yet)
   - `templates.py`: subjects, fixed sections, fallback paragraphs, items section, closing,
     placeholders, `assemble_body`.
   - Tests L1, L3 (text part), L4, L5 (template part), L6, L7 (fallback), L16, L18, L19, L22,
