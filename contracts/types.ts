@@ -91,6 +91,9 @@ export interface Flag {
   /** Required when the flag cites a price figure; otherwise null. */
   data_source?: string | null;
   data_year?: number | null;
+  /** Plain-language rewrite of `reason`, set by the explain handler (LLM).
+   *  /core always leaves this null. Adds no facts or numbers beyond reason/basis. */
+  explanation?: string | null;
 }
 
 /** An editable letter draft the patient can send. Never asserts wrongdoing. */

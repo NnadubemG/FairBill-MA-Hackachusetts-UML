@@ -115,6 +115,9 @@ class Flag:
     basis: str
     data_source: Optional[str] = None
     data_year: Optional[int] = None
+    # Plain-language rewrite of `reason`, set by the explain handler (LLM).
+    # /core always leaves this None. Adds no facts or numbers beyond reason/basis.
+    explanation: Optional[str] = None
 
 
 @dataclass(frozen=True)

@@ -127,9 +127,9 @@ Fields `/core` writes on `Flag`: `line_item_id`, `flag_type`, `severity`, `reaso
 
 Internal values (not exported): `ReferenceIndex` (dict from normalized key to refs) and `Match`.
 
-**Open item:** the team brief says Sam's explain handler rewrites `Flag.explanation`. The current
-`Flag` contract has no such field. Pending Thomas's decision: add an optional `explanation`
-(which `/core` leaves `None`) or have Sam rewrite `reason`. `/core` is unaffected either way.
+**Resolved:** `Flag.explanation` was added to `/contracts` as an optional field. Sam's explain handler
+fills it with a plain-language rewrite of `reason`; `/core` always leaves it `None`, so the
+deterministic `reason` stays available to check the rewrite against.
 
 ## Correctness Properties
 
