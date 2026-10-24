@@ -16,7 +16,7 @@ explain and letter code must be available on this branch).
   - Tests C1 to C13; properties PE6, PE7.
   - _Requirements: R5, R9.1, R9.3_
 
-- [ ] 3. Line matching and extraction scoring
+- [x] 3. Line matching and extraction scoring
   - `align.py`, `score_extract.py` (metrics, failure records, `n/a` handling).
   - Tests A1 to A12; properties PE1, PE2, PE3, PE4, PE9.
   - _Requirements: R2_
