@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from contracts.types import LineItem, PriceReference
+from contracts.types import LineItem, PriceReference, QuantityLimit
 
 
 def make_item(
@@ -19,6 +19,23 @@ def make_item(
         code_system=code_system,
         description=description,
         billed_amount=billed_amount,
+        **kwargs,
+    )
+
+
+def make_limit(
+    code: str = "99285",
+    code_system: str | None = "CPT",
+    max_units: float = 2.0,
+    data_year: int = 2000,
+    **kwargs,
+) -> QuantityLimit:
+    return QuantityLimit(
+        code=code,
+        code_system=code_system,
+        max_units=max_units,
+        data_source=kwargs.pop("data_source", "synthetic-test"),
+        data_year=data_year,
         **kwargs,
     )
 

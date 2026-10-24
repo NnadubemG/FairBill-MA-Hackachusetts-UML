@@ -111,3 +111,27 @@ def no_reference_text(code: str) -> tuple[str, str]:
     )
     basis = f"No entry for code {code} in the reference data we have."
     return reason, basis
+
+
+# --- quantity flags (no $ figures) ------------------------------------------
+
+
+def format_units(value: Decimal) -> str:
+    """A unit count without a trailing '.0' (Decimal('2.0') -> '2'). Huge values are not spelled out."""
+    if abs(value) >= Decimal(10) ** 12:
+        return "a very large number"
+    return format(value.normalize(), "f")
+
+
+def quantity_text(
+    code: str, quantity: Decimal, max_units: Decimal, data_source: str, data_year: int
+) -> tuple[str, str]:
+    reason = (
+        f"The quantity of {format_units(quantity)} for this item may be worth asking about. "
+        f"It is more than the typical maximum of {format_units(max_units)} units we have on file for this code."
+    )
+    basis = (
+        f"Typical maximum for code {code}: {format_units(max_units)} units. "
+        f"{_source(data_source, data_year)}"
+    )
+    return reason, basis

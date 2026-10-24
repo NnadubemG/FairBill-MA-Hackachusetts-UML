@@ -8,9 +8,9 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
-from typing import Literal, Optional, Sequence
+from typing import Generic, Literal, Optional, Protocol, Sequence, TypeVar
 
-from contracts.types import LineItem, PriceReference
+from contracts.types import LineItem
 from core.constants import BANNED_WORDS
 
 _CODE_PATTERN = re.compile(r"[A-Za-z0-9.\-]{1,12}")
@@ -45,11 +45,39 @@ def normalize_code(code: object, code_system: Optional[str]) -> Optional[str]:
     return cleaned
 
 
+class Keyed(Protocol):
+    """Any reference record that can be looked up by code (PriceReference, QuantityLimit)."""
+
+    @property
+    def code(self) -> str: ...
+
+    @property
+    def code_system(self) -> Optional[str]: ...
+
+    @property
+    def data_year(self) -> int: ...
+
+
+T = TypeVar("T", bound=Keyed)
+
+
+def has_provenance(record: object) -> bool:
+    """A figure may only be cited if its source and year are present and well formed."""
+    source = getattr(record, "data_source", None)
+    year = getattr(record, "data_year", None)
+    return (
+        isinstance(source, str)
+        and source.strip() != ""
+        and isinstance(year, int)
+        and not isinstance(year, bool)
+    )
+
+
 MatchStatus = Literal["found", "not_found", "ambiguous", "unusable"]
 
 
 @dataclass(frozen=True)
-class Match:
+class Match(Generic[T]):
     """Result of looking up a line item's reference.
 
     found:      `ref` is the reference to use.
@@ -59,15 +87,15 @@ class Match:
     """
 
     status: MatchStatus
-    ref: Optional[PriceReference] = None
+    ref: Optional[T] = None
 
 
-_NOT_FOUND = Match("not_found")
-_AMBIGUOUS = Match("ambiguous")
-_UNUSABLE = Match("unusable")
+_NOT_FOUND: Match = Match("not_found")
+_AMBIGUOUS: Match = Match("ambiguous")
+_UNUSABLE: Match = Match("unusable")
 
 
-def _resolve(candidates: Sequence[PriceReference]) -> Match:
+def _resolve(candidates: Sequence[T]) -> Match[T]:
     """Pick the newest reference. A tie between different refs is ambiguous."""
     unique = list(dict.fromkeys(candidates))  # drop exact duplicates, keep order
     newest_year = max(ref.data_year for ref in unique)
@@ -77,13 +105,13 @@ def _resolve(candidates: Sequence[PriceReference]) -> Match:
     return _AMBIGUOUS
 
 
-class ReferenceIndex:
-    """Index of PriceReference objects for lookup by code and code system."""
+class ReferenceIndex(Generic[T]):
+    """Index of reference records (PriceReference, QuantityLimit) by code and code system."""
 
-    def __init__(self, refs: Sequence[PriceReference]) -> None:
+    def __init__(self, refs: Sequence[T]) -> None:
         self.has_refs: bool = len(refs) > 0
-        self._by_key: dict[tuple[str, Optional[str]], list[PriceReference]] = {}
-        self._by_raw: dict[str, list[PriceReference]] = {}
+        self._by_key: dict[tuple[str, Optional[str]], list[T]] = {}
+        self._by_raw: dict[str, list[T]] = {}
         for ref in refs:
             key_code = normalize_code(ref.code, ref.code_system)
             raw_code = clean_code(ref.code)
@@ -92,7 +120,7 @@ class ReferenceIndex:
             self._by_key.setdefault((key_code, ref.code_system), []).append(ref)
             self._by_raw.setdefault(raw_code, []).append(ref)
 
-    def lookup(self, item: LineItem) -> Match:
+    def lookup(self, item: LineItem) -> Match[T]:
         code = normalize_code(item.code, item.code_system)
         if code is None:
             return _UNUSABLE

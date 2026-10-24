@@ -14,7 +14,7 @@ Requirements are in `requirements.md`. Test cases (TQ, TU, TE, TS-N) and propert
   - Extend `synthetic-bill.schema.json` and mirrors (optional `quantity_limits`, `bundle_pairs`; scenarios `quantity`, `unbundling`).
   - _Requirements: 5.1, 5.2_
 
-- [ ] 2. Quantity check
+- [x] 2. Quantity check
   - Move `has_provenance` to `core/reference.py`; let `ReferenceIndex` take any keyed record.
   - `core/checks/quantity.py`, templates in `language.py`, engine wiring.
   - Tests TQ1 to TQ9.
