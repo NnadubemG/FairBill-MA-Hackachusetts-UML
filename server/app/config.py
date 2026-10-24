@@ -14,7 +14,7 @@ from __future__ import annotations
 
 from typing import List, Optional
 
-from pydantic import Field, SecretStr, field_validator
+from pydantic import Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -31,8 +31,11 @@ class Settings(BaseSettings):
     host: str = Field(default="0.0.0.0", alias="HOST")
 
     # --- CORS ---
-    # Comma-separated list of exact allowed origins. Empty => same-origin only.
-    allowed_origins: List[str] = Field(default_factory=list, alias="ALLOWED_ORIGINS")
+    # Comma-separated string of exact allowed origins. Empty => same-origin only.
+    # Stored as a raw string (not List[str]) so pydantic-settings reads it
+    # literally from the env rather than attempting to JSON-decode it. The parsed
+    # list is exposed via the `allowed_origins` property below.
+    allowed_origins_raw: str = Field(default="", alias="ALLOWED_ORIGINS")
 
     # --- Anthropic (optional for the stub; needed by extract/letter later) ---
     anthropic_api_key: Optional[SecretStr] = Field(default=None, alias="ANTHROPIC_API_KEY")
@@ -44,15 +47,14 @@ class Settings(BaseSettings):
     rate_limit_burst: int = Field(default=5, alias="RATE_LIMIT_BURST")
     model_rate_limit_per_min: int = Field(default=10, alias="MODEL_RATE_LIMIT_PER_MIN")
 
-    @field_validator("allowed_origins", mode="before")
-    @classmethod
-    def _split_origins(cls, v):
-        """Accept a comma-separated string or a list for ALLOWED_ORIGINS."""
-        if v is None or v == "":
-            return []
-        if isinstance(v, str):
-            return [o.strip() for o in v.split(",") if o.strip()]
-        return v
+    @property
+    def allowed_origins(self) -> List[str]:
+        """Exact allowed CORS origins, parsed from the comma-separated env value.
+
+        Empty list => same-origin only (no CORS middleware added).
+        """
+        raw = self.allowed_origins_raw or ""
+        return [o.strip() for o in raw.split(",") if o.strip()]
 
 
 _settings: Optional[Settings] = None

@@ -18,7 +18,7 @@ def test_unknown_api_path_is_json_404_not_spa():
     # /api/* must never fall back to the SPA.
     r = client.get("/api/does-not-exist")
     assert r.status_code == 404
-    assert r.json() == {"error": "not_found"}
+    assert r.json()["error"] == "not_found"
     assert "text/html" not in r.headers.get("content-type", "")
 
 

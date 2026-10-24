@@ -1,0 +1,34 @@
+# Render Blueprint — single Docker web service serving the static frontend AND
+# the /api/* endpoints from one origin.
+#
+# Usage: on Render, New -> Blueprint -> point at this repo. Render provisions the
+# service from this file. Secrets (sync: false) are set in the dashboard and are
+# NEVER committed.
+#
+# Build context is the repo root so the image can copy both contracts/ and
+# server/ (contracts is the single source of truth and is not vendored).
+
+services:
+  - type: web
+    name: medbill-helper
+    runtime: docker
+    plan: free
+    region: ohio
+    dockerContext: .
+    dockerfilePath: ./server/Dockerfile
+    # Render injects PORT; the Dockerfile CMD reads $PORT. Health check path is
+    # the API liveness endpoint.
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      # --- Secrets: set these in the Render dashboard, never in the repo ---
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: EXTRACT_MODEL_ID
+        sync: false
+      - key: LETTER_MODEL_ID
+        sync: false
+      # --- Non-secret config ---
+      # Same-origin deployment => no cross-origin requests => leave empty.
+      - key: ALLOWED_ORIGINS
+        value: ""

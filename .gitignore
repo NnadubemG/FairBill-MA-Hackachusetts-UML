@@ -1,0 +1,20 @@
+# Python
+**/__pycache__/
+**/*.py[cod]
+**/.pytest_cache/
+**/.venv/
+
+# Node / Vite
+frontend/node_modules/
+frontend/.vite/
+
+# Secrets
+**/.env
+!**/.env.example
+
+# Local scratch/log files
+_git*.txt
+frontend/_npm*.log
+frontend/_node.log
+server/_*.log
+server/_*.ps1

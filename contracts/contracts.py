@@ -166,10 +166,16 @@ class ApiError(_Model):
 
 
 class ExtractRequest(_Model):
-    """POST /api/extract — turn raw bill text into structured line items."""
+    """POST /api/extract — turn bill text or an attached document into line items."""
 
-    # Raw bill or EOB text pasted/OCR'd by the user.
-    text: str
+    # Raw bill or EOB text pasted/OCR'd by the user. May be empty when a
+    # document is attached.
+    text: str = ""
+    # Optional base64-encoded PDF/image data (without a data-URL prefix).
+    document_base64: Optional[str] = None
+    document_media_type: Optional[
+        Literal["application/pdf", "image/jpeg", "image/png", "image/webp", "image/gif"]
+    ] = None
     # Optional hint about the document kind: "bill" | "eob" | "unknown".
     source_kind: Optional[Literal["bill", "eob", "unknown"]] = None
 

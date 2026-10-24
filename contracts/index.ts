@@ -142,10 +142,18 @@ export interface ApiError {
 // Endpoint request/response shapes
 // ---------------------------------------------------------------------------
 
-/** POST /api/extract — turn raw bill text/image-OCR into structured line items. */
+/** POST /api/extract — turn bill text or an attached document into line items. */
 export interface ExtractRequest {
-  /** Raw bill or EOB text pasted/OCR'd by the user. */
+  /** Raw bill or EOB text. May be empty when a document is attached. */
   text: string;
+  /** Base64-encoded PDF/image data without a data-URL prefix. */
+  document_base64?: string;
+  document_media_type?:
+    | 'application/pdf'
+    | 'image/jpeg'
+    | 'image/png'
+    | 'image/webp'
+    | 'image/gif';
   /** Optional hint about the document kind. */
   source_kind?: 'bill' | 'eob' | 'unknown';
 }

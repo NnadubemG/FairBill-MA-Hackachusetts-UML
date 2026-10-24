@@ -4,18 +4,18 @@ version = "0.1.0"
 description = "FastAPI service for the Massachusetts Medical-Bill Helper (serves frontend + API, holds the Anthropic key)."
 requires-python = ">=3.12"
 dependencies = [
-    "fastapi>=0.115",
-    "uvicorn[standard]>=0.30",
-    "pydantic>=2",
-    "pydantic-settings>=2",
-    # "anthropic>=0.39",   # added when extract/letter handlers are implemented
-    # "slowapi>=0.1.9",    # added when rate limiting is implemented
+    "fastapi==0.162.0",
+    "uvicorn[standard]==0.54.0",
+    "pydantic==2.14.1",
+    "pydantic-settings==2.16.1",
+    "anthropic==2.3.0",  # used only by the extract/letter handlers
+    "slowapi==0.1.10",   # application-level rate limiting
 ]
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=8",
-    "httpx>=0.27",
+    "pytest==9.1.1",
+    "httpx==0.28.1",
 ]
 
 [tool.pytest.ini_options]

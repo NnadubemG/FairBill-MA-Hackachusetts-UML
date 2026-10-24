@@ -1,0 +1,25 @@
+# Keep the Docker build context lean and avoid shipping junk/secrets into the image.
+.git
+.kiro
+docs
+
+# Python
+**/__pycache__/
+**/*.pyc
+**/.pytest_cache/
+**/.venv/
+server/.venv/
+
+# Secrets — never copy real env files into the image
+**/.env
+!**/.env.example
+
+# Node / frontend build tooling (the built dist IS copied; source/deps are not)
+frontend/node_modules/
+frontend/.vite/
+**/node_modules/
+
+# Logs / scratch
+*.log
+server/*.txt
+contracts/*.txt
