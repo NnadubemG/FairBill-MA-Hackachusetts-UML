@@ -1,0 +1,6 @@
+# Dev/test dependencies for /backend/extract. Not bundled into the Lambda runtime.
+# Runtime deps (boto3) are provided by the Lambda environment; jsonschema is used at
+# runtime for contract validation and is listed in requirements.txt when that exists.
+hypothesis==6.170.9
+pytest==9.0.2
+jsonschema==4.24.0
