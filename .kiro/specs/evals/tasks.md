@@ -38,7 +38,7 @@ explain and letter code must be available on this branch).
   - Tests X1, X2, X4, X5, K6 (noisy oracle end to end).
   - _Requirements: R2, R3, R4, R5.7, R5.8_
 
-- [ ] 7. Report
+- [x] 7. Report
   - `report.py`: tables, threshold summary, failures, escaping, determinism, fake label.
   - Tests R1 to R6; property PE8.
   - _Requirements: R6.2, R6.3, R7_
