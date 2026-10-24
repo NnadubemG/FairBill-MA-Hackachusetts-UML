@@ -12,7 +12,7 @@ that prove it. Stay inside `/backend/letter`. Start only after open decision 1 i
   - Tests: types and limits; letter type ids; banned list equals the explain list.
   - _Requirements: R1.1, R1.2, R5.6_
 
-- [ ] 2. Patient field cleaning and `parse_request`
+- [x] 2. Patient field cleaning and `parse_request`
   - `request.py`: `clean_field`, `clean_notes`, `parse_request`.
   - Tests L15, L21; property PL8.
   - _Requirements: R2.2, R8.1, R8.2_
