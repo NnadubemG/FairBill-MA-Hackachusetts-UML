@@ -1,0 +1,7 @@
+code,code_system,payer,rate,rate_kind
+99213,CPT,BCBS PPO,100.00,negotiated
+99213,CPT,Aetna Commercial,200.00,negotiated
+99213,CPT,United 110% of Medicare,110%,negotiated
+99213,CPT,,95.00,cash
+80053,CPT,,420.00,gross
+80053,CPT,BCBS PPO,,negotiated
