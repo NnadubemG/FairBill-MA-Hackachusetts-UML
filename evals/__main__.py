@@ -23,6 +23,7 @@ import sys
 from pathlib import Path
 from typing import Callable, Sequence, TextIO
 
+from backend.envfile import load_env
 from backend.extract.llm_client import LLMClient, make_client
 
 from . import config
@@ -157,4 +158,6 @@ def main(
 
 
 if __name__ == "__main__":
+    # Read the repo-root .env (if any). Real environment variables win. Nothing is printed.
+    load_env()
     sys.exit(main())

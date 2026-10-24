@@ -36,6 +36,20 @@ A full run is about 40 model calls today: one extract call per bill, plus one ex
 stops real calls after N; cache hits do not count. If anything is missing the command prints
 the variable names and exits with code 2.
 
+## Using a `.env` file
+`python -m evals` reads a `.env` file in the repo root. You can use it instead of `export`.
+
+1. Copy the example: `cp .env.example .env`
+2. Open `.env` in your editor and type your values after the `=`. Do not paste the key anywhere else.
+3. Run `python -m evals`.
+
+Rules:
+- `.env` is ignored by git. `.env.example` is tracked and has no values. Never put a real key in `.env.example`.
+- A variable that is already set in your shell wins over the file. A blank value in the file is skipped.
+- Format: `NAME=value` per line. `export NAME=value`, quotes and `#` comments also work.
+- The loader (`backend/envfile.py`) uses only the standard library. It never prints, logs or stores a value.
+- Only the real command (`python -m evals`) reads `.env`. The tests never do.
+
 ## The cache
 Every model call goes through a disk cache in `evals/.cache/`. The key is a SHA-256 of the
 task, the model name, the **SHA-256 of the bill file**, and the whole request (system prompt,
