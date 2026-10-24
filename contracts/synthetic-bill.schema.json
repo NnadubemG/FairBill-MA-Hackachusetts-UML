@@ -1,0 +1,75 @@
+{
+  "title": "SyntheticBill",
+  "description": "A fictional hospital bill plus ground truth, produced by /synthetic for evals, tests, and demos. Contains no real people, hospitals, or prices. line_items is what a perfect extraction returns; expected_flags is what /core should produce for line_items and price_references.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["bill_id", "seed", "scenario", "bill_metadata", "line_items", "price_references", "expected_flags"],
+  "properties": {
+    "bill_id": {
+      "type": "string",
+      "description": "Stable id derived from scenario and seed, for example 'mixed-7'."
+    },
+    "seed": {
+      "type": "integer",
+      "description": "Seed that reproduces this bill."
+    },
+    "scenario": {
+      "type": "string",
+      "enum": ["clean", "duplicate", "high_price", "unknown_code", "injection", "mixed"],
+      "description": "Which recipe produced the bill."
+    },
+    "bill_metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["hospital_name", "statement_date", "total_billed"],
+      "properties": {
+        "hospital_name": {
+          "type": "string",
+          "description": "Fictional hospital name, clearly marked as fictional."
+        },
+        "statement_date": {
+          "type": "string",
+          "format": "date",
+          "description": "ISO 8601 date (YYYY-MM-DD) printed on the statement."
+        },
+        "total_billed": {
+          "type": "number",
+          "description": "Sum of billed_amount over line_items, in US dollars."
+        }
+      }
+    },
+    "line_items": {
+      "type": "array",
+      "items": { "$ref": "line-item.schema.json" },
+      "description": "Ground truth for extraction."
+    },
+    "price_references": {
+      "type": "array",
+      "items": { "$ref": "price-reference.schema.json" },
+      "description": "Fictional reference prices (data_source 'synthetic-demo') used to build expected_flags."
+    },
+    "expected_flags": {
+      "type": "array",
+      "description": "Exactly the (line_item_id, flag_type) pairs /core should return. Text fields are not part of ground truth.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["line_item_id", "flag_type"],
+        "properties": {
+          "line_item_id": { "type": "string" },
+          "flag_type": {
+            "type": "string",
+            "enum": [
+              "price_above_reference",
+              "price_outside_ma_range",
+              "duplicate_line_item",
+              "quantity_implausible",
+              "possible_unbundling",
+              "no_reference_found"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

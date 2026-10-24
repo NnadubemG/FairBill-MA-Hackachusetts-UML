@@ -1,0 +1,15 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Run pytest after a spec task",
+      "trigger": "PostTaskExec",
+      "description": "Runs the full pytest suite (/core and /pipeline) after a spec task completes. Team rule: /core changes need pytest to pass before merging. Script-based, no model calls.",
+      "action": {
+        "type": "command",
+        "command": "python .kiro/hooks/run_tests.py",
+        "timeout": 180
+      }
+    }
+  ]
+}

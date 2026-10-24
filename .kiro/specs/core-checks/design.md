@@ -69,9 +69,17 @@ loads the JSON and passes `PriceReference[]` in, which keeps `/core` pure.
   - Ref matched but the relevant figure is None: that comparison is skipped silently.
 - **`no_reference_found`** fires only if `refs` is non-empty (an empty list means "nothing loaded",
   not "code not covered"), and only for items with a valid code.
-- **Duplicates** group by `(code or None, casefold+collapsed description, round(amount, 2), date_of_service)`.
+- **Duplicates** group by `(normalized code, code_system, casefold+collapsed description, amount in cents, date_of_service)`.
   Every member is flagged. Severity `medium` if dated, `low` if undated. Reason and basis use
-  no `$` figures, so R3 holds trivially.
+  no `$` figures and no ids or descriptions, so R3 and R9 hold trivially.
+  Amounts that are zero, negative, or non-finite are ignored. An unreadable date counts as undated.
+  An invalid code still groups by its own text but is never printed.
+- **Banned words in codes.** A code is printed in flag text, so a code containing a banned word
+  (for example `FRAUD`) is treated as unusable. Found by property test PR1.
+- **Sort key.** `analyze` sorts by every flag field, not just `(line_item_id, flag_type)`, so output is
+  identical for any input order even when two items share an id.
+- **Provenance guard.** A reference with a blank `data_source` or a non-integer `data_year` is never used
+  for a price flag, so a price figure can never be cited without its source and year (R3).
 - **Severities:** outside_ma_range `medium`, above_reference `low`, duplicate `medium`/`low`, no_reference `info`.
   Severity is display order only (R11).
 
@@ -90,8 +98,9 @@ def check_coverage(items, index, refs_present: bool) -> list[Flag]
 **`reference.py`**
 - `normalize_code(code, code_system) -> str | None` returns None when the code fails the
   `^[A-Za-z0-9.\-]{1,12}$` check (R9).
-- `build_index(refs) -> ReferenceIndex`
-- `lookup(index, item) -> Match` where `Match` is one of: found(ref), not_found, ambiguous.
+- `ReferenceIndex(refs)` with `.has_refs` and `.lookup(item) -> Match`.
+- `Match.status` is one of: `found` (with `ref`), `not_found`, `ambiguous`, `unusable` (no code, or a code
+  that failed validation). Exact duplicate refs are collapsed first, so they are not ambiguous.
 
 **`language.py`**
 - Fixed templates for each flag type. Only a validated code is ever interpolated; descriptions never are (R9).
@@ -118,9 +127,9 @@ Fields `/core` writes on `Flag`: `line_item_id`, `flag_type`, `severity`, `reaso
 
 Internal values (not exported): `ReferenceIndex` (dict from normalized key to refs) and `Match`.
 
-**Open item:** the team brief says Sam's explain handler rewrites `Flag.explanation`. The current
-`Flag` contract has no such field. Pending Thomas's decision: add an optional `explanation`
-(which `/core` leaves `None`) or have Sam rewrite `reason`. `/core` is unaffected either way.
+**Resolved:** `Flag.explanation` was added to `/contracts` as an optional field. Sam's explain handler
+fills it with a plain-language rewrite of `reason`; `/core` always leaves it `None`, so the
+deterministic `reason` stays available to check the rewrite against.
 
 ## Correctness Properties
 
@@ -181,6 +190,7 @@ Test cases are listed here before the tasks. Fixtures: refs use `data_source="sy
 - TC-P12 NaN, infinity, or negative `billed_amount` or `quantity`: no flag, no exception.
 - TC-P13 fractional quantity (0.5) computes per-unit correctly; very large amounts (1e9) do not crash.
 - TC-P14 refs with amounts given as ints and floats both work.
+- TC-P15 ref with blank `data_source` or missing `data_year`: no flag.
 
 **Duplicates**
 - TC-D1 two identical items, no dates: both flagged, severity `low`.

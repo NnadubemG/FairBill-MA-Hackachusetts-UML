@@ -91,6 +91,9 @@ export interface Flag {
   /** Required when the flag cites a price figure; otherwise null. */
   data_source?: string | null;
   data_year?: number | null;
+  /** Plain-language rewrite of `reason`, set by the explain handler (LLM).
+   *  /core always leaves this null. Adds no facts or numbers beyond reason/basis. */
+  explanation?: string | null;
 }
 
 /** An editable letter draft the patient can send. Never asserts wrongdoing. */
@@ -106,4 +109,41 @@ export interface AnalysisResult {
   price_references?: PriceReference[];
   flags: Flag[];
   letter_draft?: LetterDraft | null;
+}
+
+// --- Synthetic bills (produced by /synthetic; see synthetic-bill.schema.json) ---
+
+export type SyntheticScenario =
+  | "clean"
+  | "duplicate"
+  | "high_price"
+  | "unknown_code"
+  | "injection"
+  | "mixed";
+
+/** Fictional statement header. statement_date is ISO 8601 (YYYY-MM-DD). */
+export interface BillMetadata {
+  hospital_name: string;
+  statement_date: string;
+  total_billed: number;
+}
+
+/** One (line item, flag type) pair that /core should produce. */
+export interface ExpectedFlag {
+  line_item_id: string;
+  flag_type: FlagType;
+}
+
+/** A fictional bill plus ground truth for evals, tests, and demos. */
+export interface SyntheticBill {
+  bill_id: string;
+  seed: number;
+  scenario: SyntheticScenario;
+  bill_metadata: BillMetadata;
+  /** Ground truth for extraction. */
+  line_items: LineItem[];
+  /** Fictional reference prices (data_source "synthetic-demo"). */
+  price_references: PriceReference[];
+  /** Exactly what /core should return for line_items and price_references. */
+  expected_flags: ExpectedFlag[];
 }
