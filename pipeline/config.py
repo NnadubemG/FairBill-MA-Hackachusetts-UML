@@ -35,8 +35,18 @@ NCCI_RAW = RAW_DIR / "ncci_ptp.csv"        # NCCI procedure-to-procedure edits
 CHIA_RAW = RAW_DIR / "chia_relative_price.csv"  # CHIA relative price
 
 # CMS Physician Fee Schedule: Massachusetts locality.
-# CMS MAC locality 10112 (Massachusetts, statewide) under the MAC 14 (NGS) jurisdiction.
-MA_PFS_LOCALITY = "10112"
+# Verified against the CMS locality key: Massachusetts is MAC 14212 with two localities,
+# 01 = Metropolitan Boston (Middlesex, Norfolk, Suffolk) and 99 = rest of state.
+# Both loaded hospitals (Lahey Burlington, BIDMC Boston) are in locality 01.
+# (The old value "10112" was Alabama's statewide locality.)
+MA_PFS_MAC = "14212"
+MA_PFS_LOCALITY_CODE = "01"
+MA_PFS_LOCALITY = MA_PFS_MAC + MA_PFS_LOCALITY_CODE  # "1421201", as written by adapters/cms_pfs.py
+
+# Raw CMS downloads (gitignored), see data/manifest.json.
+# PFS national payment amount files for 2026: A is the full table, B/C/D are updates.
+PFS_REVISION_ZIPS = [RAW_DIR / "cms" / f"pfs_pfrev26{rev}.zip" for rev in "abcd"]
+MUE_RAW_ZIP = RAW_DIR / "cms" / "mue_practitioner_2026q4.zip"  # NCCI MUE, practitioner services
 
 # Stable JSON formatting so processed outputs diff cleanly and are deterministic.
 JSON_DUMP_KWARGS = {

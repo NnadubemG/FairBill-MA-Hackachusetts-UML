@@ -1,0 +1,16 @@
+.git
+.kiro
+.hypothesis
+.pytest_cache
+**/__pycache__
+**/*.pyc
+**/tests
+data/raw
+private
+infra/.build
+infra/.aws-sam
+evals
+docs
+server
+.env
+.env.*

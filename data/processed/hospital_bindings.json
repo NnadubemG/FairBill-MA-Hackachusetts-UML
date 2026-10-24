@@ -1,6 +1,26 @@
 [
   {
     "format_id": "cms_json",
+    "hospital_id": "anna_jaques",
+    "source_file": "hospitals/anna_jaques.json"
+  },
+  {
+    "format_id": "cms_json",
+    "hospital_id": "bid_milton",
+    "source_file": "hospitals/bid_milton.json"
+  },
+  {
+    "format_id": "cms_json",
+    "hospital_id": "bid_needham",
+    "source_file": "hospitals/bid_needham.json"
+  },
+  {
+    "format_id": "cms_json",
+    "hospital_id": "bid_plymouth",
+    "source_file": "hospitals/bid_plymouth.json"
+  },
+  {
+    "format_id": "cms_json",
     "hospital_id": "bidmc",
     "source_file": "hospitals/bidmc.json"
   },
@@ -8,5 +28,10 @@
     "format_id": "cms_json",
     "hospital_id": "lahey_burlington",
     "source_file": "hospitals/lahey_burlington.json"
+  },
+  {
+    "format_id": "cms_json",
+    "hospital_id": "south_shore",
+    "source_file": "hospitals/south_shore.json"
   }
 ]

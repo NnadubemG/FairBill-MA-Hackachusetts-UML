@@ -1,0 +1,110 @@
+{
+  "id": "test-er-visit",
+  "label": "Test bill: ER visit priced against real MA data",
+  "scenario": "real_data_test",
+  "metadata": {
+    "hospital_name": "Riverbend Community Hospital (FICTIONAL)",
+    "statement_date": "2026-10-01",
+    "total": 9511.0
+  },
+  "line_items": [
+    {
+      "id": "1",
+      "description": "Emergency room visit, higher level",
+      "billed_amount": 2950.0,
+      "code": "99284",
+      "code_system": "CPT",
+      "raw_description": "ER VISIT LEVEL 4",
+      "quantity": 1,
+      "unit": "each",
+      "date_of_service": "2026-09-14"
+    },
+    {
+      "id": "2",
+      "description": "CT scan of the abdomen and pelvis",
+      "billed_amount": 5400.0,
+      "code": "74177",
+      "code_system": "CPT",
+      "raw_description": "CT ABD/PELVIS W CONTRAST",
+      "quantity": 1,
+      "unit": "each",
+      "date_of_service": "2026-09-14"
+    },
+    {
+      "id": "3",
+      "description": "Basic metabolic and chemistry blood panel",
+      "billed_amount": 240.0,
+      "code": "80053",
+      "code_system": "CPT",
+      "raw_description": "COMPREHENSIVE METABOLIC PNL",
+      "quantity": 1,
+      "unit": "each",
+      "date_of_service": "2026-09-14"
+    },
+    {
+      "id": "4",
+      "description": "Complete blood count lab test",
+      "billed_amount": 68.0,
+      "code": "85025",
+      "code_system": "CPT",
+      "raw_description": "CBC W/AUTO DIFF",
+      "quantity": 1,
+      "unit": "each",
+      "date_of_service": "2026-09-14"
+    },
+    {
+      "id": "5",
+      "description": "Complete blood count lab test",
+      "billed_amount": 68.0,
+      "code": "85025",
+      "code_system": "CPT",
+      "raw_description": "CBC W/AUTO DIFF",
+      "quantity": 1,
+      "unit": "each",
+      "date_of_service": "2026-09-14"
+    },
+    {
+      "id": "6",
+      "description": "Chest X-ray",
+      "billed_amount": 280.0,
+      "code": "71046",
+      "code_system": "CPT",
+      "raw_description": "XR CHEST 2 VIEWS",
+      "quantity": 1,
+      "unit": "each",
+      "date_of_service": "2026-09-14"
+    },
+    {
+      "id": "7",
+      "description": "Heart rhythm tracing (ECG)",
+      "billed_amount": 410.0,
+      "code": "93000",
+      "code_system": "CPT",
+      "raw_description": "ECG 12 LEAD W/INTERP",
+      "quantity": 1,
+      "unit": "each",
+      "date_of_service": "2026-09-14"
+    },
+    {
+      "id": "8",
+      "description": "Saline IV fluid, 1000 mL",
+      "billed_amount": 95.0,
+      "code": "J7030",
+      "code_system": "HCPCS",
+      "raw_description": "NS 0.9% 1000ML INFUSION",
+      "quantity": 1,
+      "unit": "each",
+      "date_of_service": "2026-09-14"
+    }
+  ],
+  "expected": {
+    "1": "Above the MA range ($1,862-$1,922): price_outside_ma_range",
+    "2": "Above the MA range ($1,991-$3,721): price_outside_ma_range",
+    "3": "Inside the MA range ($127-$658): no flag",
+    "4": "Same code, date and amount as line 5: duplicate_line_item",
+    "5": "Same code, date and amount as line 4: duplicate_line_item",
+    "6": "Inside the MA range ($206-$325): no flag",
+    "7": "Inside the MA range ($204-$593): no flag",
+    "8": "Not in our reference data: no_reference_found"
+  }
+}

@@ -131,8 +131,11 @@ def _write_validate_set(tmp_path: Path, reference):
     jsonio.write_json(tmp_path / "prices.json", [])
     jsonio.write_json(tmp_path / "medicare.json", [])
     jsonio.write_json(tmp_path / "reference.json", reference)
+    # quantity_limits/bundle_pairs point at files that do not exist, so validate() skips them
+    # instead of reading the real /data/processed copies.
     return (tmp_path / "prices.json", tmp_path / "medicare.json",
-            tmp_path / "procedures.json", tmp_path / "reference.json")
+            tmp_path / "procedures.json", tmp_path / "reference.json",
+            tmp_path / "quantity_limits.json", tmp_path / "bundle_pairs.json")
 
 
 def _ref_rec(**over):

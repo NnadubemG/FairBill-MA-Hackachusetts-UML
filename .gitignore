@@ -7,6 +7,10 @@
 # Large raw source data (curated outputs under /data/processed ARE committed)
 /data/raw/
 
+# Deploy build output
+/infra/.build/
+.aws-sam/
+
 # Python
 __pycache__/
 *.py[cod]

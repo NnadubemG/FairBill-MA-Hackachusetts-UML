@@ -10,7 +10,7 @@ const ROW_H = 36;
 const PAD_LEFT = 220; // room for hospital name labels
 const PAD_RIGHT = 70;
 const WIDTH = 720;
-const TOP = 48;
+const TOP = 62; // room for the title (y=24) plus the band/medicare labels above the rows
 
 function esc(s) {
   return String(s)
@@ -20,9 +20,17 @@ function esc(s) {
     .replaceAll('"', "&quot;");
 }
 
+// Rough width of a 12px label (~6.6px per character). Used only to reserve room so the
+// value text after the longest bar never runs past the right edge of the chart.
+function labelWidth(text) {
+  return String(text || "").length * 6.6;
+}
+
 export function renderSVG(vm) {
   const height = TOP + Math.max(vm.rows.length, 1) * ROW_H + 24;
-  const x = makeScale(vm.domain.min, vm.domain.max || 1, PAD_LEFT, WIDTH - PAD_RIGHT);
+  const longest = Math.max(0, ...vm.rows.filter((r) => r.kind !== "none").map((r) => labelWidth(r.text)));
+  const padRight = Math.min(WIDTH - PAD_LEFT - 120, Math.max(PAD_RIGHT, longest + 20));
+  const x = makeScale(vm.domain.min, vm.domain.max || 1, PAD_LEFT, WIDTH - padRight);
 
   const parts = [];
   parts.push(
@@ -57,8 +65,11 @@ export function renderSVG(vm) {
       `<rect x="${bx0}" y="${TOP - 4}" width="${Math.max(1, bx1 - bx0)}" ` +
         `height="${height - TOP - 12}" fill="url(#maHatch)" class="ma-band" aria-hidden="true" />`
     );
+    const fits = bx1 + 6 + labelWidth(vm.maRange.label) <= WIDTH - 4;
     parts.push(
-      `<text x="${bx1 + 6}" y="${TOP - 14}" class="ma-band-label">${esc(vm.maRange.label)}</text>`
+      fits
+        ? `<text x="${bx1 + 6}" y="${TOP - 14}" class="ma-band-label">${esc(vm.maRange.label)}</text>`
+        : `<text x="${bx0 - 6}" y="${TOP - 14}" text-anchor="end" class="ma-band-label">${esc(vm.maRange.label)}</text>`
     );
   }
 

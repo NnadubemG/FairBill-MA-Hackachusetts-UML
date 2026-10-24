@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="FairBill MA: a free, no-login tool to understand a Massachusetts hospital bill line by line, compare prices, and draft a letter." />
+  <meta name="theme-color" content="#2563eb" />
+  <meta name="referrer" content="no-referrer" />
+  <title>FairBill MA — Understand your hospital bill</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232563eb'/%3E%3Cpath d='M10 9h12v3H13.5v3H20v3h-6.5v5H10z' fill='white'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="/app/styles.css" />
+  <link rel="stylesheet" href="/src/compare/styles.css" />
+</head>
+<body>
+  <a class="skip" href="#view">Skip to content</a>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#/" aria-label="FairBill MA home">
+        <span class="logo" aria-hidden="true">F</span>
+        <span>FairBill <span class="brand-ma">MA</span></span>
+      </a>
+      <nav aria-label="Main">
+        <a href="#/" data-nav="bill">Check a bill</a>
+        <a href="#/compare" data-nav="compare">Compare prices</a>
+        <a href="#/about" data-nav="about">About</a>
+      </nav>
+      <span class="status-pill" id="status-pill" hidden></span>
+    </div>
+  </header>
+
+  <main id="view" class="container" tabindex="-1">
+    <div class="boot"><span class="spinner" aria-hidden="true"></span> Loading…</div>
+    <noscript><p>FairBill MA needs JavaScript to read and check your bill.</p></noscript>
+  </main>
+
+  <div id="sr-status" class="sr-only" role="status" aria-live="polite"></div>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p><strong>FairBill MA</strong> helps you understand your own bill. It is not legal advice and not medical advice.</p>
+      <p>Nothing you enter is stored. Every price shows its source and year; when we don't have a figure, we say so instead of guessing.</p>
+    </div>
+  </footer>
+
+  <script type="module" src="/app/main.mjs"></script>
+</body>
+</html>
