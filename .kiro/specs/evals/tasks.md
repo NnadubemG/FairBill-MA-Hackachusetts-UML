@@ -43,7 +43,7 @@ explain and letter code must be available on this branch).
   - Tests R1 to R6; property PE8.
   - _Requirements: R6.2, R6.3, R7_
 
-- [ ] 8. CLI
+- [x] 8. CLI
   - `__main__.py`: options, env checks, exit codes, progress lines, default paths.
   - Tests K1, K2, K3, K4, K5, K7; privacy PR1.
   - _Requirements: R8, R9_
