@@ -21,7 +21,7 @@ one small change in `/backend/extract/llm_client.py`).
   - Tests E17, E18, E22; properties P4, P6.
   - _Requirements: R4.4, R5.1, R5.2, R5.5, R5.6_
 
-- [ ] 4. Prompt builder and response parser
+- [x] 4. Prompt builder and response parser
   - `prompts.py`: short system prompt, batch user content (four fields per flag), parse
     `{"explanations":[...]}` into `key -> text`, ignore unknown keys.
   - Tests E12, E19.

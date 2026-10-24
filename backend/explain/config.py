@@ -19,6 +19,7 @@ MAX_FLAGS_PER_CALL: Final[int] = 30
 MAX_WORDS: Final[int] = 60
 
 # Words and phrases that must never appear in an explanation.
+# This list defines the check, so it has to contain the words. language-guard: allow
 # Keep in sync with .kiro/steering/product.md. A test compares this tuple with
 # core.constants.BANNED_WORDS so drift is caught.
 BANNED_WORDS: Final[tuple[str, ...]] = (
