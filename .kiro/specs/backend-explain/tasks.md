@@ -32,13 +32,15 @@ one small change in `/backend/extract/llm_client.py`).
   - Tests E1, E11, E13, E14, E15, E16; property P2.
   - _Requirements: R1.1, R1.2, R1.3, R1.5, R2.1, R2.2, R3.3, R5.4, R8.2_
 
-- [ ] 6. Failure fallback and privacy
+- [x] 6. Failure fallback and privacy
   - Catch every error in the model path. All flags use the fallback. No logging of content.
-  - Tests E9, E10, E20; properties P3; privacy PR1.
+  - Tests E9, E10; property P3; privacy PR1 (no logs, no output, no files).
   - _Requirements: R5.3, R6.3, R7.1, R7.2, R7.3_
 
 - [ ] 7. Model id wiring and README
-  - Per open decision 2: add the real client path for `EXPLAIN_MODEL_ID`.
+  - Per open decision 2 (option B): `make_client()` in `/backend/extract` gets an optional
+    model-variable argument, so explain can use `EXPLAIN_MODEL_ID`. Test E20 lives here.
+  - A `make_explain_client()` helper in `/backend/explain`.
   - `README.md` for `/backend/explain`: what it does, env vars, how to run the tests.
   - Run the whole suite offline.
   - _Requirements: R1.4_
