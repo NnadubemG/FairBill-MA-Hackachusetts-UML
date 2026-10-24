@@ -135,15 +135,15 @@ function renderHome() {
     <section class="card upload-card" aria-labelledby="upload-h">
       <h2 id="upload-h">Start with your bill</h2>
       <label class="dropzone" id="dropzone">
-        <input type="file" id="file" accept="application/pdf,image/png,image/jpeg,image/webp,image/gif" />
+        <input type="file" id="file" accept="application/pdf,image/png,image/jpeg,image/webp,image/gif,text/plain,.txt" />
         <span class="dz-icon" aria-hidden="true">
           <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><path d="M12 16V4m0 0-4 4m4-4 4 4M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </span>
         <span class="dz-title" id="dz-title">Drop a PDF or photo of your bill here</span>
-        <span class="dz-sub">or click to choose a file · PDF, PNG, JPG · up to 4 MB</span>
+        <span class="dz-sub">or click to choose a file · PDF, PNG, JPG, TXT · up to 4 MB</span>
       </label>
-      ${offline ? `<p class="hint">Automatic reading isn't turned on for this server, so uploads may come back empty.
-        You can still type your lines in or try a sample bill.</p>` : ""}
+      ${offline ? `<p class="hint">AI reading is off on this server. Text PDFs and .txt bills are still read directly;
+        photos and scans need to be typed in.</p>` : ""}
       <div id="upload-error"></div>
       <div class="actions">
         <button class="btn btn-primary" id="read-btn" type="button" disabled>Read my bill</button>
@@ -196,9 +196,11 @@ function renderHome() {
     announce("Reading your bill. This can take up to a minute.");
     try {
       const b64 = base64FromArrayBuffer(await chosen.arrayBuffer());
-      const result = await api.extract(chosen.type, b64);
+      const type = chosen.type || (/\.txt$/i.test(chosen.name) ? "text/plain" : "");
+      const result = await api.extract(type, b64);
       state.extraction = result;
       state.rows = rowsFromExtraction(result);
+      if (!state.rows.length) state.rows = [blankRow("1")]; // always give a row to type into
       if (result.metadata?.hospital_name && !state.patient.hospital) state.patient.hospital = result.metadata.hospital_name;
       state.analysis = null;
       state.letter = null;

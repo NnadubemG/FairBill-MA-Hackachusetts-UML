@@ -267,13 +267,14 @@ export function base64FromArrayBuffer(buffer) {
   return btoa(binary);
 }
 
-export const ACCEPTED_TYPES = ["application/pdf", "image/png", "image/jpeg", "image/webp", "image/gif"];
+export const ACCEPTED_TYPES = ["application/pdf", "image/png", "image/jpeg", "image/webp", "image/gif", "text/plain"];
 // 4 MB raw -> ~5.4 MB once base64-encoded, which stays under the 6 MB Lambda request cap.
 export const MAX_UPLOAD_BYTES = 4 * 1024 * 1024;
 
 export function checkUpload(file) {
   if (!file) return "Choose a file first.";
-  if (!ACCEPTED_TYPES.includes(file.type)) return "Please upload a PDF or an image (PNG, JPG, WEBP).";
+  const isTxt = /\.txt$/i.test(file.name || "");
+  if (!ACCEPTED_TYPES.includes(file.type) && !isTxt) return "Please upload a PDF, an image (PNG, JPG, WEBP), or a .txt file.";
   if (file.size > MAX_UPLOAD_BYTES) return "That file is over 4 MB. Try a smaller scan or a photo.";
   return null;
 }

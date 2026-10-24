@@ -285,15 +285,18 @@ def _handle_extract(ctx: AppContext, body: Optional[dict]) -> tuple[int, dict]:
         raw = base64.b64decode(b64, validate=True)
     except (binascii.Error, ValueError):
         return 400, {"error": "document_base64 is not valid base64"}
-    if not ctx.model_is_real:
-        # No model configured: skip the call and return the handler's own single,
-        # clear "enter lines by hand" result instead of two retry warnings.
-        from backend.extract.handler import WARN_EXTRACTION_UNAVAILABLE
-        from backend.extract.models import ExtractionResult
+    from .local_extract import extract_locally
 
-        return 200, _asdict(ExtractionResult(warnings=[WARN_EXTRACTION_UNAVAILABLE]))
-    result = extract(raw, content_type, client=ctx.client)
-    return 200, _asdict(result)
+    # Plain text never needs a model. With no model configured, read text PDFs directly.
+    if not ctx.model_is_real or content_type.split(";", 1)[0].strip().lower() == "text/plain":
+        return 200, extract_locally(raw, content_type)
+    result = _asdict(extract(raw, content_type, client=ctx.client))
+    if not result.get("line_items"):
+        # The model found nothing (or failed): try the direct text reader before giving up.
+        local = extract_locally(raw, content_type)
+        if local["line_items"]:
+            return 200, local
+    return 200, result
 
 
 def _handle_letter(ctx: AppContext, body: Optional[dict]) -> tuple[int, dict]:

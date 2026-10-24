@@ -15,10 +15,17 @@ from backend.extract.llm_client import FakeLLMClient, LLMClient
 def get_client() -> tuple[LLMClient, bool]:
     """Return (client, is_real).
 
+    Reads the repo-root .env first (real environment variables win; nothing is printed).
     If ANTHROPIC_API_KEY is set, try the real Anthropic client. On any failure building
     it (missing package, bad config), fall back to the offline fake so the server still
     starts. Without the key, use the fake directly.
     """
+    try:
+        from backend.envfile import load_env
+
+        load_env()
+    except Exception:  # noqa: BLE001 - a bad .env must never stop the server
+        pass
     if os.environ.get("ANTHROPIC_API_KEY"):
         try:
             from backend.extract.llm_client import make_client
