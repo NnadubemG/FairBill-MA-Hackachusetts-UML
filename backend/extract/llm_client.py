@@ -40,7 +40,8 @@ class LLMClient(Protocol):
     ``content`` is a list of Anthropic-format content blocks (e.g. an image or
     document block and a text block). ``system`` is the system instruction.
     ``repair_hint``, when set, is a validation error message from a prior attempt,
-    asking the model to fix its output. The return value is the model's raw reply
+    asking the model to fix its output. ``max_tokens``, when set, caps the length of the
+    reply (default: ``DEFAULT_MAX_TOKENS``). The return value is the model's raw reply
     text (expected to be JSON).
     """
 
@@ -50,6 +51,7 @@ class LLMClient(Protocol):
         system: str,
         content: list[dict],
         repair_hint: str | None = None,
+        max_tokens: int | None = None,
     ) -> str: ...
 
 
@@ -96,6 +98,8 @@ class FakeLLMClient:
         self._default = default
         self._raise = raise_on_invoke
         self.calls = 0  # number of invoke() calls, for tests to assert on
+        # What each call was given, for tests to assert on (system, content, max_tokens).
+        self.requests: list[dict] = []
 
     @staticmethod
     def fingerprint(
@@ -110,8 +114,12 @@ class FakeLLMClient:
         system: str,
         content: list[dict],
         repair_hint: str | None = None,
+        max_tokens: int | None = None,
     ) -> str:
         self.calls += 1
+        self.requests.append(
+            {"system": system, "content": content, "max_tokens": max_tokens}
+        )
         if self._raise is not None:
             raise self._raise
 
@@ -149,6 +157,7 @@ class _AnthropicClient:
         system: str,
         content: list[dict],
         repair_hint: str | None = None,
+        max_tokens: int | None = None,
     ) -> str:
         # The bill stays in its own content block. Our instructions are separate text
         # blocks. A repair hint is another text block in the same user turn.
@@ -167,7 +176,7 @@ class _AnthropicClient:
         try:
             message = self._client.messages.create(
                 model=self._model,
-                max_tokens=DEFAULT_MAX_TOKENS,
+                max_tokens=max_tokens if max_tokens and max_tokens > 0 else DEFAULT_MAX_TOKENS,
                 system=system,
                 messages=[{"role": "user", "content": blocks}],
             )

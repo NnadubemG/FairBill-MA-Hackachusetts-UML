@@ -27,7 +27,7 @@ one small change in `/backend/extract/llm_client.py`).
   - Tests E12, E19.
   - _Requirements: R4.3, R6.1, R6.2, R8.1_
 
-- [ ] 5. Handler with one batched call
+- [x] 5. Handler with one batched call
   - `handler.py`: `explain(flags, *, client)`: cap, one call, per-flag accept or fallback.
   - Tests E1, E11, E13, E14, E15, E16; property P2.
   - _Requirements: R1.1, R1.2, R1.3, R1.5, R2.1, R2.2, R3.3, R5.4, R8.2_

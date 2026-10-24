@@ -201,3 +201,30 @@ def test_missing_anthropic_package_fails_clearly(monkeypatch):
     monkeypatch.setenv(config.ENV_MODEL_ID, "m")
     with pytest.raises(ImportError):
         make_client()
+
+
+# --- max_tokens option -----------------------------------------------------
+
+def test_real_client_passes_max_tokens(monkeypatch):
+    seen = _install_fake_anthropic(monkeypatch, reply_blocks=[_text("{}")])
+    monkeypatch.setenv(config.ENV_API_KEY, FAKE_KEY)
+    monkeypatch.setenv(config.ENV_MODEL_ID, "m")
+    make_client().invoke(system=SYS, content=CONTENT, max_tokens=321)
+    assert seen["calls"][0]["max_tokens"] == 321
+
+
+@pytest.mark.parametrize("bad", [None, 0, -5])
+def test_real_client_falls_back_to_default_max_tokens(monkeypatch, bad):
+    from backend.extract import llm_client
+
+    seen = _install_fake_anthropic(monkeypatch, reply_blocks=[_text("{}")])
+    monkeypatch.setenv(config.ENV_API_KEY, FAKE_KEY)
+    monkeypatch.setenv(config.ENV_MODEL_ID, "m")
+    make_client().invoke(system=SYS, content=CONTENT, max_tokens=bad)
+    assert seen["calls"][0]["max_tokens"] == llm_client.DEFAULT_MAX_TOKENS
+
+
+def test_fake_client_records_requests():
+    client = FakeLLMClient(default="{}")
+    client.invoke(system=SYS, content=CONTENT, max_tokens=77)
+    assert client.requests == [{"system": SYS, "content": CONTENT, "max_tokens": 77}]
