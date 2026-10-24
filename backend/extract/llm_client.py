@@ -192,14 +192,16 @@ class _AnthropicClient:
             raise LLMError(f"Model call failed: {type(exc).__name__}") from None
 
 
-def make_client() -> LLMClient:
+def make_client(model_env_var: str = config.ENV_MODEL_ID) -> LLMClient:
     """Build the real client. API key and model name come from the environment.
 
-    Raises ``config.ConfigError`` if ``ANTHROPIC_API_KEY`` or the model name is unset.
+    ``model_env_var`` names the variable that holds the model name. The default is
+    ``EXTRACT_MODEL_ID``; explain passes ``EXPLAIN_MODEL_ID``. Raises
+    ``config.ConfigError`` if ``ANTHROPIC_API_KEY`` or the model name is unset.
     Use ``FakeLLMClient`` for offline dev and tests.
     """
     api_key = config.get_api_key()  # raises ConfigError if unset
-    model = config.get_model_id()  # raises ConfigError if unset
+    model = config.get_model_id(model_env_var)  # raises ConfigError if unset
     return _AnthropicClient(api_key=api_key, model=model)
 
 

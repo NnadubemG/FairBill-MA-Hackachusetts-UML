@@ -37,7 +37,7 @@ one small change in `/backend/extract/llm_client.py`).
   - Tests E9, E10; property P3; privacy PR1 (no logs, no output, no files).
   - _Requirements: R5.3, R6.3, R7.1, R7.2, R7.3_
 
-- [ ] 7. Model id wiring and README
+- [x] 7. Model id wiring and README
   - Per open decision 2 (option B): `make_client()` in `/backend/extract` gets an optional
     model-variable argument, so explain can use `EXPLAIN_MODEL_ID`. Test E20 lives here.
   - A `make_explain_client()` helper in `/backend/explain`.

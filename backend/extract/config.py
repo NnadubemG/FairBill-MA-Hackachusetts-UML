@@ -32,15 +32,16 @@ class Thresholds:
     confirm_below: str = "high"  # one of "high" | "medium" | "low"
 
 
-def get_model_id() -> str:
-    """Return the Anthropic model name from the environment.
+def get_model_id(env_var: str = ENV_MODEL_ID) -> str:
+    """Return the Anthropic model name from the environment variable ``env_var``.
 
-    Raises ConfigError if unset. We never hardcode or guess a model name.
+    The default is ``EXTRACT_MODEL_ID``. Other features (for example explain) pass their
+    own variable name. Raises ConfigError if unset. We never hardcode or guess a name.
     """
-    model_id = os.environ.get(ENV_MODEL_ID, "").strip()
+    model_id = os.environ.get(env_var, "").strip()
     if not model_id:
         raise ConfigError(
-            f"{ENV_MODEL_ID} is not set. The real client needs a model name "
+            f"{env_var} is not set. The real client needs a model name "
             "from the environment; use the fake client for offline dev/tests."
         )
     return model_id
