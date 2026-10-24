@@ -4,7 +4,7 @@ Small tasks. Do one or two at a time. Each lists the requirements it covers and 
 tests that prove it. Stay inside `/backend/explain` (and, only if open decision 2 is B,
 one small change in `/backend/extract/llm_client.py`).
 
-- [ ] 1. Scaffold package, config, result type, contract shim
+- [x] 1. Scaffold package, config, result type, contract shim
   - `__init__.py`, `config.py` (`EXPLAIN_MODEL_ID`, `ANTHROPIC_API_KEY`, `MAX_FLAGS_PER_CALL`,
     `MAX_WORDS`, `BANNED_WORDS`), `models.py` (`ExplainResult`), `_contracts.py` (re-export
     `Flag`).
