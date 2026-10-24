@@ -12,6 +12,9 @@ so tests can tell them apart).
 
 from __future__ import annotations
 
+import base64
+import binascii
+import hashlib
 import json
 from dataclasses import asdict
 from typing import Any, Callable, Sequence
@@ -60,14 +63,22 @@ class OracleClient:
     def model_for(self, task: str) -> str:
         return config.FAKE_MODEL_LABEL
 
+    def inner(self, task: str) -> LLMClient:
+        """The oracle as a plain model client (no bill hash given).
+
+        For extract it finds the bill from the PDF inside the request, like a real model
+        would just read it. Use this behind ``CachingClient`` to test the cached path.
+        """
+        return _OracleInner(self, task)
+
     # --- replies -----------------------------------------------------------------
 
     def reply(self, task: str, file_sha256: str, content: list[dict]) -> str:
         self.stats.real_calls += 1
-        bill = self._by_sha.get(file_sha256)
-        if bill is None:
-            raise LLMError("oracle has no bill for this file")
         if task == "extract":
+            bill = self._by_sha.get(file_sha256)
+            if bill is None:
+                raise LLMError("oracle has no bill for this file")
             return self._extract(bill)
         if task == "explain":
             return self._explain(content)
@@ -117,6 +128,34 @@ class _OracleScoped:
         max_tokens: int | None = None,
     ) -> str:
         return self._owner.reply(self._task, self._sha, content)
+
+
+class _OracleInner:
+    """The oracle behind a cache: it reads the PDF out of the request."""
+
+    def __init__(self, owner: OracleClient, task: str) -> None:
+        self._owner, self._task = owner, task
+
+    @staticmethod
+    def _file_sha(content: list[dict]) -> str:
+        for block in content:
+            source = block.get("source") if isinstance(block, dict) else None
+            if isinstance(source, dict) and source.get("type") == "base64":
+                try:
+                    return hashlib.sha256(base64.b64decode(source.get("data", ""), validate=True)).hexdigest()
+                except (binascii.Error, ValueError):
+                    return ""
+        return ""
+
+    def invoke(
+        self,
+        *,
+        system: str,
+        content: list[dict],
+        repair_hint: str | None = None,
+        max_tokens: int | None = None,
+    ) -> str:
+        return self._owner.reply(self._task, self._file_sha(content), content)
 
 
 __all__ = ["ORACLE_QUESTION", "ORACLE_LETTER_PARAGRAPH", "ExtractTransform", "OracleClient"]

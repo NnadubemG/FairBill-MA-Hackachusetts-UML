@@ -23,6 +23,7 @@ from contracts.types import Flag, LetterDraft
 from . import config
 
 KINDS = (
+    "stage_error",
     "explain_missing", "explain_banned_word", "explain_figure",
     "letter_banned_word", "letter_schema", "letter_unknown_line", "letter_top_line",
 )
@@ -43,7 +44,7 @@ class Violation:
     bill_id: str
     style: str
     kind: str
-    ref: str  # a flag key (line id + flag type) or "letter"
+    ref: str  # a flag key (line id + flag type), "letter", or a stage name for stage_error
 
 
 def check_explanations(bill_id: str, style: str, flags: Sequence[Flag]) -> list[Violation]:

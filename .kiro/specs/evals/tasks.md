@@ -32,7 +32,7 @@ explain and letter code must be available on this branch).
   - Tests X3, oracle replies pass the real handlers; property PE5.
   - _Requirements: R4.3, R8.2_
 
-- [ ] 6. Runner
+- [x] 6. Runner
   - `run.py`: corpus -> extract -> match -> flags -> explain -> letter -> invariants ->
     `RunResult`. Works with `CachingClient` or the oracle.
   - Tests X1, X2, X4, X5, K6 (noisy oracle end to end).
