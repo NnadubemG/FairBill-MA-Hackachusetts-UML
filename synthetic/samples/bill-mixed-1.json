@@ -1,0 +1,183 @@
+{
+  "bill_id": "mixed-1",
+  "bill_metadata": {
+    "hospital_name": "Sample Harbor Hospital (FICTIONAL)",
+    "statement_date": "2026-08-27",
+    "total_billed": 1620.85
+  },
+  "expected_flags": [
+    {
+      "flag_type": "no_reference_found",
+      "line_item_id": "1"
+    },
+    {
+      "flag_type": "price_above_reference",
+      "line_item_id": "2"
+    },
+    {
+      "flag_type": "price_outside_ma_range",
+      "line_item_id": "2"
+    },
+    {
+      "flag_type": "duplicate_line_item",
+      "line_item_id": "4"
+    },
+    {
+      "flag_type": "duplicate_line_item",
+      "line_item_id": "5"
+    }
+  ],
+  "line_items": [
+    {
+      "billed_amount": 75.0,
+      "code": "Z9101",
+      "code_system": "HCPCS",
+      "date_of_service": "2026-08-11",
+      "description": "Supply kit (fictional item)",
+      "id": "1",
+      "quantity": 1,
+      "raw_description": "SPECIAL SUPPLY KIT",
+      "unit": "each"
+    },
+    {
+      "billed_amount": 1200.0,
+      "code": "96374",
+      "code_system": "CPT",
+      "date_of_service": "2026-08-11",
+      "description": "IV push of a single medication",
+      "id": "2",
+      "quantity": 1,
+      "raw_description": "IV PUSH SNGL",
+      "unit": "each"
+    },
+    {
+      "billed_amount": 307.5,
+      "code": "99285",
+      "code_system": "CPT",
+      "date_of_service": "2026-08-11",
+      "description": "Emergency room visit, high complexity",
+      "id": "3",
+      "quantity": 1,
+      "raw_description": "ER VISIT LVL5",
+      "unit": "each"
+    },
+    {
+      "billed_amount": 14.6,
+      "code": "85025",
+      "code_system": "CPT",
+      "date_of_service": "2026-08-11",
+      "description": "Complete blood count with differential",
+      "id": "4",
+      "quantity": 1,
+      "raw_description": "CBC W/DIFF",
+      "unit": "each"
+    },
+    {
+      "billed_amount": 14.6,
+      "code": "85025",
+      "code_system": "CPT",
+      "date_of_service": "2026-08-11",
+      "description": "Complete blood count with differential",
+      "id": "5",
+      "quantity": 1,
+      "raw_description": "CBC W/DIFF",
+      "unit": "each"
+    },
+    {
+      "billed_amount": 9.15,
+      "code": "J1100",
+      "code_system": "HCPCS",
+      "date_of_service": "2026-08-11",
+      "description": "Dexamethasone injection, up to 1 mg",
+      "id": "6",
+      "quantity": 5,
+      "raw_description": "DEXAMETHASONE INJ",
+      "unit": "each"
+    }
+  ],
+  "price_references": [
+    {
+      "code": "99285",
+      "code_system": "CPT",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "ma_range_high": 500.0,
+      "ma_range_low": 275.0,
+      "medicare_price": 250.0
+    },
+    {
+      "code": "99284",
+      "code_system": "CPT",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "ma_range_high": 360.0,
+      "ma_range_low": 198.0,
+      "medicare_price": 180.0
+    },
+    {
+      "code": "71046",
+      "code_system": "CPT",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "ma_range_high": 80.0,
+      "ma_range_low": 44.0,
+      "medicare_price": 40.0
+    },
+    {
+      "code": "80053",
+      "code_system": "CPT",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "ma_range_high": 30.0,
+      "ma_range_low": 16.5,
+      "medicare_price": 15.0
+    },
+    {
+      "code": "85025",
+      "code_system": "CPT",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "ma_range_high": 21.0,
+      "ma_range_low": 11.55,
+      "medicare_price": 10.5
+    },
+    {
+      "code": "93000",
+      "code_system": "CPT",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "ma_range_high": 34.5,
+      "ma_range_low": 18.98,
+      "medicare_price": 17.25
+    },
+    {
+      "code": "96374",
+      "code_system": "CPT",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "ma_range_high": 120.0,
+      "ma_range_low": 66.0,
+      "medicare_price": 60.0
+    },
+    {
+      "code": "J1100",
+      "code_system": "HCPCS",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "ma_range_high": 3.0,
+      "ma_range_low": 1.65,
+      "medicare_price": 1.5
+    },
+    {
+      "code": "120",
+      "code_system": "REV",
+      "data_source": "synthetic-demo",
+      "data_year": 2026,
+      "ma_range_high": 1800.0,
+      "ma_range_low": 990.0,
+      "medicare_price": 900.0
+    }
+  ],
+  "scenario": "mixed",
+  "seed": 1
+}

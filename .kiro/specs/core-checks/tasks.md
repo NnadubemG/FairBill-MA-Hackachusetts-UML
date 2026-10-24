@@ -77,6 +77,5 @@ and 4 need the lookup from task 2, task 5 needs all checks, and task 6 needs tas
 - Types come from `/contracts` and are never redefined.
 - Reference test data is synthetic (`data_source="synthetic-test"`) and never real.
 - `MEDICARE_MULTIPLE` is a placeholder to tune once real data is seen.
-- Open question: `Flag.explanation` (see the Open item in `design.md`). It does not change `/core`.
 - Deferred: `quantity_implausible` and `possible_unbundling` (see Out of scope in `design.md`).
 - Do not commit anything from `/private`. Work on a branch and open a PR into `main`.

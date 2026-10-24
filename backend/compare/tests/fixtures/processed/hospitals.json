@@ -1,0 +1,4 @@
+[
+  {"id": "bmc", "name": "Boston Medical Center", "city": "Boston", "type": "community"},
+  {"id": "mgh", "name": "Massachusetts General Hospital", "city": "Boston", "type": "academic"}
+]

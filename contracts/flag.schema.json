@@ -41,6 +41,10 @@
     "data_year": {
       "type": ["integer", "null"],
       "description": "Required when the flag cites a price figure; otherwise null."
+    },
+    "explanation": {
+      "type": ["string", "null"],
+      "description": "Plain-language rewrite of reason, written by the explain handler (LLM). /core always leaves this null. It must not add facts or numbers beyond reason and basis, and must follow the same language rules (no banned words)."
     }
   }
 }

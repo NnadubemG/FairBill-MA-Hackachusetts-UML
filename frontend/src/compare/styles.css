@@ -1,0 +1,40 @@
+/* Compare component styles. Meaning never depends on color alone:
+   median = a solid vertical tick (shape), medicare = a dashed line (stroke),
+   single value = a diamond (shape). Colors are reinforced by these cues + text. */
+
+.compare-wrap { font-family: system-ui, sans-serif; max-width: 820px; color: #16202a; }
+.compare-summary { font-size: 1rem; line-height: 1.4; margin: 0 0 .5rem; }
+.compare-framing { font-size: .85rem; color: #4a5a68; margin: 0 0 1rem; }
+
+/* Payer toggle */
+.payer-toggle { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: .75rem; }
+.payer-toggle button {
+  border: 1px solid #9aa7b1; background: #fff; border-radius: 999px;
+  padding: .3rem .8rem; cursor: pointer; font: inherit;
+}
+.payer-toggle button[aria-pressed="true"] {
+  background: #13395e; color: #fff; border-color: #13395e; font-weight: 600;
+}
+.payer-toggle button:focus-visible,
+.compare-chart [tabindex]:focus-visible {
+  outline: 3px solid #f0a500; outline-offset: 2px;
+}
+
+/* Chart */
+.compare-chart { width: 100%; height: auto; border: 1px solid #dce3e8; border-radius: 8px; background: #fff; }
+.chart-title { font-size: 14px; font-weight: 700; fill: #16202a; }
+.row-label { font-size: 13px; fill: #16202a; }
+.row-value { font-size: 12px; fill: #2a3a47; }
+.row-none { font-size: 12px; fill: #8a97a1; font-style: italic; }
+.range-bar { fill: #7fb2e5; stroke: #13395e; stroke-width: 1; }
+.median-tick { fill: #0b2a47; }          /* solid tick = median */
+.single-marker { fill: #13395e; }         /* diamond = single value */
+.medicare-line { stroke: #b5651d; stroke-width: 2; } /* dashed via stroke-dasharray */
+.medicare-label { font-size: 12px; fill: #b5651d; font-weight: 600; }
+.empty { font-size: 14px; fill: #4a5a68; }
+
+/* Data table alternative (always present for screen readers / no-color). */
+.compare-table { border-collapse: collapse; margin-top: 1rem; width: 100%; font-size: .9rem; }
+.compare-table caption { text-align: left; font-weight: 600; margin-bottom: .4rem; }
+.compare-table th, .compare-table td { border: 1px solid #dce3e8; padding: .35rem .6rem; text-align: left; }
+.compare-table thead th { background: #f1f5f8; }

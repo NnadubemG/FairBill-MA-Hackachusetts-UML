@@ -1,0 +1,20 @@
+*** ACCT STMT - DUPLICATE COPY ***
+----------------------------------------------------------------------------
+Sample Harbor Hospital (FICTIONAL)
+PATIENT STATEMENT
+Statement date: 08/27/26
+Account: SYN-mixed-1    Patient: SAMPLE PATIENT (FICTIONAL)
+
+DATE        CODE      DESCRIPTION                          QTY        AMOUNT
+----------------------------------------------------------------------------
+08/11/26    Z9101     SPECIAL SUPPLY KIT                     1         75.00
+08/11/26    96374     IV PUSH SNGL                           1      1,200.00
+08/11/26    99285     ER VISIT LVL5                          1        307.50
+08/11/26    85025     CBC W/DIFF                             1         14.60
+08/11/26    85025     CBC W/DIFF                             1         14.60
+08/11/26    J1100     DEXAMETHASONE INJ                      5          9.15
+----------------------------------------------------------------------------
+TOTAL CHARGES                                                       1,620.85
+
+PLEASE REMIT PAYMENT WITHIN 30 DAYS
+QUESTIONS? CALL 555-0100 (FICTIONAL NUMBER)
