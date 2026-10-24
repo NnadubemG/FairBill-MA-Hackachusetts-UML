@@ -11,7 +11,7 @@ one small change in `/backend/extract/llm_client.py`).
   - Test E21 (banned list matches core).
   - _Requirements: R1.4, R2.1, R4.1_
 
-- [ ] 2. Checks: banned words, figures, sentence shape, `accept`
+- [x] 2. Checks: banned words, figures, sentence shape, `accept`
   - `checks.py`, pure functions.
   - Tests E2, E3, E4, E5, E6, E7, E8; properties P1 and P5 (on `accept`).
   - _Requirements: R2.3, R2.4, R3.1, R3.2, R4.1_
