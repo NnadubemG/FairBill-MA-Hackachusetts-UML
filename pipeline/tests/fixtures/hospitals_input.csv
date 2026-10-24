@@ -1,0 +1,4 @@
+id,name,city,type,format_id,source_file
+mgh,Massachusetts General Hospital,Boston,academic,generic_csv,mgh_prices.csv
+bmc,Boston Medical Center,Boston,community,generic_json,bmc_prices.json
+rural1,Rural Health Clinic,,,generic_csv,rural1_prices.csv

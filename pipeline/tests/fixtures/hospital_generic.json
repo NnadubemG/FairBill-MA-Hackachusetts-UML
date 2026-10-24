@@ -1,0 +1,9 @@
+[
+  {"code": "99213", "code_system": "CPT", "payer": "BCBS PPO", "rate": "145.00", "rate_kind": "negotiated"},
+  {"code": "99213", "code_system": "CPT", "payer": "Aetna", "rate": "110% of Medicare", "rate_kind": "negotiated"},
+  {"code": "99213", "code_system": "CPT", "payer": "", "rate": "95.00", "rate_kind": "cash"},
+  {"code": "99213", "code_system": "CPT", "payer": "", "rate": "420.00", "rate_kind": "gross"},
+  {"code": "80053", "code_system": "CPT", "payer": "BCBS PPO", "rate": null, "rate_kind": "negotiated"},
+  {"code": "11111", "code_system": "CPT", "payer": "BCBS PPO", "rate": "50.00", "rate_kind": "negotiated"},
+  {"code": "99213", "code_system": "CPT", "payer": "UnknownKind", "rate": "10.00", "rate_kind": "bogus"}
+]

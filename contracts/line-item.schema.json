@@ -34,6 +34,11 @@
       "type": ["string", "null"],
       "description": "Unit for the quantity (e.g. 'each', 'mL', 'day')."
     },
+    "date_of_service": {
+      "type": ["string", "null"],
+      "format": "date",
+      "description": "Date of service as ISO 8601 (YYYY-MM-DD), if printed on the bill. Optional. Used only to make duplicate detection more precise."
+    },
     "billed_amount": {
       "type": "number",
       "description": "Amount billed for this line item, in US dollars."

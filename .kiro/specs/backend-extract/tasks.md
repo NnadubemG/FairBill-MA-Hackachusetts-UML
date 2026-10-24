@@ -24,13 +24,13 @@ requirements it covers and the tests that prove it.
   - Unit test P1 (only valid lines returned).
   - _Requirements: R3.1, R3.4_
 
-- [ ] 4. Prompt builders with untrusted-data framing
+- [x] 4. Prompt builders with untrusted-data framing
   - `prompts.py`: short system prompt (untrusted data, never guess codes) + user
     content builder (document block + required JSON schema).
   - Unit test T7 (injected instruction line is not acted on).
   - _Requirements: R5.1, R5.2, R5.3_
 
-- [ ] 5. Post-processing: normalization + merge
+- [x] 5. Post-processing: normalization + merge
   - `postprocess.py`: money -> number, dates -> ISO, merge continuation rows.
   - Unit tests T10, T11.
   - _Requirements: R4.1, R4.2_

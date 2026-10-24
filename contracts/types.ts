@@ -20,6 +20,8 @@ export interface LineItem {
   raw_description?: string | null;
   quantity?: number | null;
   unit?: string | null;
+  /** ISO 8601 date (YYYY-MM-DD), if printed on the bill. Optional. */
+  date_of_service?: string | null;
   billed_amount: number;
 }
 
@@ -31,6 +33,39 @@ export interface PriceReference {
   medicare_price?: number | null;
   ma_range_low?: number | null;
   ma_range_high?: number | null;
+  data_source: string;
+  data_year: number;
+}
+
+export type PayerGroup =
+  | "commercial"
+  | "medicare_advantage"
+  | "medicaid_managed"
+  | "cash"
+  | "gross";
+
+/** One curated procedure, keyed by code. Drives pipeline filtering. */
+export interface ProcedureInfo {
+  code: string;
+  code_system?: CodeSystem | null;
+  plain_label: string;
+  category?: string | null;
+  typical_max_units?: number | null;
+}
+
+/** Price statistics for one hospital + code + payer group.
+ *  Numeric fields are nullable; we never invent a number we do not have.
+ *  When min/median/max are all present: min_rate <= median_rate <= max_rate. */
+export interface PriceStat {
+  hospital_id: string;
+  code: string;
+  code_system?: CodeSystem | null;
+  payer_group: PayerGroup;
+  min_rate?: number | null;
+  median_rate?: number | null;
+  max_rate?: number | null;
+  cash_price?: number | null;
+  gross_charge?: number | null;
   data_source: string;
   data_year: number;
 }
