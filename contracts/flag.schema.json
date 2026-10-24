@@ -1,0 +1,46 @@
+{
+  "title": "Flag",
+  "description": "A 'may be worth asking about' flag produced only by deterministic code in /core. Never produced by the LLM. reason and basis must never contain banned words (see product.md).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["line_item_id", "flag_type", "severity", "reason", "basis"],
+  "properties": {
+    "line_item_id": {
+      "type": "string",
+      "description": "id of the LineItem this flag refers to. Must reference a real line item."
+    },
+    "flag_type": {
+      "type": "string",
+      "enum": [
+        "price_above_reference",
+        "price_outside_ma_range",
+        "duplicate_line_item",
+        "quantity_implausible",
+        "possible_unbundling",
+        "no_reference_found"
+      ],
+      "description": "Which deterministic check produced this flag."
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["info", "low", "medium", "high"],
+      "description": "Relative priority for display ordering only. Not a judgement of wrongdoing."
+    },
+    "reason": {
+      "type": "string",
+      "description": "Plain-language explanation in the 'may be worth asking about' voice. No banned words."
+    },
+    "basis": {
+      "type": "string",
+      "description": "The concrete data that triggered the flag (e.g. the reference figure and its source/year, or the duplicated rows)."
+    },
+    "data_source": {
+      "type": ["string", "null"],
+      "description": "Required when the flag cites a price figure; otherwise null."
+    },
+    "data_year": {
+      "type": ["integer", "null"],
+      "description": "Required when the flag cites a price figure; otherwise null."
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "title": "PriceReference",
+  "description": "Reference pricing for a billing code. Every figure must carry a data_source and data_year. Numeric fields are nullable because we never invent a number we do not have.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["code", "data_source", "data_year"],
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "Billing code this reference applies to."
+    },
+    "code_system": {
+      "type": ["string", "null"],
+      "enum": ["CPT", "HCPCS", "DRG", "REV", "ICD10", "OTHER", null]
+    },
+    "medicare_price": {
+      "type": ["number", "null"],
+      "description": "Medicare reference price in US dollars, or null if unknown."
+    },
+    "ma_range_low": {
+      "type": ["number", "null"],
+      "description": "Low end of the Massachusetts hospital price range, or null."
+    },
+    "ma_range_high": {
+      "type": ["number", "null"],
+      "description": "High end of the Massachusetts hospital price range, or null."
+    },
+    "data_source": {
+      "type": "string",
+      "description": "Where these figures came from. Required."
+    },
+    "data_year": {
+      "type": "integer",
+      "description": "Year the reference figures are from. Required."
+    }
+  }
+}
