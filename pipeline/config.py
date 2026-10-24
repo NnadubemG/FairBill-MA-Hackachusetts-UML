@@ -20,6 +20,7 @@ PRICES_JSON = PROCESSED_DIR / "prices.json"
 MEDICARE_JSON = PROCESSED_DIR / "medicare.json"
 NCCI_PAIRS_JSON = PROCESSED_DIR / "ncci_pairs.json"
 CHIA_TIERS_JSON = PROCESSED_DIR / "chia_tiers.json"
+REFERENCE_JSON = PROCESSED_DIR / "reference.json"  # one PriceReference per code for /core
 SKIPPED_LOG = PROCESSED_DIR / "skipped.log"
 
 # CMS Physician Fee Schedule: Massachusetts locality.
