@@ -1,0 +1,6 @@
+[
+  {"hospital_id": "mgh", "code": "99213", "code_system": "CPT", "payer_group": "commercial", "min_rate": 100.0, "median_rate": 150.0, "max_rate": 200.0, "cash_price": null, "gross_charge": null, "data_source": "MGH MRF", "data_year": 2025},
+  {"hospital_id": "mgh", "code": "99213", "code_system": "CPT", "payer_group": "cash", "min_rate": null, "median_rate": null, "max_rate": null, "cash_price": 95.0, "gross_charge": null, "data_source": "MGH MRF", "data_year": 2025},
+  {"hospital_id": "bmc", "code": "99213", "code_system": "CPT", "payer_group": "commercial", "min_rate": 120.0, "median_rate": 170.0, "max_rate": 240.0, "cash_price": null, "gross_charge": null, "data_source": "BMC MRF", "data_year": 2025},
+  {"hospital_id": "bmc", "code": "80053", "code_system": "CPT", "payer_group": "gross", "min_rate": null, "median_rate": null, "max_rate": null, "cash_price": null, "gross_charge": 420.0, "data_source": "BMC MRF", "data_year": 2024}
+]

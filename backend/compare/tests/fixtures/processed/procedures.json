@@ -1,0 +1,4 @@
+[
+  {"code": "80053", "code_system": "CPT", "plain_label": "Comprehensive metabolic panel", "category": "lab", "typical_max_units": null},
+  {"code": "99213", "code_system": "CPT", "plain_label": "Office visit, established patient", "category": "evaluation", "typical_max_units": 1}
+]

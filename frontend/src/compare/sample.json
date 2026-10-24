@@ -1,0 +1,53 @@
+{
+  "code": "99213",
+  "found": true,
+  "plain_label": "Office visit, established patient",
+  "code_system": "CPT",
+  "hospitals": [
+    {
+      "hospital_id": "bmc",
+      "name": "Boston Medical Center",
+      "city": "Boston",
+      "type": "community",
+      "price_stats": {
+        "commercial": {
+          "hospital_id": "bmc", "code": "99213", "code_system": "CPT",
+          "payer_group": "commercial", "min_rate": 120.0, "median_rate": 170.0,
+          "max_rate": 240.0, "cash_price": null, "gross_charge": null,
+          "data_source": "BMC MRF", "data_year": 2025
+        }
+      },
+      "chia_tier": null,
+      "missing_note": null
+    },
+    {
+      "hospital_id": "mgh",
+      "name": "Massachusetts General Hospital",
+      "city": "Boston",
+      "type": "academic",
+      "price_stats": {
+        "commercial": {
+          "hospital_id": "mgh", "code": "99213", "code_system": "CPT",
+          "payer_group": "commercial", "min_rate": 100.0, "median_rate": 150.0,
+          "max_rate": 200.0, "cash_price": null, "gross_charge": null,
+          "data_source": "MGH MRF", "data_year": 2025
+        },
+        "cash": {
+          "hospital_id": "mgh", "code": "99213", "code_system": "CPT",
+          "payer_group": "cash", "min_rate": null, "median_rate": null,
+          "max_rate": null, "cash_price": 95.0, "gross_charge": null,
+          "data_source": "MGH MRF", "data_year": 2025
+        }
+      },
+      "chia_tier": { "hospital_id": "mgh", "relative_price": 1.25, "tier": "high", "data_source": "CHIA", "data_year": 2024 },
+      "missing_note": null
+    }
+  ],
+  "medicare": {
+    "code": "99213", "code_system": "HCPCS", "medicare_price": 92.47,
+    "ma_range_low": null, "ma_range_high": null, "data_source": "CMS PFS", "data_year": 2025
+  },
+  "statewide": { "min": 150.0, "median": 160.0, "max": 170.0 },
+  "data_years": [2025],
+  "framing_note": "These figures come from public hospital and government price files and may be worth reviewing. What you actually pay depends on your plan and your specific care."
+}
