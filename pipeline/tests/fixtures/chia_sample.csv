@@ -1,0 +1,5 @@
+hospital_id,relative_price,tier
+mgh,1.25,high
+bmc,,mid
+rural1,0.85,
+nodata,,

@@ -68,31 +68,31 @@ committing processed outputs. Fixtures are tiny synthetic files only.
   - Fixtures + tests U21–U24; property test P6 (determinism).
   - _Requirements: R3.3, R4.3, R5.*, R6.*, R7.3, R10.2_
 
-- [ ] 12. Medicare stage -> medicare.json
+- [x] 12. Medicare stage -> medicare.json
   - `stages/medicare.py`: stream CMS PFS, filter to MA locality + curated codes, emit
     PriceReference records with provenance; missing locality row -> no record.
   - Fixtures + tests U25, U26.
   - _Requirements: R7.4, R6.1_
 
-- [ ] 13. NCCI stage -> ncci_pairs.json
+- [x] 13. NCCI stage -> ncci_pairs.json
   - `stages/ncci.py`: stream edit file, keep pairs where both codes are curated, retain
     modifier indicator; drop pairs touching non-curated codes.
   - Fixture + test U27.
   - _Requirements: R7.5, R2.2_
 
-- [ ] 14. CHIA stage -> chia_tiers.json
+- [x] 14. CHIA stage -> chia_tiers.json
   - `stages/chia.py`: relative price tier per hospital where available, with provenance;
     hospital without a tier -> no record (absence, not placeholder).
   - Fixture + test U28.
   - _Requirements: R7.6, R6.1, R6.2_
 
-- [ ] 15. validate.py (R8 gate)
+- [x] 15. validate.py (R8 gate)
   - Checks: missing data_source/data_year; negative price; min>median or median>max;
     code not in procedures.json. Non-zero exit on failure.
   - Fixtures + tests U30–U34; property test P7 (fail-safe: never fabricates).
   - _Requirements: R8.1, R8.2_
 
-- [ ] 16. run.py CLI + caching
+- [x] 16. run.py CLI + caching
   - `run.py`: run one stage or all; `--force` bypasses cache; skip stage when output is
     up to date vs inputs.
   - Test U35.
