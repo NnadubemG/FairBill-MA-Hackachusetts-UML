@@ -17,7 +17,7 @@ that prove it. Stay inside `/backend/letter`. Start only after open decision 1 i
   - Tests L15, L21; property PL8.
   - _Requirements: R2.2, R8.1, R8.2_
 
-- [ ] 3. Facts: safe code, amount, date, and item builder
+- [x] 3. Facts: safe code, amount, date, and item builder
   - `facts.py`: `safe_code`, `format_amount`, `ItemFact`, `build_items` (skip unknown ids,
     cap at 10, warnings).
   - Tests L10 (build part), L11 (build part), L12.
