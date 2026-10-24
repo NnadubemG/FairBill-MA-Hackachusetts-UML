@@ -11,7 +11,7 @@ import json
 from hypothesis import given, settings
 from hypothesis import strategies as st
 
-from backend.extract.bedrock_client import FakeBedrockClient
+from backend.extract.llm_client import FakeLLMClient
 from backend.extract.handler import extract
 from backend.extract.tests import fixtures
 
@@ -25,7 +25,7 @@ def _procs(tmp_path, codes):
 
 
 def test_clean_bill_fixture(tmp_path):
-    client = FakeBedrockClient(default=fixtures.CLEAN_BILL)
+    client = FakeLLMClient(default=fixtures.CLEAN_BILL)
     result = extract(*PNG, client=client, procedures_path=_procs(tmp_path, ["99213", "85025"]))
     assert len(result.line_items) == 2
     assert result.metadata.hospital_name == "Riverside General"
@@ -35,7 +35,7 @@ def test_clean_bill_fixture(tmp_path):
 
 
 def test_no_codes_fixture_all_confirm(tmp_path):
-    client = FakeBedrockClient(default=fixtures.NO_CODES_BILL)
+    client = FakeLLMClient(default=fixtures.NO_CODES_BILL)
     result = extract(*PNG, client=client, procedures_path=_procs(tmp_path, ["99213"]))
     assert len(result.line_items) == 2
     assert all(li.code is None for li in result.line_items)
@@ -44,14 +44,14 @@ def test_no_codes_fixture_all_confirm(tmp_path):
 
 
 def test_blank_bill_fixture(tmp_path):
-    client = FakeBedrockClient(default=fixtures.BLANK_BILL)
+    client = FakeLLMClient(default=fixtures.BLANK_BILL)
     result = extract(*PNG, client=client, procedures_path=_procs(tmp_path, []))
     assert result.line_items == []
     assert result.warnings  # has the no-lines warning
 
 
 def test_invalid_then_clean_retry(tmp_path):
-    client = FakeBedrockClient(responses=[fixtures.INVALID_FIRST, fixtures.CLEAN_BILL])
+    client = FakeLLMClient(responses=[fixtures.INVALID_FIRST, fixtures.CLEAN_BILL])
     result = extract(*PNG, client=client, procedures_path=_procs(tmp_path, ["99213", "85025"]))
     assert client.calls == 2
     assert len(result.line_items) == 2
@@ -74,7 +74,7 @@ def test_p4_metadata_total_is_number_or_none(total_value):
         [],
         metadata={"hospital_name": None, "statement_date": None, "total": total_value},
     )
-    client = FakeBedrockClient(default=raw)
+    client = FakeLLMClient(default=raw)
     result = extract(*PNG, client=client)
     total = result.metadata.total
     assert total is None or isinstance(total, float)
@@ -88,7 +88,7 @@ def test_p4_statement_date_is_iso_or_none(date_value):
         [],
         metadata={"hospital_name": None, "statement_date": date_value, "total": None},
     )
-    client = FakeBedrockClient(default=raw)
+    client = FakeLLMClient(default=raw)
     result = extract(*PNG, client=client)
     d = result.metadata.statement_date
     assert d is None or (isinstance(d, str) and len(d) == 10 and d[4] == "-" and d[7] == "-")

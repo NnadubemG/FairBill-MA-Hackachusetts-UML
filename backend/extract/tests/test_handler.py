@@ -1,7 +1,7 @@
 """Tests for the extraction handler orchestration (spec task 7).
 
 Covers T1 (clean bill), T5 (validation fail then repair on retry), T6 (fails twice
--> keep valid, warn), T8 (blank page -> empty + warn). Uses FakeBedrockClient, fully
+-> keep valid, warn), T8 (blank page -> empty + warn). Uses FakeLLMClient, fully
 offline. procedures_path points at a tmp file (or absent) so the known-code check is
 controlled.
 """
@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import json
 
-from backend.extract.bedrock_client import FakeBedrockClient
+from backend.extract.llm_client import FakeLLMClient
 from backend.extract.handler import (
     WARN_NO_LINES,
     WARN_SOME_LINES_DROPPED,
@@ -50,7 +50,7 @@ def test_t1_clean_bill(tmp_path):
                   "total": "$192.00"},
         confidence_hints={"1": "high", "2": "high"},
     )
-    client = FakeBedrockClient(default=raw)
+    client = FakeLLMClient(default=raw)
     result = extract(*reversed(PNG), client=client,  # content_type, bytes
                      procedures_path=_procs(tmp_path, ["99213", "85025"]))
 
@@ -72,7 +72,7 @@ def test_t5_validation_failure_then_repair(tmp_path):
           "code_system": "CPT"}],
         confidence_hints={"1": "high"},
     )
-    client = FakeBedrockClient(responses=[bad, good])
+    client = FakeLLMClient(responses=[bad, good])
     result = extract(*reversed(PNG), client=client,
                      procedures_path=_procs(tmp_path, ["99213"]))
 
@@ -89,7 +89,7 @@ def test_t6_fails_twice_keeps_valid_and_warns(tmp_path):
                   "code_system": "CPT"}
     invalid_line = {"id": "2", "description": "missing amount"}
     raw = _env([valid_line, invalid_line], confidence_hints={"1": "high"})
-    client = FakeBedrockClient(responses=[raw, raw])
+    client = FakeLLMClient(responses=[raw, raw])
     result = extract(*reversed(PNG), client=client,
                      procedures_path=_procs(tmp_path, ["99213"]))
 
@@ -101,7 +101,7 @@ def test_t6_fails_twice_keeps_valid_and_warns(tmp_path):
 
 def test_t6_no_invalid_line_ever_returned(tmp_path):
     raw = _env([{"id": "2", "description": "no amount"}])  # only invalid
-    client = FakeBedrockClient(responses=[raw, raw])
+    client = FakeLLMClient(responses=[raw, raw])
     result = extract(*reversed(PNG), client=client, procedures_path=_procs(tmp_path, []))
     assert result.line_items == []
     assert WARN_NO_LINES in result.warnings or WARN_SOME_LINES_DROPPED in result.warnings
@@ -111,7 +111,7 @@ def test_t6_no_invalid_line_ever_returned(tmp_path):
 
 def test_t8_blank_page_empty_with_warning(tmp_path):
     raw = _env([], metadata={"hospital_name": None, "statement_date": None, "total": None})
-    client = FakeBedrockClient(default=raw)
+    client = FakeLLMClient(default=raw)
     result = extract(*reversed(PNG), client=client, procedures_path=_procs(tmp_path, []))
     assert result.line_items == []
     assert WARN_NO_LINES in result.warnings
@@ -125,7 +125,7 @@ def test_missing_procedures_file_warns(tmp_path):
           "code_system": "CPT"}],
         confidence_hints={"1": "high"},
     )
-    client = FakeBedrockClient(default=raw)
+    client = FakeLLMClient(default=raw)
     missing = tmp_path / "does_not_exist.json"
     result = extract(*reversed(PNG), client=client, procedures_path=missing)
     assert len(result.line_items) == 1
@@ -140,6 +140,6 @@ def test_date_of_service_normalized_in_handler(tmp_path):
           "code_system": "CPT", "date_of_service": "03/04/2026"}],
         confidence_hints={"1": "high"},
     )
-    client = FakeBedrockClient(default=raw)
+    client = FakeLLMClient(default=raw)
     result = extract(*reversed(PNG), client=client, procedures_path=_procs(tmp_path, ["99213"]))
     assert result.line_items[0].date_of_service == "2026-03-04"

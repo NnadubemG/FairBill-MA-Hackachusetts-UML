@@ -14,7 +14,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from . import prompts
-from .bedrock_client import BedrockClient
+from .llm_client import LLMClient
 from .codes import apply_code_and_confidence, load_known_codes
 from .config import Thresholds
 from .models import BillMetadata, Confidence, ExtractionResult
@@ -87,13 +87,13 @@ def extract(
     bill_bytes: bytes,
     content_type: str,
     *,
-    client: BedrockClient,
+    client: LLMClient,
     procedures_path: Path | None = None,
     thresholds: Thresholds | None = None,
 ) -> ExtractionResult:
     """Extract line items from a bill using the given model client.
 
-    ``client`` is injected (use FakeBedrockClient for dev/tests). This task-7 version
+    ``client`` is injected (use FakeLLMClient for dev/tests). This task-7 version
     wires the happy path and the single validation retry. The broad model-failure
     fallback (never raise) is completed in task 8.
     """
