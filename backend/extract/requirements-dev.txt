@@ -1,6 +1,10 @@
-# Dev/test dependencies for /backend/extract. Not bundled into the Lambda runtime.
-# Runtime deps (boto3) are provided by the Lambda environment; jsonschema is used at
-# runtime for contract validation and is listed in requirements.txt when that exists.
+# Dev/test dependencies for /backend/extract.
+# Tests run offline with FakeLLMClient: no network, no API key, and no `anthropic`
+# install needed (it is imported lazily, only by the real client).
 hypothesis==6.170.9
 pytest==9.0.2
 jsonschema==4.24.0
+
+# Real client only (not needed to run the tests). Pinned; install after approval:
+#   python3 -m pip install anthropic==2.3.0
+anthropic==2.3.0

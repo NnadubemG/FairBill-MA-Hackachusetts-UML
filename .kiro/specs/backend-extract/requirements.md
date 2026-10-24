@@ -25,7 +25,7 @@ change Thomas makes and announces.
 - **Untrusted bill text** — every string that originates from the uploaded document.
   It is data, never an instruction to the model.
 - **Deterministic fallback** — behavior the handler produces with no model call, so
-  the feature degrades safely when Bedrock is unavailable or returns invalid output.
+  the feature degrades safely when the model API is unavailable or returns invalid output.
 
 ## Requirements
 
@@ -35,15 +35,17 @@ items, so I can review and confirm them.
 
 Acceptance criteria (EARS):
 1. WHEN the handler receives a bill (PDF or image bytes + content type) THEN it SHALL
-   call Claude on Amazon Bedrock using a vision-capable model and request structured
+   call Claude through the Anthropic Messages API (direct) using a vision-capable model,
+   with the bill sent as a base64 image or document block, and request structured
    output shaped by `/contracts/line-item.schema.json`.
-2. THE handler SHALL read the Bedrock model id from an environment variable
-   (`EXTRACT_MODEL_ID`) and SHALL NOT hardcode any model id.
+2. THE real client SHALL read the Anthropic model name from the environment variable
+   `EXTRACT_MODEL_ID` and the API key from `ANTHROPIC_API_KEY`. It SHALL NOT hardcode,
+   commit, or log either value. The `anthropic` package SHALL be imported lazily.
 3. THE handler SHALL return an `ExtractionResult` containing: `line_items`
    (contract `LineItem[]`), `metadata` (hospital name, statement date, total; each
    nullable), `line_confidence` (per `line_item.id`), and `warnings` (string list).
-4. WHERE the Bedrock client is not yet configured with a real model, THE handler
-   SHALL use a fake Bedrock client (injected dependency) so the pipeline runs end to
+4. WHERE no real client is configured, THE handler SHALL use a fake LLM client
+   (injected dependency) so the pipeline runs end to
    end without network access.
 
 ### R2 — Never guess codes
@@ -117,7 +119,7 @@ Acceptance criteria (EARS):
 never left with a crash.
 
 Acceptance criteria (EARS):
-1. IF the Bedrock call raises (network, throttling, auth) THEN the handler SHALL
+1. IF the model call raises (network, throttling, auth) THEN the handler SHALL
    return an empty `line_items` list with a bill-level warning that automatic
    extraction was unavailable and the user can enter lines manually.
 2. THE fallback path SHALL NOT raise out of the handler for an expected model
@@ -132,4 +134,5 @@ Acceptance criteria (EARS):
 ## Dependencies
 - `/contracts/line-item.schema.json` (exists).
 - `/data/processed/procedures.json` (ND; optional — handler degrades without it).
-- Real Bedrock model id from David (pending; fake client used until then).
+- An Anthropic API key and model name from Sam (set in the environment; the fake
+  client is used until then).
