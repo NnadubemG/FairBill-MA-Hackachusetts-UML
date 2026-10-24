@@ -71,3 +71,79 @@ def test_cli_procedures_and_cache(tmp_path, monkeypatch):
     rc = main(["procedures"])
     assert rc == 0
     assert out.stat().st_mtime == before  # unchanged -> was cached
+
+
+def test_cli_all_end_to_end(tmp_path, monkeypatch):
+    """`run all` produces every processed output from tiny fixtures (wiring check)."""
+    from pipeline import config, jsonio
+
+    raw = tmp_path / "raw"
+    proc = tmp_path / "processed"
+    raw.mkdir()
+    proc.mkdir()
+
+    # Curated procedure list.
+    (tmp_path / "procedure_list.csv").write_text(
+        "code,code_system,plain_label,category,typical_max_units\n"
+        "99213,CPT,Office visit,eval,1\n"
+        "80053,CPT,Metabolic panel,lab,\n",
+        encoding="utf-8",
+    )
+    # Hospitals input (binds each hospital to a raw file + parser format).
+    (tmp_path / "hospitals_input.csv").write_text(
+        "id,name,city,type,format_id,source_file\n"
+        "mgh,MGH,Boston,academic,generic_csv,mgh.csv\n",
+        encoding="utf-8",
+    )
+    # Raw hospital price file (long format).
+    (raw / "mgh.csv").write_text(
+        "code,code_system,payer,rate,rate_kind\n"
+        "99213,CPT,BCBS,150.00,negotiated\n"
+        "99213,CPT,,500.00,gross\n"
+        "80053,CPT,,90.00,gross\n",
+        encoding="utf-8",
+    )
+    # Raw CMS PFS, NCCI, CHIA.
+    (raw / "cms_pfs.csv").write_text(
+        "hcpcs,locality,payment_amount\n99213,10112,92.47\n", encoding="utf-8"
+    )
+    (raw / "ncci_ptp.csv").write_text(
+        "code_1,code_2,modifier_indicator\n99213,80053,1\n", encoding="utf-8"
+    )
+    (raw / "chia_relative_price.csv").write_text(
+        "hospital_id,relative_price,tier\nmgh,1.25,high\n", encoding="utf-8"
+    )
+
+    # Point config at the temp tree.
+    monkeypatch.setattr(config, "PROCEDURE_LIST_CSV", tmp_path / "procedure_list.csv")
+    monkeypatch.setattr(config, "HOSPITALS_INPUT_CSV", tmp_path / "hospitals_input.csv")
+    monkeypatch.setattr(config, "RAW_DIR", raw)
+    monkeypatch.setattr(config, "PFS_RAW", raw / "cms_pfs.csv")
+    monkeypatch.setattr(config, "NCCI_RAW", raw / "ncci_ptp.csv")
+    monkeypatch.setattr(config, "CHIA_RAW", raw / "chia_relative_price.csv")
+    for attr, name in [
+        ("PROCEDURES_JSON", "procedures.json"),
+        ("HOSPITALS_JSON", "hospitals.json"),
+        ("HOSPITAL_BINDINGS_JSON", "hospital_bindings.json"),
+        ("PRICES_JSON", "prices.json"),
+        ("MEDICARE_JSON", "medicare.json"),
+        ("NCCI_PAIRS_JSON", "ncci_pairs.json"),
+        ("CHIA_TIERS_JSON", "chia_tiers.json"),
+        ("REFERENCE_JSON", "reference.json"),
+        ("SKIPPED_LOG", "skipped.log"),
+    ]:
+        monkeypatch.setattr(config, attr, proc / name)
+
+    rc = main(["all", "--data-source", "TEST", "--data-year", "2025"])
+    assert rc == 0
+
+    # Every processed output exists.
+    for name in ("procedures.json", "hospitals.json", "prices.json", "medicare.json",
+                 "ncci_pairs.json", "chia_tiers.json", "reference.json"):
+        assert (proc / name).exists(), f"missing {name}"
+
+    # reference.json combined medicare + gross range for 99213.
+    refs = {r["code"]: r for r in jsonio.read_json(proc / "reference.json")}
+    assert refs["99213"]["medicare_price"] == 92.47
+    assert refs["99213"]["ma_range_low"] == 500.0  # only gross for 99213 is 500
+    assert refs["99213"]["code_system"] == "CPT"
