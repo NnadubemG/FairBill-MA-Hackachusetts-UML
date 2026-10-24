@@ -77,15 +77,10 @@ SOURCES: list[Source] = [
     Source(
         key="bidmc",
         name="Beth Israel Deaconess Medical Center standard charges",
-        url=None,
-        local_path="hospitals/bidmc.csv",
-        fmt="cms_csv",
-        notes=(
-            "Linked from https://bilh.org/billing-financial-services/price-transparency . "
-            "Download BIDMC's standard charges file (CSV or JSON) into "
-            "data/raw/hospitals/ and set its format in hospitals_input.csv."
-        ),
-        manual=True,
+        url="https://bidmc.org/042103881_beth-israel-deaconess-medical-center_standardcharges.json",
+        local_path="hospitals/bidmc.json",
+        fmt="cms_json",
+        notes="CMS hospital price transparency v2.x JSON (~28 MB). Direct from bidmc.org.",
     ),
     Source(
         key="umass",

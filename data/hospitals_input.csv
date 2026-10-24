@@ -1,2 +1,3 @@
 id,name,city,type,format_id,source_file
 lahey_burlington,"Lahey Hospital & Medical Center",Burlington,academic,cms_json,hospitals/lahey_burlington.json
+bidmc,"Beth Israel Deaconess Medical Center",Boston,academic,cms_json,hospitals/bidmc.json
